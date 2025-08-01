@@ -1,0 +1,19 @@
+{
+  "HomePage": {
+    "title": "Hello world!",
+    "about": "Go to the about page"
+  },
+  "Nav": {
+    "home": "Home",
+    "about": "About Me",
+    "blog": "Blog"
+  },
+  "Theme": {
+    "toggle": "Toggle theme"
+  },
+  "Social": {
+    "github": "GitHub",
+    "twitter": "Twitter",
+    "linkedin": "LinkedIn"
+  }
+}

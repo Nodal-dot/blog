@@ -1,0 +1,11 @@
+:root {
+  --color-bg: #ffffff;
+  --color-text: #111111;
+  --color-accent: #0070f3;
+}
+
+[data-theme='dark'] {
+  --color-bg: #121212;
+  --color-text: #ffffff;
+  --color-accent: #ff4081;
+}
