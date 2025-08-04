@@ -1,11 +1,10 @@
-:root {
-  --color-bg: #ffffff;
-  --color-text: #111111;
-  --color-accent: #0070f3;
+html {
+  font-size: 62.5%;
 }
-
-[data-theme='dark'] {
-  --color-bg: #121212;
-  --color-text: #ffffff;
-  --color-accent: #ff4081;
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+a {
+  font-size: 1.6rem;
 }
