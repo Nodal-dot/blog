@@ -1,1 +1,1 @@
-export { ThemeToggle as default } from "./ui/ThemeToggle";
+export { MemoizedThemeToggle as default } from "./ui/ThemeToggle";

@@ -1,1 +1,1 @@
-export { IconLink as default } from "./ui/IconLink";
+export { MemoizedIconLink as default } from "./ui/IconLink";

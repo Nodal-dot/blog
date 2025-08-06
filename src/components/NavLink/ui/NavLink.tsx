@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./NavLink.module.scss";
+import { classNames } from "@/utils/classNames";
 
 interface NavLinkProps {
     href: string;
@@ -19,12 +20,11 @@ const NavLink: React.FC<NavLinkProps> = ({ href, label, isActive, onClick }) => 
             href={href}
             onClick={handleClick}
             aria-current={isActive ? "page" : undefined}
-            className={`${styles.link} ${isActive ? styles.active : ""}`}
+            className={classNames(styles.link, isActive && styles.active)}
         >
             {label}
         </a>
     );
 };
-const MemoizedNavLink = React.memo(NavLink);
 
-export { MemoizedNavLink as NavLink };
+export const MemoizedNavLink = React.memo(NavLink);

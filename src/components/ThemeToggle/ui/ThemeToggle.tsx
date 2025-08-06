@@ -11,12 +11,21 @@ const ThemeToggle: React.FC = () => {
     const t = useTranslations();
 
     return (
-        <button onClick={toggleTheme} aria-label={t("Theme.toggle")} className={styles.button}>
-            {theme === "light" ? <Moon size={24} /> : <Sun size={24} />}
+        <button
+            onClick={toggleTheme}
+            aria-label={t("Theme.toggle")}
+            className={`${styles.button} ${theme === "dark" ? styles.dark : ""}`}
+            data-theme={theme}
+        >
+            <div className={styles.toggleContainer}>
+                <div className={styles.icons}>
+                    <Sun size={18} className={styles.sun} />
+                    <Moon size={18} className={styles.moon} />
+                </div>
+                <div className={styles.thumb} />
+            </div>
         </button>
     );
 };
 
-const MemoizedThemeToggle = React.memo(ThemeToggle);
-
-export { MemoizedThemeToggle as ThemeToggle };
+export const MemoizedThemeToggle = React.memo(ThemeToggle);

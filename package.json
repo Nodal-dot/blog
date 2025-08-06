@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "test": "jest",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -27,6 +28,7 @@
     "@storybook/addon-onboarding": "^9.0.18",
     "@storybook/addon-vitest": "^9.0.18",
     "@storybook/nextjs-vite": "^9.0.18",
+    "@types/jest": "^30.0.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -37,9 +39,11 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-storybook": "^9.0.18",
+    "jest": "^30.0.5",
     "playwright": "^1.54.1",
     "prettier": "^3.6.2",
     "storybook": "^9.0.18",
+    "ts-jest": "^29.4.1",
     "typescript": "^5",
     "vitest": "^3.2.4"
   }

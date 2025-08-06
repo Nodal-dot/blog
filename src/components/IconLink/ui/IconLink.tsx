@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { useTheme } from "@/providers/theme/ThemeProvider";
 import styles from "./IconLink.module.scss";
+import { classNames } from "@/utils/classNames";
 
 interface IconLinkProps {
     href: string;
@@ -24,7 +25,7 @@ const IconLink: React.FC<IconLinkProps> = ({
     width = 24,
     height = 24,
     size = "md",
-    className = "",
+    className,
 }) => {
     const { theme } = useTheme();
 
@@ -34,7 +35,7 @@ const IconLink: React.FC<IconLinkProps> = ({
             target="_blank"
             rel="noopener noreferrer"
             aria-label={ariaLabel}
-            className={`${styles.link} ${className} ${styles[`size_${size}`]}`}
+            className={classNames(styles.link, styles[`size_${size}`], className)}
         >
             <Image
                 src={theme === "dark" ? iconDark : iconLight}
@@ -46,6 +47,4 @@ const IconLink: React.FC<IconLinkProps> = ({
     );
 };
 
-const MemoizedIconLink = React.memo(IconLink);
-
-export { MemoizedIconLink as IconLink };
+export const MemoizedIconLink = React.memo(IconLink);

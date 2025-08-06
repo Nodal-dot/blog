@@ -7,20 +7,24 @@ import Nav from "@/components/Navigation";
 import ThemeToggle from "@/components/ThemeToggle";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import IconLink from "@/components/IconLink";
+import { classNames } from "@/utils/classNames";
 
 const Header: React.FC = () => {
     const t = useTranslations();
 
-    const navLinks = [
-        { href: "/", label: t("Nav.home") },
-        { href: "/about", label: t("Nav.about") },
-        { href: "/blog", label: t("Nav.blog") },
-    ];
+    const navLinks = React.useMemo(
+        () => [
+            { href: "/", label: t("Nav.home") },
+            { href: "/about", label: t("Nav.about") },
+            { href: "/blog", label: t("Nav.blog") },
+        ],
+        [t]
+    );
 
     return (
-        <header className={styles.header}>
+        <header className={classNames(styles.header)}>
             <Nav links={navLinks} />
-            <div className={styles.socials}>
+            <div className={classNames(styles.socials)}>
                 <IconLink
                     href="https://github.com"
                     ariaLabel="GitHub"
@@ -32,7 +36,7 @@ const Header: React.FC = () => {
                 />
             </div>
 
-            <div className={styles.settings}>
+            <div className={classNames(styles.settings)}>
                 <ThemeToggle />
                 <LanguageSwitcher />
             </div>
@@ -40,6 +44,4 @@ const Header: React.FC = () => {
     );
 };
 
-const MemoizedHeader = React.memo(Header);
-
-export { MemoizedHeader as Header };
+export const HeaderMemo = React.memo(Header);

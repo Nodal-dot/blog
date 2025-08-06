@@ -1,1 +1,1 @@
-export { LanguageSwitcher as default } from "./ui/LanguageSwitcher";
+export { MemoizedLanguageSwitcher as default } from "./ui/LanguageSwitcher";

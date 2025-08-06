@@ -5,6 +5,7 @@ import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { Globe } from "lucide-react";
 import styles from "./LanguageSwitcher.module.scss";
+import { classNames } from "@/utils/classNames";
 
 const LanguageSwitcher: React.FC = () => {
     const [langOpen, setLangOpen] = useState(false);
@@ -31,7 +32,7 @@ const LanguageSwitcher: React.FC = () => {
     return (
         <div className={styles.container} ref={langRef}>
             <button
-                onClick={() => setLangOpen(!langOpen)}
+                onClick={() => setLangOpen((prev) => !prev)}
                 aria-haspopup="true"
                 aria-expanded={langOpen}
                 aria-label="Change language"
@@ -41,32 +42,23 @@ const LanguageSwitcher: React.FC = () => {
             </button>
 
             {langOpen && (
-                <ul role="menu" className={`${styles.options} ${langOpen ? styles.open : ""}`}>
-                    <li role="none">
-                        <button
-                            onClick={() => handleLangChange("en")}
-                            role="menuitemradio"
-                            aria-checked={locale === "en"}
-                            className={locale === "en" ? styles.selected : ""}
-                        >
-                            EN
-                        </button>
-                    </li>
-                    <li role="none">
-                        <button
-                            onClick={() => handleLangChange("ru")}
-                            role="menuitemradio"
-                            aria-checked={locale === "ru"}
-                            className={locale === "ru" ? styles.selected : ""}
-                        >
-                            RU
-                        </button>
-                    </li>
+                <ul role="menu" className={classNames(styles.options, langOpen && styles.open)}>
+                    {["en", "ru"].map((lang) => (
+                        <li role="none" key={lang}>
+                            <button
+                                onClick={() => handleLangChange(lang)}
+                                role="menuitemradio"
+                                aria-checked={locale === lang}
+                                className={classNames(locale === lang && styles.selected)}
+                            >
+                                {lang.toUpperCase()}
+                            </button>
+                        </li>
+                    ))}
                 </ul>
             )}
         </div>
     );
 };
 
-const MemoizedLanguageSwitcher = React.memo(LanguageSwitcher);
-export { MemoizedLanguageSwitcher as LanguageSwitcher };
+export const MemoizedLanguageSwitcher = React.memo(LanguageSwitcher);

@@ -1,1 +1,1 @@
-export { NavLink as default } from "./ui/NavLink";
+export { MemoizedNavLink as default } from "./ui/NavLink";
