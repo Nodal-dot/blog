@@ -1,5 +1,6 @@
-// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
 import storybook from "eslint-plugin-storybook";
+import prettierConfig from "eslint-config-prettier";
+import prettierPlugin from "eslint-plugin-prettier";
 
 import { dirname } from "path";
 import { fileURLToPath } from "url";
@@ -9,12 +10,35 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const compat = new FlatCompat({
-  baseDirectory: __dirname,
+    baseDirectory: __dirname,
 });
 
-const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
-  ...storybook.configs["flat/recommended"]
+const config = [
+    {
+        plugins: {
+            prettier: prettierPlugin,
+        },
+        rules: {
+            ...prettierConfig.rules,
+            "prettier/prettier": "error",
+        },
+    },
+
+    ...compat.extends("next/core-web-vitals"),
+
+    ...storybook.configs["flat/recommended"],
+
+    {
+        files: ["**/*.ts", "**/*.tsx"],
+        rules: {
+            "react/react-in-jsx-scope": "off",
+            "@typescript-eslint/explicit-function-return-type": "off",
+        },
+    },
+
+    {
+        ignores: [".next/**", "node_modules/**", "**/.next/**", "out/**"],
+    },
 ];
 
-export default eslintConfig;
+export default config;

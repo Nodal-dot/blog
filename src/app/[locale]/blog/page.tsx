@@ -1,8 +1,3 @@
-
 export default function BlogPage() {
-  return (
-    <span>
-      Blog page
-    </span>
-  );
+    return <span>Blog page</span>;
 }

@@ -1,0 +1,15 @@
+.nav {
+    justify-self: start;
+
+    .list {
+        display: flex;
+        gap: 1.6rem;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            position: relative;
+        }
+    }
+}

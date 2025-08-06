@@ -1,0 +1,14 @@
+.button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+    flex-shrink: 0;
+    svg {
+        transition: transform 0.3s;
+    }
+
+    &:hover svg {
+        transform: rotate(20deg);
+    }
+}
