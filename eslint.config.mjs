@@ -1,7 +1,4 @@
 import storybook from "eslint-plugin-storybook";
-import prettierConfig from "eslint-config-prettier";
-import prettierPlugin from "eslint-plugin-prettier";
-
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
@@ -14,20 +11,8 @@ const compat = new FlatCompat({
 });
 
 const config = [
-    {
-        plugins: {
-            prettier: prettierPlugin,
-        },
-        rules: {
-            ...prettierConfig.rules,
-            "prettier/prettier": "error",
-        },
-    },
-
     ...compat.extends("next/core-web-vitals"),
-
     ...storybook.configs["flat/recommended"],
-
     {
         files: ["**/*.ts", "**/*.tsx"],
         rules: {
@@ -35,7 +20,6 @@ const config = [
             "@typescript-eslint/explicit-function-return-type": "off",
         },
     },
-
     {
         ignores: [".next/**", "node_modules/**", "**/.next/**", "out/**"],
     },

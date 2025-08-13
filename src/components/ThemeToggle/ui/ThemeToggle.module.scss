@@ -1,10 +1,10 @@
 .button {
     --toggle-width: 5.6rem;
     --toggle-height: 2.8rem;
-    --thumb-size: 2.4rem; 
-    --thumb-offset: 0.2rem; 
+    --thumb-size: 2.4rem;
+    --thumb-offset: 0.2rem;
     --icon-size: 1.8rem;
-    
+
     background: var(--background-color);
     border: 1px solid var(--text-color);
     border-radius: 1.6rem;
@@ -14,13 +14,13 @@
     position: relative;
     padding: 0;
     transition: all 0.3s ease;
-    
+
     .toggleContainer {
         position: relative;
         width: 100%;
         height: 100%;
     }
-    
+
     .icons {
         position: absolute;
         top: 0;
@@ -32,15 +32,16 @@
         align-items: center;
         padding: 0 0.6rem;
         z-index: 1;
-        
-        .sun, .moon {
+
+        .sun,
+        .moon {
             width: var(--icon-size);
             height: var(--icon-size);
             color: var(--text-color);
             transition: color 0.3s;
         }
     }
-    
+
     .thumb {
         position: absolute;
         top: 50%;
@@ -54,18 +55,18 @@
         box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         transform: translateY(-50%);
     }
-    
-    &[data-theme='dark'] {
+
+    &[data-theme="dark"] {
         .thumb {
             left: calc(100% - var(--thumb-size) - var(--thumb-offset));
             transform: translateY(-50%);
         }
     }
-    
+
     &:hover {
         border-color: var(--text-color);
         opacity: 0.9;
-        
+
         .thumb {
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
         }
