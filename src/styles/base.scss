@@ -1,10 +1,12 @@
+@use "transition";
+
 html {
     font-size: 62.5%;
 }
 body {
+    @include transition.default-tr;
+    transition-property: color, background-color;
     background-color: var(--background-color);
     color: var(--text-color);
-}
-a {
     font-size: 1.6rem;
 }
