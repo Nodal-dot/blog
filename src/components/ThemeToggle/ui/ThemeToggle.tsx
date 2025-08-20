@@ -9,7 +9,6 @@ import styles from "./ThemeToggle.module.scss";
 const ThemeToggle: React.FC = () => {
     const { theme, toggleTheme } = useTheme();
     const t = useTranslations();
-
     return (
         <button
             onClick={toggleTheme}

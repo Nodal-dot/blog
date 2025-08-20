@@ -14,7 +14,6 @@ const NavLink: React.FC<NavLinkProps> = ({ href, label, isActive, onClick }) => 
         e.preventDefault();
         onClick();
     };
-
     return (
         <a
             href={href}

@@ -6,15 +6,16 @@
         "dev": "next dev --turbopack",
         "build": "next build",
         "start": "next start",
-        "lint": "eslint .",
-        "lint:fix": "eslint . --fix",
+        "lint": "eslint src/",
+        "lint:fix": "eslint src/ --fix",
         "format": "prettier --check .",
         "format:fix": "prettier --write .",
         "test": "jest",
         "storybook": "storybook dev -p 6006",
         "build-storybook": "storybook build",
         "lint:css": "stylelint '**/*.{scss,css}'",
-        "lint:css:fix": "stylelint '**/*.{scss,css}' --fix"
+        "lint:css:fix": "stylelint '**/*.{scss,css}' --fix",
+        "fix:all": "npm run lint:fix && npm run format:fix && npm run lint:css:fix"
     },
     "dependencies": {
         "lucide-react": "^0.536.0",
@@ -27,6 +28,7 @@
     "devDependencies": {
         "@chromatic-com/storybook": "^4.0.1",
         "@eslint/eslintrc": "^3",
+        "@eslint/js": "^9.33.0",
         "@storybook/addon-a11y": "^9.0.18",
         "@storybook/addon-docs": "^9.0.18",
         "@storybook/addon-onboarding": "^9.0.18",
@@ -38,12 +40,16 @@
         "@types/react-dom": "^19",
         "@vitest/browser": "^3.2.4",
         "@vitest/coverage-v8": "^3.2.4",
-        "eslint": "^9",
+        "eslint": "^9.33.0",
         "eslint-config-next": "15.4.5",
         "eslint-config-prettier": "^10.1.8",
         "eslint-plugin-prettier": "^5.5.4",
+        "eslint-plugin-react": "^7.37.5",
         "eslint-plugin-storybook": "^9.0.18",
+        "eslint-plugin-unused-imports": "^4.2.0",
+        "globals": "^16.3.0",
         "jest": "^30.0.5",
+        "jiti": "^2.5.1",
         "playwright": "^1.54.1",
         "prettier": "^3.6.2",
         "storybook": "^9.0.18",
@@ -55,6 +61,7 @@
         "stylelint-scss": "^6.12.1",
         "ts-jest": "^29.4.1",
         "typescript": "^5",
+        "typescript-eslint": "^8.40.0",
         "vitest": "^3.2.4"
     }
 }

@@ -13,7 +13,6 @@ const LanguageSwitcher: React.FC = () => {
     const pathname = usePathname();
     const locale = useLocale();
     const router = useRouter();
-
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
             if (langRef.current && !langRef.current.contains(e.target as Node)) {

@@ -6,7 +6,7 @@ import { Montserrat } from "next/font/google";
 import "@/styles/index.scss";
 import { ThemeProvider } from "@/providers/theme/ThemeProvider";
 import PageTransitionProvider from "@/providers/transition/PageTransitionProvider";
-
+import React from "react";
 const montserrat = Montserrat({ subsets: ["latin", "cyrillic"] });
 
 export default async function LocaleLayout({
@@ -17,7 +17,6 @@ export default async function LocaleLayout({
     params: { locale: string };
 }) {
     const { locale } = await params;
-
     if (!hasLocale(routing.locales, locale)) {
         notFound();
     }
