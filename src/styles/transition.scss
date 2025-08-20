@@ -1,18 +1,16 @@
 @use "sass:list";
 @use "sass:meta";
-@mixin default-tr($properties: all, $duration: 0.3s, $timing-function: ease, $delay: 0s) {
-    transition-property: $properties;
-    transition-duration: $duration;
-    transition-timing-function: $timing-function;
-    transition-delay: $delay;
 
-    @if $properties ==
-        transform or
-        meta.type-of($properties) ==
-        list and
-        list.index($properties, transform)
-    {
-        backface-visibility: hidden;
-        transform: translateZ(0);
-    }
+@mixin default-tr(
+  $properties: all,
+  $duration: 0.3s,
+  $timing-function: ease,
+  $delay: 0s
+) {
+  @if $properties == transform or (meta.type-of($properties) == list and list.index($properties, transform)) {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  transition: $properties $duration $timing-function $delay;
 }

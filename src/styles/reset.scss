@@ -12,10 +12,10 @@ body {
 }
 
 body {
-    line-height: 1;
     font-family: sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    line-height: 1;
 }
 
 ol,
@@ -34,12 +34,12 @@ svg {
 }
 
 button {
-    background: none;
-    border: none;
     cursor: pointer;
+    border: none;
+    background: none;
 }
 
 table {
-    border-collapse: collapse;
     border-spacing: 0;
+    border-collapse: collapse;
 }

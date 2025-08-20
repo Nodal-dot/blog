@@ -2,14 +2,19 @@
 
 .header {
     @include transition.default-tr;
+
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
+
     padding: 2.4rem 8rem;
+
     color: var(--text-color);
+
     background-color: transparent;
 
     transition-property: color;
+
     .socials {
         display: flex;
         gap: 1rem;

@@ -3,17 +3,20 @@
 .container {
     position: relative;
     flex-shrink: 0;
-    font-family: "Inter", sans-serif;
+    font-family: Inter, sans-serif;
 }
 
 .button {
+    cursor: pointer;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    background: transparent;
-    border-radius: 0.8rem;
+
     padding: 0.5rem 0.75rem;
-    cursor: pointer;
+    border-radius: 0.8rem;
+
+    background: transparent;
 
     svg {
         color: var(--text-color);
@@ -22,38 +25,43 @@
 
 .options {
     @include transition.default-tr;
-    position: absolute;
-    top: 110%;
 
+    pointer-events: none;
+
+    position: absolute;
+    z-index: 10;
+    top: 110%;
     right: 0;
-    border-radius: 1.2rem;
-    padding: 0.5rem 0;
+
     display: flex;
     flex-direction: column;
-    z-index: 10;
+
+    padding: 0.5rem 0;
+    border-radius: 1.2rem;
+
     opacity: 0;
-    pointer-events: none;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 20px rgb(0 0 0 / 15%);
+
     transition-property: opacity;
 
     li {
         list-style: none;
 
         button {
-            background-color: transparent;
-            color: var(--text-color);
             width: 100%;
             padding: 0.5rem 1rem;
+            color: var(--text-color);
+            background-color: transparent;
 
             &.selected {
-                font-weight: 600;
                 pointer-events: none;
+                font-weight: 600;
             }
         }
     }
 
     &.open {
-        opacity: 1;
         pointer-events: auto;
+        opacity: 1;
     }
 }
