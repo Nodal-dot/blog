@@ -41,22 +41,21 @@ const LanguageSwitcher: React.FC = () => {
                 <Globe size={24} />
             </button>
 
-            {langOpen && (
-                <ul role="menu" className={classNames(styles.options, langOpen && styles.open)}>
-                    {["en", "ru"].map((lang) => (
-                        <li role="none" key={lang}>
-                            <button
-                                onClick={() => handleLangChange(lang)}
-                                role="menuitemradio"
-                                aria-checked={locale === lang}
-                                className={classNames(locale === lang && styles.selected)}
-                            >
-                                {lang.toUpperCase()}
-                            </button>
-                        </li>
-                    ))}
-                </ul>
-            )}
+            <ul role="menu" className={classNames(styles.options, langOpen && styles.open)}>
+                {["en", "ru"].map((lang) => (
+                    <li role="none" key={lang}>
+                        <button
+                            onClick={() => handleLangChange(lang)}
+                            role="menuitemradio"
+                            aria-checked={locale === lang}
+                            className={classNames(locale === lang && styles.selected)}
+                            disabled={locale === lang}
+                        >
+                            {lang.toUpperCase()}
+                        </button>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 };

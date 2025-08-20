@@ -1,3 +1,5 @@
+@use "@styles/transition" as transition;
+
 .button {
     --toggle-width: 5.6rem;
     --toggle-height: 2.8rem;
@@ -43,16 +45,17 @@
     }
 
     .thumb {
+        @include transition.default-tr;
+
+        transition-property: background-color, left;
         position: absolute;
         top: 50%;
         left: var(--thumb-offset);
         width: var(--thumb-size);
         height: var(--thumb-size);
-        background: var(--text-color);
+        background-color: var(--background-contrast-color);
         border-radius: 50%;
-        transition: left 0.3s ease;
         z-index: 2;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         transform: translateY(-50%);
     }
 
