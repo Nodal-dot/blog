@@ -9,6 +9,8 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 import IconLink from "@/components/IconLink";
 import { classNames } from "@/utils/classNames";
 
+import MobileMenu from "@/components/MobileMenu";
+
 const Header: React.FC = () => {
     const t = useTranslations();
 
@@ -23,16 +25,21 @@ const Header: React.FC = () => {
 
     return (
         <header className={classNames(styles.header)}>
-            <Nav links={navLinks} />
+            <div className={classNames(styles["nav-desktop"])}>
+                <Nav links={navLinks} />
+            </div>
+
+            <MobileMenu links={navLinks} />
+
             <div className={classNames(styles.socials)}>
                 <IconLink
                     href="https://github.com"
                     ariaLabel="GitHub"
                     iconLight="/assets/sprites/github-mark.svg"
                     iconDark="/assets/sprites/github-mark-white.svg"
-                    width={32}
-                    height={32}
-                    size="md"
+                    width={48}
+                    height={48}
+                    size="lg"
                 />
             </div>
 

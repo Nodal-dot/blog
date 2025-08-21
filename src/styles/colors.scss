@@ -3,6 +3,12 @@
     --text-color: #000;
     --text-contrast-color: #fff;
     --background-contrast-color: #1b1b1b;
+    --hover-background-color: #e0e0e0;
+    --hover-text-color: #000;
+    --active-background-color: #d6d6d6;
+    --active-text-color: #000;
+    --focus-outline-color: #07f;
+    --divider-color: rgb(0 0 0 / 10%);
 }
 
 [data-theme="dark"] {
@@ -10,4 +16,10 @@
     --text-color: #fff;
     --text-contrast-color: #000;
     --background-contrast-color: #f5f5f5;
+    --hover-background-color: #2a2a2a;
+    --hover-text-color: #fff;
+    --active-background-color: #333;
+    --active-text-color: #fff;
+    --focus-outline-color: #4da3ff;
+    --divider-color: rgb(255 255 255 / 10%);
 }

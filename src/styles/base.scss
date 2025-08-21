@@ -1,4 +1,4 @@
-@use "transition";
+@use "utils/transition";
 
 html {
     font-size: 62.5%;
@@ -11,4 +11,10 @@ body {
     color: var(--text-color);
     background-color: var(--background-color);
     transition-property: color, background-color;
+}
+
+.container {
+    width: 100%;
+    max-width: clamp(32rem, 90vw, 144rem);
+    margin-inline: auto;
 }

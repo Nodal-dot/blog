@@ -27,8 +27,10 @@ export default async function LocaleLayout({
                 <NextIntlClientProvider locale={locale}>
                     <ThemeProvider>
                         <PageTransitionProvider>
-                            <Header />
-                            {children}
+                            <div className="container">
+                                <Header />
+                                {children}
+                            </div>
                         </PageTransitionProvider>
                     </ThemeProvider>
                 </NextIntlClientProvider>

@@ -1,0 +1,96 @@
+@use "@styles/utils/breakpoints" as breakpoints;
+
+.mobile-menu {
+    display: none;
+
+    @include breakpoints.tablet {
+        display: block;
+    }
+}
+
+.burger {
+    cursor: pointer;
+
+    z-index: 1100;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    width: 2.4rem;
+    height: 2rem;
+    padding: 0;
+    border: none;
+
+    background: transparent;
+
+    .line {
+        height: 0.3rem;
+        border-radius: 0.2rem;
+        background: var(--text-color);
+        transition:
+            transform 0.3s,
+            opacity 0.3s;
+    }
+
+    &.open {
+        .line:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .line:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+    }
+}
+
+.modal {
+    position: fixed;
+    z-index: 1000;
+    inset: 0;
+    transform: translateY(-10px);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    visibility: hidden;
+    opacity: 0;
+    background: var(--background-color);
+
+    transition:
+        opacity 0.3s ease,
+        visibility 0.3s ease,
+        transform 0.3s ease;
+
+    &.show {
+        transform: translateY(0);
+        visibility: visible;
+        opacity: 1;
+    }
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    text-align: center;
+}
+
+.nav-link {
+    font-size: 2rem;
+    color: var(--text-color);
+    text-decoration: none;
+    transition:
+        color 0.2s,
+        transform 0.2s;
+
+    &:hover {
+        transform: scale(1.05);
+        color: var(--hover-text-color);
+    }
+}

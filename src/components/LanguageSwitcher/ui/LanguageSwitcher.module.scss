@@ -1,25 +1,33 @@
-@use "@styles/transition" as transition;
+@use "@styles/utils/transition" as transition;
 
 .container {
     position: relative;
     flex-shrink: 0;
-    font-family: Inter, sans-serif;
 }
 
 .button {
+    @include transition.default-tr;
+
     cursor: pointer;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    padding: 0.5rem 0.75rem;
+    padding: 0.6rem 0.8rem;
     border-radius: 0.8rem;
 
-    background: transparent;
+    transition-property: background-color;
+
+    &:hover {
+        background-color: var(--hover-background-color);
+    }
 
     svg {
+        @include transition.default-tr;
+
         color: var(--text-color);
+        transition-property: color;
     }
 }
 
@@ -32,26 +40,41 @@
     z-index: 10;
     top: 110%;
     right: 0;
+    left: 50%;
+    transform: translateX(-50%);
 
     display: flex;
     flex-direction: column;
 
-    padding: 0.5rem 0;
+    width: fit-content;
+    padding: 0.6rem 0;
+    border: 1px solid var(--text-color);
     border-radius: 1.2rem;
 
     opacity: 0;
     box-shadow: 0 8px 20px rgb(0 0 0 / 15%);
 
-    transition-property: opacity;
+    transition-property: opacity, border-color;
 
     li {
         list-style: none;
 
         button {
+            @include transition.default-tr;
+
             width: 100%;
-            padding: 0.5rem 1rem;
+            padding: 0.6rem 1rem;
+            border-radius: 1.2rem;
+
             color: var(--text-color);
+
             background-color: transparent;
+
+            transition-property: background-color;
+
+            &:hover {
+                background-color: var(--hover-background-color);
+            }
 
             &.selected {
                 pointer-events: none;

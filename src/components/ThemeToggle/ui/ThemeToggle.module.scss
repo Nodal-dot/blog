@@ -1,4 +1,4 @@
-@use "@styles/transition" as transition;
+@use "@styles/utils/transition" as transition;
 
 .button {
     --toggle-width: 5.6rem;
@@ -69,15 +69,6 @@
         .thumb {
             left: calc(100% - var(--thumb-size) - var(--thumb-offset));
             transform: translateY(-50%);
-        }
-    }
-
-    &:hover {
-        border-color: var(--text-color);
-        opacity: 0.9;
-
-        .thumb {
-            box-shadow: 0 1px 3px rgb(0 0 0 / 20%);
         }
     }
 }

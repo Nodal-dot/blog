@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
-import { Globe } from "lucide-react";
+import { Languages } from "lucide-react";
 import styles from "./LanguageSwitcher.module.scss";
 import { classNames } from "@/utils/classNames";
 
@@ -37,7 +37,7 @@ const LanguageSwitcher: React.FC = () => {
                 aria-label="Change language"
                 className={styles.button}
             >
-                <Globe size={24} />
+                <Languages size={24} />
             </button>
 
             <ul role="menu" className={classNames(styles.options, langOpen && styles.open)}>
