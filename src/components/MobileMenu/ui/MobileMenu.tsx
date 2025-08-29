@@ -2,30 +2,25 @@
 
 import React from "react";
 import styles from "./MobileMenu.module.scss";
+import NavLink from "@/components/NavLink";
+import { usePageTransition } from "@/providers/transition/PageTransitionProvider";
+import { usePathname } from "@/i18n/navigation";
+import Modal from "@/components/Modal";
+import { useModal } from "@/hooks/modal";
 
-interface MobileMenuProps {
+interface IMobileMenuProps {
     links: { href: string; label: string }[];
 }
 
-const MobileMenu: React.FC<MobileMenuProps> = ({ links }) => {
-    const [open, setOpen] = React.useState(false);
-    const menuRef = React.useRef<HTMLDivElement>(null);
-
-    const toggleMenu = () => setOpen((p) => !p);
-
-    React.useEffect(() => {
-        if (open && menuRef.current) {
-            const focusable = menuRef.current.querySelector<HTMLElement>(
-                "a, button, input, [tabindex]:not([tabindex='-1'])"
-            );
-            focusable?.focus();
-        }
-    }, [open]);
+const MobileMenu: React.FC<IMobileMenuProps> = ({ links }) => {
+    const { open, toggleModal, closeModal } = useModal();
+    const pathname = usePathname();
+    const { startTransition } = usePageTransition();
 
     return (
         <div className={styles["mobile-menu"]}>
             <button
-                onClick={toggleMenu}
+                onClick={toggleModal}
                 aria-expanded={open}
                 aria-controls="mobile-nav"
                 aria-label={open ? "Закрыть меню" : "Открыть меню"}
@@ -36,21 +31,22 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ links }) => {
                 <span className={styles.line} />
             </button>
 
-            <div
-                ref={menuRef}
-                id="mobile-nav"
-                className={`${styles.modal} ${open ? styles.show : ""}`}
-                role="dialog"
-                aria-modal="true"
-            >
+            <Modal open={open} onClose={closeModal}>
                 <nav className={styles.nav}>
-                    {links.map((link) => (
-                        <a key={link.href} href={link.href} className={styles.navLink}>
-                            {link.label}
-                        </a>
+                    {links.map(({ href, label }) => (
+                        <NavLink
+                            href={href}
+                            label={label}
+                            key={label}
+                            isActive={pathname === href}
+                            onClick={() => {
+                                startTransition(href);
+                                closeModal();
+                            }}
+                        />
                     ))}
                 </nav>
-            </div>
+            </Modal>
         </div>
     );
 };

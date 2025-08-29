@@ -1,0 +1,71 @@
+@use "@styles/utils/transition" as transition;
+
+.backdrop {
+    @include transition.default-tr;
+
+    position: fixed;
+    z-index: 1000;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    visibility: hidden;
+    opacity: 0;
+    background: rgb(0 0 0 / 50%);
+
+    transition-property: opacity, visibility;
+
+    &.show {
+        visibility: visible;
+        opacity: 1;
+    }
+}
+
+.modal {
+    @include transition.default-tr;
+
+    position: relative;
+    transform: scale(0.95);
+
+    padding: 4.8rem;
+    border: 1px solid var(--background-contrast-color);
+    border-radius: 2.4rem;
+
+    visibility: hidden;
+    opacity: 0;
+    background: var(--background-color);
+
+    transition-property: opacity, visibility, transform;
+
+    &.show {
+        transform: scale(1);
+        visibility: visible;
+        opacity: 1;
+    }
+}
+
+.close-button {
+    @include transition.default-tr;
+
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+
+    color: var(--text-color);
+
+    background: transparent;
+
+    transition-property: background;
+
+    &:hover,
+    &:focus {
+        background: rgb(0 0 0 / 5%);
+        outline: none;
+    }
+}

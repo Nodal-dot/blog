@@ -4,12 +4,12 @@ import React, { createContext, useState, useRef, useContext, useEffect, useCallb
 import styles from "./PageTransition.module.scss";
 import { useRouter } from "@/i18n/navigation";
 
-interface PageTransitionContextProps {
+interface IPageTransitionContextProps {
     startTransition: (to: string, locale?: string) => void;
     isTransitioning: boolean;
 }
 
-const PageTransitionContext = createContext<PageTransitionContextProps>({
+const PageTransitionContext = createContext<IPageTransitionContextProps>({
     startTransition: () => {},
     isTransitioning: false,
 });

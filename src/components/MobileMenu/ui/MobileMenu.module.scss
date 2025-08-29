@@ -1,4 +1,5 @@
 @use "@styles/utils/breakpoints" as breakpoints;
+@use "@styles/utils/transition" as transition;
 
 .mobile-menu {
     display: none;
@@ -9,9 +10,7 @@
 }
 
 .burger {
-    cursor: pointer;
-
-    z-index: 1100;
+    @include transition.default-tr;
 
     display: flex;
     flex-direction: column;
@@ -24,53 +23,16 @@
 
     background: transparent;
 
+    transition-property: transform;
+
     .line {
         height: 0.3rem;
         border-radius: 0.2rem;
         background: var(--text-color);
-        transition:
-            transform 0.3s,
-            opacity 0.3s;
     }
 
     &.open {
-        .line:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-
-        .line:nth-child(2) {
-            opacity: 0;
-        }
-
-        .line:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -5px);
-        }
-    }
-}
-
-.modal {
-    position: fixed;
-    z-index: 1000;
-    inset: 0;
-    transform: translateY(-10px);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    visibility: hidden;
-    opacity: 0;
-    background: var(--background-color);
-
-    transition:
-        opacity 0.3s ease,
-        visibility 0.3s ease,
-        transform 0.3s ease;
-
-    &.show {
-        transform: translateY(0);
-        visibility: visible;
-        opacity: 1;
+        transform: rotate(90deg);
     }
 }
 
@@ -79,18 +41,4 @@
     flex-direction: column;
     gap: 2rem;
     text-align: center;
-}
-
-.nav-link {
-    font-size: 2rem;
-    color: var(--text-color);
-    text-decoration: none;
-    transition:
-        color 0.2s,
-        transform 0.2s;
-
-    &:hover {
-        transform: scale(1.05);
-        color: var(--hover-text-color);
-    }
 }

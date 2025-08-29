@@ -7,11 +7,11 @@ import styles from "./Navigation.module.scss";
 import NavLink from "@/components/NavLink";
 import { classNames } from "@/utils/classNames";
 
-interface NavProps {
+interface INavProps {
     links: Array<{ href: string; label: string }>;
 }
 
-const Navigation: React.FC<NavProps> = ({ links }) => {
+const Navigation: React.FC<INavProps> = ({ links }) => {
     const pathname = usePathname();
     const { startTransition } = usePageTransition();
 

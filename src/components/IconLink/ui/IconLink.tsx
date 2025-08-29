@@ -6,7 +6,7 @@ import { useTheme } from "@/providers/theme/ThemeProvider";
 import styles from "./IconLink.module.scss";
 import { classNames } from "@/utils/classNames";
 
-interface IconLinkProps {
+interface IIconLinkProps {
     href: string;
     ariaLabel: string;
     iconLight: string;
@@ -17,7 +17,7 @@ interface IconLinkProps {
     size?: "sm" | "md" | "lg";
 }
 
-const IconLink: React.FC<IconLinkProps> = ({
+const IconLink: React.FC<IIconLinkProps> = ({
     href,
     ariaLabel,
     iconLight,

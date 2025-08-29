@@ -2,14 +2,14 @@ import React from "react";
 import styles from "./NavLink.module.scss";
 import { classNames } from "@/utils/classNames";
 
-interface NavLinkProps {
+interface INavLinkProps {
     href: string;
     label: string;
     isActive: boolean;
     onClick: () => void;
 }
 
-const NavLink: React.FC<NavLinkProps> = ({ href, label, isActive, onClick }) => {
+const NavLink: React.FC<INavLinkProps> = ({ href, label, isActive, onClick }) => {
     const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
         onClick();
