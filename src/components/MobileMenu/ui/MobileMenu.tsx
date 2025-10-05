@@ -23,8 +23,8 @@ const MobileMenu: React.FC<IMobileMenuProps> = ({ links }) => {
                 onClick={toggleModal}
                 aria-expanded={open}
                 aria-controls="mobile-nav"
-                aria-label={open ? "Закрыть меню" : "Открыть меню"}
-                className={`${styles.burger} ${open ? styles.open : ""}`}
+                aria-label={"Открыть меню"}
+                className={`${styles.burger}`}
             >
                 <span className={styles.line} />
                 <span className={styles.line} />

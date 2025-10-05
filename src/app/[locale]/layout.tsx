@@ -29,7 +29,7 @@ export default async function LocaleLayout({
                         <PageTransitionProvider>
                             <div className="container">
                                 <Header />
-                                {children}
+                                <main>{children}</main>
                             </div>
                         </PageTransitionProvider>
                     </ThemeProvider>

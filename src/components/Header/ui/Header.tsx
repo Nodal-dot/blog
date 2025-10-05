@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import styles from "./Header.module.scss";
 import Nav from "@/components/Navigation";
@@ -8,23 +8,40 @@ import ThemeToggle from "@/components/ThemeToggle";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import IconLink from "@/components/IconLink";
 import { classNames } from "@/utils/classNames";
-
 import MobileMenu from "@/components/MobileMenu";
+import { throttle } from "@/utils/throttle";
 
 const Header: React.FC = () => {
     const t = useTranslations();
+    const headerRef = useRef<HTMLElement | null>(null);
 
-    const navLinks = React.useMemo(
-        () => [
-            { href: "/", label: t("Nav.home") },
-            { href: "/about", label: t("Nav.about") },
-            { href: "/blog", label: t("Nav.blog") },
-        ],
-        [t]
-    );
+    useEffect(() => {
+        const setHeight = () => {
+            if (headerRef.current) {
+                const h = headerRef.current.offsetHeight;
+                document.body.style.setProperty("--header-height", `${h}px`);
+            }
+        };
+
+        setHeight();
+
+        const onResize = throttle(setHeight, 300);
+        window.addEventListener("resize", onResize);
+
+        return () => {
+            window.removeEventListener("resize", onResize);
+            onResize.cancel();
+        };
+    }, []);
+
+    const navLinks = [
+        { href: "/", label: t("Nav.home") },
+        { href: "/about", label: t("Nav.about") },
+        { href: "/blog", label: t("Nav.blog") },
+    ];
 
     return (
-        <header className={classNames(styles.header)}>
+        <header ref={headerRef} className={classNames(styles.header)}>
             <div className={classNames(styles["nav-desktop"])}>
                 <Nav links={navLinks} />
             </div>

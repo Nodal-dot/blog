@@ -1,0 +1,73 @@
+.eye-wrapper {
+    overflow: hidden;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    height: 45rem;
+    border-radius: 1.2rem;
+
+    background-color: var(--background-contrast-color);
+
+    .eye {
+        position: relative;
+
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+
+        width: 30rem;
+        height: 30rem;
+
+        .eyelash {
+            position: absolute;
+
+            width: 1.8rem;
+            height: 6rem;
+            border-radius: 3rem;
+
+            background-color: var(--text-contrast-color);
+
+            &.type-1 {
+                top: 4rem;
+            }
+
+            &.type-2 {
+                top: 5.6rem;
+                transform: translateX(-10rem) rotate(-45deg);
+            }
+
+            &.type-3 {
+                top: 5.6rem;
+                transform: translateX(10rem) rotate(45deg);
+            }
+        }
+
+        .sclera {
+            position: relative;
+
+            overflow: hidden;
+
+            width: 100%;
+            height: 60%;
+            border-radius: 50%;
+
+            background-color: var(--text-contrast-color);
+
+            .pupil {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+
+                width: 12rem;
+                height: 12rem;
+                border-radius: 50%;
+
+                background-color: var(--background-contrast-color);
+            }
+        }
+    }
+}
