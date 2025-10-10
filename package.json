@@ -18,6 +18,7 @@
         "fix:all": "npm run lint:fix && npm run format:fix && npm run lint:css:fix"
     },
     "dependencies": {
+        "@studio-freight/lenis": "^1.0.42",
         "focus-trap": "^7.6.5",
         "gsap": "^3.13.0",
         "lucide-react": "^0.536.0",

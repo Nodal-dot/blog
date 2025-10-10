@@ -16,6 +16,10 @@
 
     transition-property: color;
 
+    @include breakpoints.tablet {
+        padding: 1.2rem 4rem;
+    }
+
     @include breakpoints.mobile {
         padding: 1.6rem 0;
     }

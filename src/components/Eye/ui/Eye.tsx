@@ -15,6 +15,14 @@ const Eye: React.FC = () => {
 
         if (!pupil || !sclera) return;
 
+        gsap.set(pupil, {
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            xPercent: -50,
+            yPercent: -50,
+        });
+
         const scleraRect = sclera.getBoundingClientRect();
         const pupilRect = pupil.getBoundingClientRect();
 
@@ -34,8 +42,8 @@ const Eye: React.FC = () => {
             const y = radiusY * Math.sin(angle);
 
             gsap.to(pupil, {
-                x: x,
-                y: y,
+                x,
+                y,
                 duration: gsap.utils.random(0.8, 1.5),
                 ease: "power2.out",
                 onComplete: () => {

@@ -7,6 +7,7 @@ import "@/styles/index.scss";
 import { ThemeProvider } from "@/providers/theme/ThemeProvider";
 import PageTransitionProvider from "@/providers/transition/PageTransitionProvider";
 import React from "react";
+import LenisProvider from "@/providers/lenis/LenisProvider";
 const montserrat = Montserrat({ subsets: ["latin", "cyrillic"] });
 
 export default async function LocaleLayout({
@@ -20,13 +21,13 @@ export default async function LocaleLayout({
     if (!hasLocale(routing.locales, locale)) {
         notFound();
     }
-
     return (
         <html lang={locale}>
             <body className={montserrat.className}>
                 <NextIntlClientProvider locale={locale}>
                     <ThemeProvider>
                         <PageTransitionProvider>
+                            <LenisProvider />
                             <div className="container">
                                 <Header />
                                 <main>{children}</main>

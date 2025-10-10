@@ -1,0 +1,26 @@
+@mixin custom-scroll {
+    scrollbar-color: var(--divider-color) var(--background-color);
+    scrollbar-width: thin;
+
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+        width: 0.8rem;
+        height: 0.8rem;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: var(--background-color);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border: 2px solid var(--background-color);
+        border-radius: 1rem;
+        background-color: var(--divider-color);
+        transition: background-color 0.3s ease;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: var(--hover-background-color);
+    }
+}
