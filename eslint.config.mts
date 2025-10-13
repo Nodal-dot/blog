@@ -8,35 +8,35 @@ import { defineConfig } from "eslint/config";
 import path from "path";
 
 const compat = new FlatCompat({
-  baseDirectory: path.resolve("."),
+    baseDirectory: path.resolve("."),
 });
 
 export default defineConfig([
-  {
-    files: ["**/*.{js,jsx,ts,tsx}"],
-    plugins: {
-      js,
-      react: pluginReact,
-      "react-hooks": pluginReactHooks,
+    {
+        files: ["**/*.{js,jsx,ts,tsx}"],
+        plugins: {
+            js,
+            react: pluginReact,
+            "react-hooks": pluginReactHooks,
+        },
+        languageOptions: { globals: globals.browser },
+        rules: {
+            "react/react-in-jsx-scope": "off",
+            "react-hooks/rules-of-hooks": "error",
+            "react-hooks/exhaustive-deps": "warn",
+        },
+        settings: {
+            react: { version: "detect" },
+        },
     },
-    languageOptions: { globals: globals.browser },
-    rules: {
-      "react/react-in-jsx-scope": "off",
-      "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "warn",
-    },
-    settings: {
-      react: { version: "detect" },
-    },
-  },
 
-  tseslint.configs.recommended,
+    tseslint.configs.recommended,
 
-  ...compat.config({
-    extends: ["next/core-web-vitals"], 
-    rules: {
-      "@next/next/no-img-element": "warn",
-      "@next/next/no-html-link-for-pages": "error",
-    },
-  }),
+    ...compat.config({
+        extends: ["next/core-web-vitals"],
+        rules: {
+            "@next/next/no-img-element": "warn",
+            "@next/next/no-html-link-for-pages": "error",
+        },
+    }),
 ]);
