@@ -5,7 +5,7 @@
 
 .loader {
     pointer-events: none;
-    will-change: transform;
+    will-change: transform, opacity;
 
     position: fixed;
     z-index: 9999;

@@ -8,10 +8,12 @@ import { classNames } from "@/utils/classNames";
 const Eye: React.FC = () => {
     const pupilRef = useRef<HTMLDivElement>(null);
     const scleraRef = useRef<HTMLDivElement>(null);
+    const blocksRefs = useRef<HTMLDivElement[]>([]);
 
     useEffect(() => {
         const pupil = pupilRef.current;
         const sclera = scleraRef.current;
+        const blocks = [...blocksRefs.current];
 
         if (!pupil || !sclera) return;
 
@@ -54,13 +56,38 @@ const Eye: React.FC = () => {
 
         movePupil();
 
+        blocks.forEach((block, i) => {
+            const moveY = gsap.utils.random(10, 25);
+            const duration = gsap.utils.random(4, 7);
+            gsap.to(block, {
+                y: moveY,
+                repeat: -1,
+                yoyo: true,
+                duration,
+                ease: "sine.inOut",
+                repeatDelay: gsap.utils.random(0.2, 0.8),
+                delay: i * 0.3,
+                force3D: true,
+            });
+        });
         return () => {
             gsap.killTweensOf(pupil);
+            blocks.forEach((block) => gsap.killTweensOf(block));
         };
     }, []);
 
     return (
         <div className={style["eye-wrapper"]}>
+            {["top-left", "top-right", "bottom-left", "bottom-right"].map((side, index) => (
+                <div
+                    key={side}
+                    ref={(el) => {
+                        if (el) blocksRefs.current[index] = el;
+                    }}
+                    className={classNames([style["eye-block"], style[side]])}
+                ></div>
+            ))}
+
             <div className={style.eye}>
                 <div className={classNames([style.eyelash, style["type-1"]])}></div>
                 <div className={classNames([style.eyelash, style["type-2"]])}></div>
