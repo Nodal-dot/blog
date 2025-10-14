@@ -26,9 +26,13 @@ html {
 body {
     @include transition.default-tr;
 
+    overflow-x: hidden;
+
     font-size: 1.6rem;
     color: var(--text-color);
+
     background-color: var(--background-color);
+
     transition-property: color, background-color;
 }
 

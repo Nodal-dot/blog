@@ -52,6 +52,7 @@
     border-radius: 1.2rem;
 
     opacity: 0;
+    background-color: var(--background-color);
     box-shadow: 0 8px 20px rgb(0 0 0 / 15%);
 
     transition-property: opacity, border-color;

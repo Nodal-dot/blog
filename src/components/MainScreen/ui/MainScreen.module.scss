@@ -4,16 +4,18 @@
     display: flex;
     gap: 4.8rem;
     align-items: center;
-    height: calc(100dvh - var(--header-height));
+    padding-top: 6rem;
 
     @include breakpoints.tablet {
         flex-direction: column;
         gap: 2.4rem;
         justify-content: space-evenly;
+        padding-top: 2.4rem;
     }
 
     @include breakpoints.mobile {
         gap: 1.6rem;
+        padding-top: 1.2rem;
     }
 }
 
@@ -30,12 +32,7 @@
     @include breakpoints.tablet {
         flex: unset;
         gap: 1.2rem;
-        padding-top: 2.4rem;
         text-align: center;
-    }
-
-    @include breakpoints.mobile {
-        padding-top: 1.2rem;
     }
 }
 
@@ -54,13 +51,14 @@
     display: flex;
     flex: 1 1 0;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
 
     width: 100%;
     height: auto;
 
     @include breakpoints.tablet {
         flex: unset;
+        justify-content: center;
         padding-bottom: 2.4rem;
     }
 }
