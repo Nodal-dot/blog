@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useState, useRef, useContext, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
 import styles from "./PageTransition.module.scss";
 import { useRouter } from "@/i18n/navigation";
 
@@ -17,56 +18,57 @@ const PageTransitionContext = createContext<IPageTransitionContextProps>({
 export const PageTransitionProvider = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter();
     const [isTransitioning, setIsTransitioning] = useState(false);
+    const [mounted, setMounted] = useState(false); // флаг монтирования на клиенте
     const transitionData = useRef<{ url: string; locale?: string } | null>(null);
-    const loaderRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        setMounted(true); // теперь можем использовать document
+    }, []);
 
     const startTransition = useCallback(
         (to: string, locale?: string) => {
             if (isTransitioning) return;
-
-            setIsTransitioning(true);
             transitionData.current = { url: to, locale };
+            setIsTransitioning(true);
         },
         [isTransitioning]
     );
 
     useEffect(() => {
-        const loader = loaderRef.current;
-        if (!loader) return;
+        if (!isTransitioning || !transitionData.current) return;
 
-        const handleAnimationEnd = (e: TransitionEvent) => {
-            if (e.propertyName === "transform" && isTransitioning && transitionData.current) {
-                const { url, locale } = transitionData.current;
-
-                if (locale) {
-                    router.push(url, { locale });
-                } else {
-                    router.push(url);
-                }
-
-                setTimeout(() => {
-                    setIsTransitioning(false);
-                    transitionData.current = null;
-                }, 600);
+        const handleTransitionEnd = () => {
+            const { url, locale } = transitionData.current!;
+            if (locale) {
+                router.push(url, { locale });
+            } else {
+                router.push(url);
             }
+
+            setTimeout(() => {
+                setIsTransitioning(false);
+                transitionData.current = null;
+            }, 600);
         };
 
-        loader.addEventListener("transitionend", handleAnimationEnd);
-        return () => loader.removeEventListener("transitionend", handleAnimationEnd);
+        const timer = setTimeout(handleTransitionEnd, 600);
+        return () => clearTimeout(timer);
     }, [isTransitioning, router]);
+
+    // Рендерим портал только на клиенте
+    const loaderPortal = mounted
+        ? createPortal(
+              <div className={`${styles.loader} ${isTransitioning ? styles.active : ""}`} />,
+              document.body
+          )
+        : null;
 
     return (
         <PageTransitionContext.Provider value={{ startTransition, isTransitioning }}>
-            <div className={styles.wrapper}>
-                <div
-                    ref={loaderRef}
-                    className={`${styles.loader} ${isTransitioning ? styles.active : ""}`}
-                />
-                <div className={styles.content}>{children}</div>
-            </div>
+            {children}
+            {loaderPortal}
         </PageTransitionContext.Provider>
     );
 };
 
 export const usePageTransition = () => useContext(PageTransitionContext);
-export default PageTransitionProvider;

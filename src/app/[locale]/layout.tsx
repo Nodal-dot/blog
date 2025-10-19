@@ -4,39 +4,32 @@ import { routing } from "@/i18n/routing";
 import Header from "@/components/Header";
 import { Montserrat } from "next/font/google";
 import "@/styles/index.scss";
-import { ThemeProvider } from "@/providers/theme/ThemeProvider";
-import PageTransitionProvider from "@/providers/transition/PageTransitionProvider";
 import type { ReactNode } from "react";
+import ClientLayer from "@/components/ClientLayer/ClientLayer";
 
 const montserrat = Montserrat({ subsets: ["latin", "cyrillic"] });
 
 type LocaleParams = { locale: string };
-
 type LocaleLayoutProps = {
     children: ReactNode;
     params: LocaleParams | Promise<LocaleParams>;
 };
 
 export default async function LocaleLayout({ children, params }: LocaleLayoutProps) {
-    const resolvedParams = await params;
-    const { locale } = resolvedParams;
+    const { locale } = await params;
 
-    if (!hasLocale(routing.locales, locale)) {
-        notFound();
-    }
+    if (!hasLocale(routing.locales, locale)) notFound();
 
     return (
         <html lang={locale}>
             <body className={montserrat.className}>
                 <NextIntlClientProvider locale={locale}>
-                    <ThemeProvider>
-                        <PageTransitionProvider>
-                            <div className="container">
-                                <Header />
-                                <main>{children}</main>
-                            </div>
-                        </PageTransitionProvider>
-                    </ThemeProvider>
+                    <ClientLayer>
+                        <div className="container">
+                            <Header />
+                            <main>{children}</main>
+                        </div>
+                    </ClientLayer>
                 </NextIntlClientProvider>
             </body>
         </html>
