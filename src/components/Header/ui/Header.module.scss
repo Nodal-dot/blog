@@ -1,8 +1,8 @@
-@use "@styles/utils/transition" as transition;
-@use "@styles/utils/breakpoints" as breakpoints;
+@use "@styles/utils/transition" as *;
+@use "@styles/utils/breakpoints" as *;
 
 .header {
-    @include transition.default-tr;
+    @include default-tr;
 
     display: grid;
     grid-template-columns: 1fr auto 1fr;
@@ -16,33 +16,33 @@
 
     transition-property: color;
 
-    @include breakpoints.tablet {
+    @include tablet {
         padding: 1.2rem 4rem;
     }
 
-    @include breakpoints.mobile {
+    @include mobile {
         padding: 1.6rem 0;
     }
 
-    .socials {
+    &__socials {
         display: flex;
         gap: 1rem;
         justify-self: center;
     }
 
-    .nav-desktop {
-        @include breakpoints.tablet {
+    &__nav-desktop {
+        @include tablet {
             display: none;
         }
     }
 
-    .settings {
+    &__settings {
         display: flex;
         gap: 1.2rem;
         align-items: center;
         justify-self: end;
 
-        @include breakpoints.mobile {
+        @include mobile {
             gap: 0.6rem;
         }
     }

@@ -1,0 +1,83 @@
+@use "@styles/utils/breakpoints" as *;
+@use "@styles/utils/box" as *;
+
+.button {
+    cursor: pointer;
+
+    position: relative;
+
+    overflow: hidden;
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+
+    padding: 1.2rem 1.6rem;
+    border: 1px solid var(--divider-color);
+    border-radius: 1.2rem;
+
+    color: var(--text-contrast-color);
+
+    background-color: var(--background-contrast-color);
+
+    &::before {
+        content: "";
+
+        position: absolute;
+        z-index: 0;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+
+        background-color: var(--background-color);
+
+        transition:
+            width 0.4s ease,
+            height 0.4s ease;
+    }
+
+    &:hover {
+        color: var(--text-color);
+    }
+
+    &:active {
+        color: var(--active-text-color);
+        background-color: var(--active-background-color);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--focus-outline-color);
+        outline-offset: 2px;
+    }
+
+    &.disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+    .icon {
+        display: inline-flex;
+
+        &.left {
+            margin-right: 0.5rem;
+        }
+
+        &.right {
+            margin-left: 0.5rem;
+        }
+    }
+
+    &:hover::before {
+        width: 300%;
+        height: 300%;
+    }
+
+    > * {
+        position: relative;
+        z-index: 1;
+    }
+}

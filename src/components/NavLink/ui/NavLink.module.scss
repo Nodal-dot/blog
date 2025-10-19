@@ -1,4 +1,4 @@
-@use "@styles/utils/transition" as transition;
+@use "@styles/utils/transition" as *;
 
 .link {
     position: relative;
@@ -10,7 +10,7 @@
     text-decoration: none;
 
     &::after {
-        @include transition.default-tr;
+        @include default-tr;
 
         content: "";
 

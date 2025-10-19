@@ -3,7 +3,6 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import style from "./Eye.module.scss";
-import { classNames } from "@/utils/classNames";
 
 const Eye: React.FC = () => {
     const pupilRef = useRef<HTMLDivElement>(null);
@@ -70,30 +69,37 @@ const Eye: React.FC = () => {
                 force3D: true,
             });
         });
+
         return () => {
             gsap.killTweensOf(pupil);
             blocks.forEach((block) => gsap.killTweensOf(block));
         };
     }, []);
 
+    const eyelashTypes = ["type-1", "type-2", "type-3"];
+    const blockPositions = ["top-left", "top-right", "bottom-left", "bottom-right"];
+
     return (
-        <div className={style["eye-wrapper"]}>
-            {["top-left", "top-right", "bottom-left", "bottom-right"].map((side, index) => (
+        <div className={style["eye"]}>
+            {blockPositions.map((pos, index) => (
                 <div
-                    key={side}
+                    key={pos}
                     ref={(el) => {
                         if (el) blocksRefs.current[index] = el;
                     }}
-                    className={classNames([style["eye-block"], style[side]])}
-                ></div>
+                    className={`${style["eye__block"]} ${style[`eye__block--${pos}`]}`}
+                />
             ))}
 
-            <div className={style.eye}>
-                <div className={classNames([style.eyelash, style["type-1"]])}></div>
-                <div className={classNames([style.eyelash, style["type-2"]])}></div>
-                <div className={classNames([style.eyelash, style["type-3"]])}></div>
-                <div className={style.sclera} ref={scleraRef}>
-                    <div className={style.pupil} ref={pupilRef}></div>
+            <div className={style["eye__eye"]}>
+                {eyelashTypes.map((type) => (
+                    <div
+                        key={type}
+                        className={`${style["eye__eyelash"]} ${style[`eye__eyelash--${type}`]}`}
+                    />
+                ))}
+                <div className={style["eye__sclera"]} ref={scleraRef}>
+                    <div className={style["eye__pupil"]} ref={pupilRef}></div>
                 </div>
             </div>
         </div>

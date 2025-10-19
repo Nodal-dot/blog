@@ -1,7 +1,7 @@
-.nav {
+.navigation {
     justify-self: start;
 
-    .list {
+    &__list {
         display: flex;
         gap: 1.6rem;
 

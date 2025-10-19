@@ -1,70 +1,74 @@
-@use "@styles/utils/transition" as transition;
-
-.backdrop {
-    @include transition.default-tr;
-
-    position: fixed;
-    z-index: 1000;
-    inset: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    visibility: hidden;
-    opacity: 0;
-    background: rgb(0 0 0 / 50%);
-
-    transition-property: opacity, visibility;
-
-    &.show {
-        visibility: visible;
-        opacity: 1;
-    }
-}
+@use "@styles/utils/transition" as *;
 
 .modal {
-    @include transition.default-tr;
+    @include default-tr;
 
-    position: relative;
-    transform: scale(0.95);
+    &__backdrop {
+        @include default-tr;
 
-    padding: 4.8rem;
-    border-radius: 2.4rem;
+        position: fixed;
+        z-index: 1000;
+        inset: 0;
 
-    visibility: hidden;
-    opacity: 0;
-    background: var(--background-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-    transition-property: opacity, visibility, transform;
+        visibility: hidden;
+        opacity: 0;
+        background: rgb(0 0 0 / 50%);
 
-    &.show {
-        transform: scale(1);
-        visibility: visible;
-        opacity: 1;
+        transition-property: opacity, visibility;
+
+        &--visible {
+            visibility: visible;
+            opacity: 1;
+        }
     }
-}
 
-.close-button {
-    @include transition.default-tr;
+    &__content {
+        @include default-tr;
 
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
+        position: relative;
+        transform: scale(0.95);
 
-    width: 2.4rem;
-    height: 2.4rem;
-    border-radius: 50%;
+        padding: 4.8rem;
+        border-radius: 2.4rem;
 
-    color: var(--text-color);
+        visibility: hidden;
+        opacity: 0;
+        background: var(--background-color);
 
-    background: transparent;
+        transition-property: opacity, visibility, transform;
 
-    transition-property: background;
+        &--open {
+            transform: scale(1);
+            visibility: visible;
+            opacity: 1;
+        }
+    }
 
-    &:hover,
-    &:focus {
-        background: rgb(0 0 0 / 5%);
-        outline: none;
+    &__close {
+        @include default-tr;
+
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+
+        width: 2.4rem;
+        height: 2.4rem;
+        border-radius: 50%;
+
+        color: var(--text-color);
+
+        background: transparent;
+
+        transition-property: background;
+
+        &:hover,
+        &:focus {
+            background: rgb(0 0 0 / 5%);
+            outline: none;
+        }
     }
 }

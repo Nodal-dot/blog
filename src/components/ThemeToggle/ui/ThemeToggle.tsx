@@ -9,19 +9,20 @@ import styles from "./ThemeToggle.module.scss";
 const ThemeToggle: React.FC = () => {
     const { theme, toggleTheme } = useTheme();
     const t = useTranslations();
+
     return (
         <button
             onClick={toggleTheme}
             aria-label={t("Theme.toggle")}
-            className={`${styles.button} ${theme === "dark" ? styles.dark : ""}`}
+            className={`${styles["theme-toggle"]} ${theme === "dark" ? styles["theme-toggle--dark"] : ""}`}
             data-theme={theme}
         >
-            <div className={styles.toggleContainer}>
-                <div className={styles.icons}>
-                    <Sun size={18} className={styles.sun} />
-                    <Moon size={18} className={styles.moon} />
+            <div className={styles["theme-toggle__container"]}>
+                <div className={styles["theme-toggle__icons"]}>
+                    <Sun size={18} className={styles["theme-toggle__icon"]} />
+                    <Moon size={18} className={styles["theme-toggle__icon"]} />
                 </div>
-                <div className={styles.thumb} />
+                <div className={styles["theme-toggle__thumb"]} />
             </div>
         </button>
     );

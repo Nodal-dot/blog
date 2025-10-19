@@ -16,8 +16,8 @@ const Navigation: React.FC<INavProps> = ({ links }) => {
     const { startTransition } = usePageTransition();
 
     return (
-        <nav className={classNames(styles.nav)} aria-label="Main navigation">
-            <ul className={classNames(styles.list)}>
+        <nav className={classNames(styles.navigation)} aria-label="Main navigation">
+            <ul className={classNames(styles["navigation__list"])}>
                 {links.map(({ href, label }) => (
                     <li key={href}>
                         <NavLink

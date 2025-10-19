@@ -29,18 +29,23 @@ const LanguageSwitcher: React.FC = () => {
     };
 
     return (
-        <div className={styles.container} ref={langRef}>
+        <div className={styles["language-switcher"]} ref={langRef}>
             <button
                 onClick={() => setLangOpen((prev) => !prev)}
                 aria-haspopup="true"
                 aria-expanded={langOpen}
                 aria-label="Change language"
-                className={styles.button}
+                className={styles["language-switcher__trigger"]}
             >
                 <Languages size={24} />
             </button>
 
-            <ul role="menu" className={classNames(styles.options, langOpen && styles.open)}>
+            <ul
+                role="menu"
+                className={classNames(styles["language-switcher__options"], {
+                    [styles["language-switcher__options-opened"]]: langOpen,
+                })}
+            >
                 {["en", "ru"].map((lang) => (
                     <li role="none" key={lang}>
                         <button

@@ -24,15 +24,15 @@ const MobileMenu: React.FC<IMobileMenuProps> = ({ links }) => {
                 aria-expanded={open}
                 aria-controls="mobile-nav"
                 aria-label={"Открыть меню"}
-                className={`${styles.burger}`}
+                className={`${styles["mobile-menu__trigger"]}`}
             >
-                <span className={styles.line} />
-                <span className={styles.line} />
-                <span className={styles.line} />
+                <span className={styles["mobile-menu__line"]} />
+                <span className={styles["mobile-menu__line"]} />
+                <span className={styles["mobile-menu__line"]} />
             </button>
 
             <Modal open={open} onClose={closeModal}>
-                <nav className={styles.nav}>
+                <nav className={styles["mobile-menu__nav"]}>
                     {links.map(({ href, label }) => (
                         <NavLink
                             href={href}

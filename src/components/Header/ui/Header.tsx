@@ -7,7 +7,6 @@ import Nav from "@/components/Navigation";
 import ThemeToggle from "@/components/ThemeToggle";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import IconLink from "@/components/IconLink";
-import { classNames } from "@/utils/classNames";
 import MobileMenu from "@/components/MobileMenu";
 import { throttle } from "@/utils/throttle";
 
@@ -41,14 +40,14 @@ const Header: React.FC = () => {
     ];
 
     return (
-        <header ref={headerRef} className={classNames(styles.header)}>
-            <div className={classNames(styles["nav-desktop"])}>
+        <header ref={headerRef} className={styles["header"]}>
+            <div className={styles["header__nav-desktop"]}>
                 <Nav links={navLinks} />
             </div>
 
             <MobileMenu links={navLinks} />
 
-            <div className={classNames(styles.socials)}>
+            <div className={styles["header__socials"]}>
                 <IconLink
                     href="https://github.com"
                     ariaLabel="GitHub"
@@ -60,7 +59,7 @@ const Header: React.FC = () => {
                 />
             </div>
 
-            <div className={classNames(styles.settings)}>
+            <div className={styles["header__settings"]}>
                 <ThemeToggle />
                 <LanguageSwitcher />
             </div>

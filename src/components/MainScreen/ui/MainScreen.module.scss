@@ -1,4 +1,4 @@
-@use "@styles/utils/breakpoints" as breakpoints;
+@use "@styles/utils/breakpoints" as *;
 
 .main-screen {
     display: flex;
@@ -6,59 +6,79 @@
     align-items: center;
     padding-top: 6rem;
 
-    @include breakpoints.tablet {
+    &__content {
+        display: flex;
+        flex: 1 1 0;
+        flex-direction: column;
+        gap: 2rem;
+
+        p {
+            opacity: 0.9;
+        }
+
+        @include tablet {
+            flex: unset;
+            gap: 1.2rem;
+            text-align: center;
+        }
+    }
+
+    &__headline {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+
+        @include tablet {
+            gap: 0;
+            text-align: center;
+        }
+    }
+
+    &__eye {
+        display: flex;
+        flex: 1 1 0;
+        align-items: center;
+        justify-content: flex-start;
+
+        width: 100%;
+        height: auto;
+
+        @include tablet {
+            flex: unset;
+            justify-content: center;
+            padding-bottom: 2.4rem;
+        }
+    }
+
+    &__button {
+        width: fit-content;
+        margin: 0 auto;
+
+        // animation: pulse 1s ease-in-out infinite;
+        // animation-delay: 3s;
+        // animation-iteration-count: infinite;
+
+        // @keyframes pulse {
+        //   0%, 100% {
+        //     transform: scale(1);
+        //     box-shadow: 0 0 0 rgba(255, 110, 0, 0);
+        //   }
+        //   50% {
+        //     transform: scale(1.05);
+        //     box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+        //   }
+        // }
+    }
+
+    @include tablet {
         flex-direction: column;
         gap: 2.4rem;
         justify-content: space-evenly;
         padding-top: 2.4rem;
     }
 
-    @include breakpoints.mobile {
+    @include mobile {
         gap: 1.6rem;
         padding-top: 1.2rem;
-    }
-}
-
-.before {
-    display: flex;
-    flex: 1 1 0;
-    flex-direction: column;
-    gap: 2rem;
-
-    p {
-        opacity: 0.9;
-    }
-
-    @include breakpoints.tablet {
-        flex: unset;
-        gap: 1.2rem;
-        text-align: center;
-    }
-}
-
-.headline {
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
-
-    @include breakpoints.tablet {
-        gap: 0;
-        text-align: center;
-    }
-}
-
-.after {
-    display: flex;
-    flex: 1 1 0;
-    align-items: center;
-    justify-content: start;
-
-    width: 100%;
-    height: auto;
-
-    @include breakpoints.tablet {
-        flex: unset;
-        justify-content: center;
-        padding-bottom: 2.4rem;
     }
 }

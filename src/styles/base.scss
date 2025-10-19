@@ -1,14 +1,14 @@
-@use "utils/transition";
-@use "utils/typography";
-@use "utils/scroll";
+@use "utils/transition" as *;
+@use "utils/typography" as *;
+@use "utils/scroll" as *;
 
 $mobile: 786px;
 $tablet: 1024px;
 
 html {
-    font-size: 62.5%;
+    @include custom-scroll;
 
-    @include scroll.custom-scroll;
+    font-size: 62.5%;
 
     @media screen and (width <= 767px) {
         font-size: calc(10px + 13 * (100vw - 375px) / 447);
@@ -24,7 +24,7 @@ html {
 }
 
 body {
-    @include transition.default-tr;
+    @include default-tr;
 
     overflow-x: hidden;
 
@@ -45,15 +45,21 @@ body {
 h1 {
     font-weight: 700;
 
-    @include typography.font-size(h1);
+    @include font-size(h1);
 }
 
 h2 {
-    @include typography.font-size(h2);
+    @include font-size(h2);
 }
 
 p {
     color: var(--text-color);
 
-    @include typography.font-size(body);
+    @include font-size(body);
+}
+
+button {
+    font-weight: 500;
+
+    @include font-size(button);
 }

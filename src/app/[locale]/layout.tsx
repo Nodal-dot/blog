@@ -6,7 +6,6 @@ import { Montserrat } from "next/font/google";
 import "@/styles/index.scss";
 import { ThemeProvider } from "@/providers/theme/ThemeProvider";
 import PageTransitionProvider from "@/providers/transition/PageTransitionProvider";
-import LenisProvider from "@/providers/lenis/LenisProvider";
 import type { ReactNode } from "react";
 
 const montserrat = Montserrat({ subsets: ["latin", "cyrillic"] });
@@ -32,7 +31,6 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
                 <NextIntlClientProvider locale={locale}>
                     <ThemeProvider>
                         <PageTransitionProvider>
-                            <LenisProvider />
                             <div className="container">
                                 <Header />
                                 <main>{children}</main>

@@ -1,7 +1,7 @@
 @use "@styles/utils/breakpoints" as *;
 @use "@styles/utils/box" as *;
 
-.eye-wrapper {
+.eye {
     position: relative;
 
     display: flex;
@@ -21,78 +21,78 @@
     @include mobile {
         width: 40rem;
     }
+}
 
-    .eye {
-        position: relative;
-        transform: translateY(-25%);
+.eye__eye {
+    position: relative;
+    transform: translateY(-25%);
 
-        display: flex;
-        align-items: flex-end;
-        justify-content: center;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
 
-        @include box(30rem);
+    @include box(30rem);
 
-        @include tablet {
-            @include box(25rem);
-        }
-
-        .eyelash {
-            position: absolute;
-
-            width: 1.8rem;
-            height: 6rem;
-            border-radius: 3rem;
-
-            background-color: var(--text-contrast-color);
-
-            &.type-1 {
-                top: 4rem;
-            }
-
-            &.type-2 {
-                top: 5.6rem;
-                transform: translateX(-10rem) rotate(-45deg);
-            }
-
-            &.type-3 {
-                top: 5.6rem;
-                transform: translateX(10rem) rotate(45deg);
-            }
-
-            @include tablet {
-                width: 1.2rem;
-                height: 4.8rem;
-            }
-        }
-
-        .sclera {
-            position: relative;
-
-            overflow: hidden;
-
-            width: 100%;
-            height: 60%;
-            border-radius: 50%;
-
-            background-color: var(--text-contrast-color);
-
-            .pupil {
-                position: absolute;
-
-                @include box(12rem);
-
-                border-radius: 50%;
-                background-color: var(--background-contrast-color);
-
-                @include tablet {
-                    @include box(10rem);
-                }
-            }
-        }
+    @include tablet {
+        @include box(25rem);
     }
 }
 
-.eye-block {
+.eye__eyelash {
+    position: absolute;
+
+    width: 1.8rem;
+    height: 6rem;
+    border-radius: 3rem;
+
+    background-color: var(--text-contrast-color);
+
+    @include tablet {
+        width: 1.2rem;
+        height: 4.8rem;
+    }
+}
+
+.eye__eyelash--type-1 {
+    top: 4rem;
+}
+
+.eye__eyelash--type-2 {
+    top: 5.6rem;
+    transform: translateX(-10rem) rotate(-45deg);
+}
+
+.eye__eyelash--type-3 {
+    top: 5.6rem;
+    transform: translateX(10rem) rotate(45deg);
+}
+
+.eye__sclera {
+    position: relative;
+
+    overflow: hidden;
+
+    width: 100%;
+    height: 60%;
+    border-radius: 50%;
+
+    background-color: var(--text-contrast-color);
+}
+
+.eye__pupil {
+    position: absolute;
+
+    @include box(12rem);
+
+    border-radius: 50%;
+    background-color: var(--background-contrast-color);
+
+    @include tablet {
+        @include box(10rem);
+    }
+}
+
+.eye__block {
     pointer-events: none;
     will-change: transform;
 
@@ -111,62 +111,62 @@
     @include mobile {
         display: none;
     }
+}
 
-    &.top-left,
-    &.top-right {
-        top: -6rem;
+.eye__block--top-left,
+.eye__block--top-right {
+    top: -6rem;
 
-        @include tablet {
-            top: 0;
-        }
-    }
-
-    &.bottom-left,
-    &.bottom-right {
-        bottom: -6rem;
-
-        @include tablet {
-            bottom: 0;
-        }
-    }
-
-    &.top-left,
-    &.bottom-left {
-        left: -11rem;
-
-        @include tablet {
-            left: -10rem;
-        }
-    }
-
-    &.top-right,
-    &.bottom-right {
-        right: -11rem;
-
-        @include tablet {
-            right: -10rem;
-        }
-    }
-
-    &.top-left {
-        background: linear-gradient(to bottom, #ff7eb3, #c77dff);
-    }
-
-    &.top-right {
-        background: linear-gradient(to left, #6dd5fa, #2980b9);
-    }
-
-    &.bottom-left {
-        background: linear-gradient(to top, #fbc2eb, #a6c1ee);
-    }
-
-    &.bottom-right {
-        background: linear-gradient(to right, #84fab0, #8fd3f4);
+    @include tablet {
+        top: 0;
     }
 }
 
+.eye__block--bottom-left,
+.eye__block--bottom-right {
+    bottom: -6rem;
+
+    @include tablet {
+        bottom: 0;
+    }
+}
+
+.eye__block--top-left,
+.eye__block--bottom-left {
+    left: -11rem;
+
+    @include tablet {
+        left: -10rem;
+    }
+}
+
+.eye__block--top-right,
+.eye__block--bottom-right {
+    right: -11rem;
+
+    @include tablet {
+        right: -10rem;
+    }
+}
+
+.eye__block--top-left {
+    background: linear-gradient(to bottom, #ff7eb3, #c77dff);
+}
+
+.eye__block--top-right {
+    background: linear-gradient(to left, #6dd5fa, #2980b9);
+}
+
+.eye__block--bottom-left {
+    background: linear-gradient(to top, #fbc2eb, #a6c1ee);
+}
+
+.eye__block--bottom-right {
+    background: linear-gradient(to right, #84fab0, #8fd3f4);
+}
+
 [data-theme="dark"] {
-    .eye-wrapper {
+    .eye {
         filter: grayscale(1);
     }
 }
