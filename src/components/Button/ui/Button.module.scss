@@ -49,7 +49,7 @@
         color: var(--text-color);
     }
 
-    &:active {
+    &:active::before {
         color: var(--active-text-color);
         background-color: var(--active-background-color);
     }

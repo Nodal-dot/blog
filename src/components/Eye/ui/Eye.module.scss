@@ -1,25 +1,29 @@
 @use "@styles/utils/breakpoints" as *;
 @use "@styles/utils/box" as *;
+@use "@styles/utils/transition" as *;
 
 .eye {
+    @include default-tr;
+    @include box(50rem);
+
     position: relative;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    aspect-ratio: 1 / 1;
-    width: 50rem;
     border-radius: 1.2rem;
 
     background-color: var(--background-contrast-color);
 
+    transition-property: background-color;
+
     @include tablet {
-        width: 45rem;
+        @include box(45rem);
     }
 
     @include mobile {
-        width: 40rem;
+        @include box(40rem);
     }
 }
 
@@ -166,7 +170,7 @@
 }
 
 [data-theme="dark"] {
-    .eye {
+    .eye__block {
         filter: grayscale(1);
     }
 }

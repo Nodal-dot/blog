@@ -1,4 +1,5 @@
 "use client";
+import { ArrowDown } from "lucide-react";
 
 import React from "react";
 import styles from "./MainScreen.module.scss";
@@ -19,8 +20,8 @@ const MainScreen: React.FC = () => {
                     семантику и эстетику во всём, что делаю.
                 </p>
                 <Button
-                    className={classNames(styles["main-screen__button"], styles["button--pulse"])}
-                    onClick={() => console.log("Clicked!")}
+                    rightIcon={<ArrowDown />}
+                    className={classNames(styles["main-screen__button"])}
                 >
                     Посмотреть мои работы
                 </Button>
