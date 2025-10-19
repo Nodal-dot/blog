@@ -4,6 +4,7 @@ import React from "react";
 import styles from "./MainScreen.module.scss";
 import Eye from "@/components/Eye";
 import Button from "@/components/Button";
+import { classNames } from "@/utils/classNames";
 
 const MainScreen: React.FC = () => {
     return (
@@ -18,7 +19,7 @@ const MainScreen: React.FC = () => {
                     семантику и эстетику во всём, что делаю.
                 </p>
                 <Button
-                    className={styles["main-screen__button"]}
+                    className={classNames(styles["main-screen__button"], styles["button--pulse"])}
                     onClick={() => console.log("Clicked!")}
                 >
                     Посмотреть мои работы

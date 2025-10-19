@@ -25,16 +25,26 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
     return (
         <Component
-            className={classNames(style.button, className, { [style.disabled]: disabled! })}
+            className={classNames(
+                style["button"],
+                {
+                    [style["button--disabled"]]: disabled!,
+                },
+                className
+            )}
             onClick={onClick}
             disabled={disabled}
         >
             {leftIcon && (
-                <span className={classNames(style.icon, style["icon-left"])}>{leftIcon}</span>
+                <span className={classNames(style["button__icon"], style["button__icon--left"])}>
+                    {leftIcon}
+                </span>
             )}
-            <span>{children}</span>
+            <span className={style["button__text"]}>{children}</span>
             {rightIcon && (
-                <span className={classNames(style.icon, style["icon-right"])}>{rightIcon}</span>
+                <span className={classNames(style["button__icon"], style["button__icon--right"])}>
+                    {rightIcon}
+                </span>
             )}
         </Component>
     );
