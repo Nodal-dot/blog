@@ -10,15 +10,15 @@ html {
 
     font-size: 62.5%;
 
-    @media screen and (width <= 767px) {
+    @media screen and (width <=767px) {
         font-size: calc(10px + 13 * (100vw - 375px) / 447);
     }
 
-    @media screen and (width >= 768px) and (width <= 1023px) {
+    @media screen and (width >=768px) and (width <=1023px) {
         font-size: calc(10px + 4 * (100vw - 768px) / 255);
     }
 
-    @media (width >= 1024px) and (width <= 1360px) {
+    @media (width >=1024px) and (width <=1360px) {
         font-size: calc(8px + 2 * (100vw - 1024px) / 336);
     }
 }
@@ -50,6 +50,10 @@ h1 {
 
 h2 {
     @include font-size(h2);
+}
+
+h3 {
+    @include font-size(h3);
 }
 
 p {

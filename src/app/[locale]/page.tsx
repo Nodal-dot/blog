@@ -1,10 +1,10 @@
 import "@/styles/index.scss";
-import MainScreen from "@/components/MainScreen";
+import MainSection from "@/components/MainSection";
 
 export default function HomePage() {
     return (
         <>
-            <MainScreen />
+            <MainSection />
         </>
     );
 }
