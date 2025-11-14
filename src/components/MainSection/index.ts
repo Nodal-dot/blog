@@ -1,1 +1,1 @@
-export { MemoizedMainSection as default } from "./ui/MainSection";
+export { MainSection as default } from "./ui/MainSection";

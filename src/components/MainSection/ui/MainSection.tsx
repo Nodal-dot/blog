@@ -7,9 +7,9 @@ import Eye from "@/components/Eye";
 import Button from "@/components/Button";
 import { classNames } from "@/utils/classNames";
 
-const MainSection: React.FC = () => {
+export const MainSection: React.FC = () => {
     return (
-        <section className={styles["main-section"]}>
+        <section className={classNames(styles["main-section"], "section")}>
             <div className={styles["main-section__content"]}>
                 <div className={styles["main-section__headline"]}>
                     <h1>Привет. Я Владимир.</h1>
@@ -19,10 +19,7 @@ const MainSection: React.FC = () => {
                     Превращаю идеи в аккуратный и логичный код. Люблю продуманные интерфейсы,
                     семантику и эстетику во всём, что делаю.
                 </p>
-                <Button
-                    rightIcon={<ArrowDown />}
-                    className={classNames(styles["main-section__button"])}
-                >
+                <Button rightIcon={<ArrowDown />} className={styles["main-section__button"]}>
                     Посмотреть мои работы
                 </Button>
             </div>
@@ -32,5 +29,3 @@ const MainSection: React.FC = () => {
         </section>
     );
 };
-
-export const MemoizedMainSection = React.memo(MainSection);

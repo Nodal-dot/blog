@@ -5,7 +5,7 @@ import style from "./ProjectCard.module.scss";
 import Image from "next/image";
 import Button from "@/components/Button";
 
-interface IProjectCardProps {
+export interface IProjectCardProps {
     title: string;
     subtitle: string;
     imageSrc: string;
@@ -22,7 +22,13 @@ const ProjectCard: React.FC<IProjectCardProps> = ({
 }) => {
     return (
         <article className={style["project-card"]}>
-            <Image className={style["project-card__image"]} src={imageSrc} alt={imageAlt} />
+            <Image
+                className={style["project-card__image"]}
+                width={400}
+                height={300}
+                src={imageSrc}
+                alt={imageAlt}
+            />
             <div className={style["project-card__content"]}>
                 <div className={style["project-card__headline"]}>
                     <h3 className={style["project-card__title"]}>{title}</h3>

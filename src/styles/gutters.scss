@@ -1,0 +1,53 @@
+@use "./utils/breakpoints" as *;
+
+$gutter-sm: 1rem;
+$gutter-md: 2rem;
+$gutter-lg: 8rem;
+
+.section {
+    margin-bottom: $gutter-lg;
+
+    @include tablet {
+        margin-bottom: 3rem;
+    }
+
+    @include mobile {
+        margin-bottom: 2rem;
+    }
+
+    &.gutter-sm {
+        margin-bottom: $gutter-sm;
+
+        @include tablet {
+            margin-bottom: 1.5rem;
+        }
+
+        @include mobile {
+            margin-bottom: 1rem;
+        }
+    }
+
+    &.gutter-md {
+        margin-bottom: $gutter-md;
+
+        @include tablet {
+            margin-bottom: 1.5rem;
+        }
+
+        @include mobile {
+            margin-bottom: 1rem;
+        }
+    }
+
+    &.gutter-lg {
+        margin-bottom: $gutter-lg;
+
+        @include tablet {
+            margin-bottom: 3rem;
+        }
+
+        @include mobile {
+            margin-bottom: 2rem;
+        }
+    }
+}
