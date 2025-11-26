@@ -23,5 +23,13 @@
         position: static;
         width: fit-content !important;
         margin: 0 auto;
+
+        :global(.swiper-pagination-bullet) {
+            background-color: var(--background-contrast-color);
+        }
+
+        :global(.swiper-pagination-bullet-active) {
+            opacity: 1;
+        }
     }
 }

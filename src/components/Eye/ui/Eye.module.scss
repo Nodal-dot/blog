@@ -85,11 +85,15 @@
 
 .eye__pupil {
     position: absolute;
-
-    @include box(12rem);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 
     border-radius: 50%;
+
     background-color: var(--background-contrast-color);
+
+    @include box(12rem);
 
     @include tablet {
         @include box(10rem);

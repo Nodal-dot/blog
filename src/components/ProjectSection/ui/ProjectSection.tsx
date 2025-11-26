@@ -64,6 +64,20 @@ export const ProjectSection: React.FC = () => {
                     clickable: true,
                     el: `.${styles["project-section__slider-pagination"]}`,
                 }}
+                breakpoints={{
+                    0: {
+                        slidesPerView: 1,
+                        spaceBetween: 12,
+                    },
+                    768: {
+                        slidesPerView: 2,
+                        spaceBetween: 16,
+                    },
+                    1024: {
+                        slidesPerView: 3,
+                        spaceBetween: 24,
+                    },
+                }}
             >
                 {projects.map((project, index) => (
                     <SwiperSlide key={index} className={styles["swiper-slide"]}>

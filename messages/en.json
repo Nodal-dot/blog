@@ -1,7 +1,13 @@
 {
     "HomePage": {
         "title": "Hello world!",
-        "about": "Go to the about page"
+        "about": "Go to the about page",
+        "mainSection": {
+            "greeting": "Hello. I'm Vladimir.",
+            "profession": "Frontend Developer",
+            "description": "I turn ideas into neat and logical code. I love well-thought-out interfaces, semantics, and aesthetics in everything I do.",
+            "button": "See my work"
+        }
     },
     "Nav": {
         "home": "Home",
@@ -12,8 +18,6 @@
         "toggle": "Toggle theme"
     },
     "Social": {
-        "github": "GitHub",
-        "twitter": "Twitter",
-        "linkedin": "LinkedIn"
+        "github": "GitHub"
     }
 }
