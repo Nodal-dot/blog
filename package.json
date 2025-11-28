@@ -15,7 +15,8 @@
         "build-storybook": "storybook build",
         "lint:css": "stylelint '**/*.{scss,css}'",
         "lint:css:fix": "stylelint '**/*.{scss,css}' --fix",
-        "fix:all": "npm run lint:fix && npm run format:fix && npm run lint:css:fix"
+        "fix:all": "npm run lint:fix && npm run format:fix && npm run lint:css:fix",
+        "analyze": "set ANALYZE=true && npm run build"
     },
     "dependencies": {
         "focus-trap": "^7.6.5",
@@ -31,6 +32,7 @@
     "devDependencies": {
         "@eslint/eslintrc": "^3",
         "@eslint/js": "^9.33.0",
+        "@next/bundle-analyzer": "^16.0.5",
         "@next/eslint-plugin-next": "^15.5.5",
         "@types/jest": "^30.0.0",
         "@types/node": "^20",

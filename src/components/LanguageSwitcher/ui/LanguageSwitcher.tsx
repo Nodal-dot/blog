@@ -7,7 +7,7 @@ import { Languages } from "lucide-react";
 import styles from "./LanguageSwitcher.module.scss";
 import { classNames } from "@/utils/classNames";
 
-const LanguageSwitcher: React.FC = () => {
+export const LanguageSwitcher: React.FC = () => {
     const [langOpen, setLangOpen] = useState(false);
     const langRef = useRef<HTMLDivElement>(null);
     const pathname = usePathname();
@@ -63,5 +63,3 @@ const LanguageSwitcher: React.FC = () => {
         </div>
     );
 };
-
-export const MemoizedLanguageSwitcher = React.memo(LanguageSwitcher);

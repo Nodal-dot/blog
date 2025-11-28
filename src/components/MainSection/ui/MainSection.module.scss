@@ -1,10 +1,6 @@
 @use "@styles/utils/breakpoints" as *;
 @use "@styles/utils/transition" as *;
 
-:root {
-    --header-height: 8rem;
-}
-
 .main-section {
     display: flex;
     gap: 4.8rem;

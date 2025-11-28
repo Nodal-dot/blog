@@ -24,7 +24,7 @@ html {
 }
 
 body {
-    @include default-tr;
+    --header-height: 8rem;
 
     overflow-x: hidden;
 
@@ -34,6 +34,8 @@ body {
     background-color: var(--background-color);
 
     transition-property: color, background-color;
+
+    @include default-tr;
 }
 
 .container {

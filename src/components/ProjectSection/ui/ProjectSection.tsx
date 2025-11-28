@@ -1,18 +1,20 @@
 "use client";
-import React, { useRef } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectCoverflow, Pagination } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/effect-coverflow";
-import "swiper/css/pagination";
 
-import ProjectCard from "@/components/Cards/ProjectCard";
+import React, { useState } from "react";
+import dynamic from "next/dynamic";
+
 import styles from "./ProjectSection.module.scss";
 import { classNames } from "@/utils/classNames";
 import type { IProjectCardProps } from "@/components/Cards/ProjectCard/ui/ProjectCard";
+import Skeleton from "@/components/Skeleton";
+
+const ProjectSwiper = dynamic(() => import("./ProjectSwiper"), {
+    ssr: false,
+    loading: () => <Skeleton />,
+});
 
 export const ProjectSection: React.FC = () => {
-    const paginationRef = useRef<HTMLDivElement | null>(null);
+    const [isSwiperReady, setIsSwiperReady] = useState(false);
 
     const projects: IProjectCardProps[] = [
         {
@@ -45,48 +47,26 @@ export const ProjectSection: React.FC = () => {
         <section className={classNames(styles["project-section"], "section")}>
             <h2 className={styles["project-section__title"]}>Мои проекты</h2>
 
-            <Swiper
-                effect="coverflow"
-                grabCursor
-                centeredSlides
-                initialSlide={1}
-                slidesPerView={3}
-                spaceBetween={24}
-                modules={[EffectCoverflow, Pagination]}
-                className={styles["project-section__slider"]}
-                coverflowEffect={{
-                    rotate: 20,
-                    stretch: 0,
-                    depth: 0,
-                    slideShadows: false,
-                }}
-                pagination={{
-                    clickable: true,
-                    el: `.${styles["project-section__slider-pagination"]}`,
-                }}
-                breakpoints={{
-                    0: {
-                        slidesPerView: 1,
-                        spaceBetween: 12,
-                    },
-                    768: {
-                        slidesPerView: 2,
-                        spaceBetween: 16,
-                    },
-                    1024: {
-                        slidesPerView: 3,
-                        spaceBetween: 24,
-                    },
-                }}
-            >
-                {projects.map((project, index) => (
-                    <SwiperSlide key={index} className={styles["swiper-slide"]}>
-                        <ProjectCard {...project} />
-                    </SwiperSlide>
-                ))}
-            </Swiper>
+            {!isSwiperReady && <Skeleton />}
 
-            <div ref={paginationRef} className={styles["project-section__slider-pagination"]}></div>
+            <div
+                className={classNames(styles["project-section__content"], {
+                    [styles["project-section__content--hidden"]]: !isSwiperReady,
+                })}
+            >
+                <ProjectSwiper
+                    projects={projects}
+                    onReady={() => setIsSwiperReady(true)}
+                    paginationClassName={styles["project-section__slider-pagination"]}
+                />
+
+                <div
+                    className={styles["project-section__slider-pagination"]}
+                    aria-hidden={!isSwiperReady}
+                />
+            </div>
         </section>
     );
 };
+
+export default ProjectSection;

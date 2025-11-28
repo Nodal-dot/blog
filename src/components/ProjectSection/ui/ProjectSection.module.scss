@@ -10,9 +10,19 @@
         text-align: center;
     }
 
-    &__slider {
-        overflow: visible;
+    &__content {
         display: flex;
+        flex-direction: column;
+        gap: 2.4rem;
+    }
+
+    &__content--hidden {
+        display: none;
+    }
+
+    &__slider {
+        overflow: visible !important;
+        display: flex !important;
         flex-direction: column;
         gap: 1.6rem;
 
@@ -32,4 +42,9 @@
             opacity: 1;
         }
     }
+}
+
+.skeleton-wrapper {
+    width: 100%;
+    border-radius: 28px;
 }

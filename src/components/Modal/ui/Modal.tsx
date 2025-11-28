@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import styles from "./Modal.module.scss";
 import { classNames } from "@/utils/classNames";
 
-interface ModalProps {
+interface IModalProps {
     open: boolean;
     onClose: () => void;
     children: React.ReactNode;
@@ -13,7 +13,7 @@ interface ModalProps {
     description?: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ open, onClose, children, title, description }) => {
+const Modal: React.FC<IModalProps> = ({ open, onClose, children, title, description }) => {
     const [mounted, setMounted] = React.useState(false);
     const modalRef = React.useRef<HTMLDivElement>(null);
 
