@@ -1,1 +1,1 @@
-export { HeaderMemo as default } from "./ui/Header";
+export { Header as default } from "./ui/Header";

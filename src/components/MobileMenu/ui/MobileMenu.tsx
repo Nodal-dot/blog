@@ -12,7 +12,7 @@ interface IMobileMenuProps {
     links: { href: string; label: string }[];
 }
 
-const MobileMenu: React.FC<IMobileMenuProps> = ({ links }) => {
+export const MobileMenu: React.FC<IMobileMenuProps> = ({ links }) => {
     const { open, toggleModal, closeModal } = useModal();
     const pathname = usePathname();
     const { startTransition } = usePageTransition();
@@ -50,5 +50,3 @@ const MobileMenu: React.FC<IMobileMenuProps> = ({ links }) => {
         </div>
     );
 };
-
-export const MemoizedMobileMenu = React.memo(MobileMenu);

@@ -18,11 +18,12 @@ const PageTransitionContext = createContext<IPageTransitionContextProps>({
 export const PageTransitionProvider = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter();
     const [isTransitioning, setIsTransitioning] = useState(false);
-    const [mounted, setMounted] = useState(false); // флаг монтирования на клиенте
+    const [mounted, setMounted] = useState(false);
     const transitionData = useRef<{ url: string; locale?: string } | null>(null);
 
     useEffect(() => {
-        setMounted(true); // теперь можем использовать document
+        setMounted(true);
+        return () => setMounted(false);
     }, []);
 
     const startTransition = useCallback(
@@ -55,7 +56,6 @@ export const PageTransitionProvider = ({ children }: { children: React.ReactNode
         return () => clearTimeout(timer);
     }, [isTransitioning, router]);
 
-    // Рендерим портал только на клиенте
     const loaderPortal = mounted
         ? createPortal(
               <div className={`${styles.loader} ${isTransitioning ? styles.active : ""}`} />,

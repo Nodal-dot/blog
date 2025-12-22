@@ -1,1 +1,1 @@
-export { MemoizedNavigation as default } from "./ui/Navigation";
+export { Navigation as default } from "./ui/Navigation";

@@ -11,10 +11,9 @@ interface INavProps {
     links: Array<{ href: string; label: string }>;
 }
 
-const Navigation: React.FC<INavProps> = ({ links }) => {
+export const Navigation: React.FC<INavProps> = ({ links }) => {
     const pathname = usePathname();
     const { startTransition } = usePageTransition();
-
     return (
         <nav className={classNames(styles.navigation)} aria-label="Main navigation">
             <ul className={classNames(styles["navigation__list"])}>
@@ -32,5 +31,3 @@ const Navigation: React.FC<INavProps> = ({ links }) => {
         </nav>
     );
 };
-
-export const MemoizedNavigation = React.memo(Navigation);

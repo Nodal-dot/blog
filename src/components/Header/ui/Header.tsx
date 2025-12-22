@@ -3,17 +3,16 @@
 import React, { useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import styles from "./Header.module.scss";
-import Nav from "@/components/Navigation";
+import Navigation from "@/components/Navigation";
 import ThemeToggle from "@/components/ThemeToggle";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import IconLink from "@/components/IconLink";
 import MobileMenu from "@/components/MobileMenu";
 import { throttle } from "@/utils/throttle";
 
-const Header: React.FC = () => {
+export const Header: React.FC = () => {
     const t = useTranslations();
     const headerRef = useRef<HTMLElement | null>(null);
-
     useEffect(() => {
         const setHeight = () => {
             if (headerRef.current) {
@@ -42,7 +41,7 @@ const Header: React.FC = () => {
     return (
         <header ref={headerRef} className={styles["header"]}>
             <div className={styles["header__nav-desktop"]}>
-                <Nav links={navLinks} />
+                <Navigation links={navLinks} />
             </div>
 
             <MobileMenu links={navLinks} />
@@ -66,5 +65,3 @@ const Header: React.FC = () => {
         </header>
     );
 };
-
-export const HeaderMemo = React.memo(Header);
