@@ -23,7 +23,7 @@
 
         background-color: var(--text-color);
 
-        transition-property: width, background-color;
+        transition-property: width;
     }
 
     &:hover::after {

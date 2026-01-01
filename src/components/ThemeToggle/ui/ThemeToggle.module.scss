@@ -1,8 +1,6 @@
 @use "@styles/utils/transition" as *;
 
 .theme-toggle {
-    @include default-tr;
-
     --toggle-width: 5.6rem;
     --toggle-height: 2.8rem;
     --thumb-size: 2.4rem;
@@ -20,8 +18,6 @@
     border-radius: 1.6rem;
 
     background: var(--background-color);
-
-    transition-property: background-color;
 
     &__container {
         position: relative;
@@ -49,8 +45,6 @@
     }
 
     &__thumb {
-        @include default-tr;
-
         position: absolute;
         z-index: 2;
         top: 50%;
@@ -62,8 +56,6 @@
         border-radius: 50%;
 
         background-color: var(--background-contrast-color);
-
-        transition-property: background-color, left;
     }
 
     &--dark {

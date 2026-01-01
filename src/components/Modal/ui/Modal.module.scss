@@ -61,13 +61,13 @@
 
         color: var(--text-color);
 
-        background: transparent;
+        background-color: transparent;
 
         transition-property: background;
 
         &:hover,
         &:focus {
-            background: rgb(0 0 0 / 5%);
+            background-color: rgb(0 0 0 / 5%);
             outline: none;
         }
     }
