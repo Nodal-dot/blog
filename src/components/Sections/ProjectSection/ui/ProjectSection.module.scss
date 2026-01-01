@@ -2,6 +2,7 @@
 @use "@styles/utils/breakpoints" as *;
 
 .project-section {
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     gap: 3.2rem;

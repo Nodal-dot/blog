@@ -22,8 +22,8 @@ export const PageTransitionProvider = ({ children }: { children: React.ReactNode
     const transitionData = useRef<{ url: string; locale?: string } | null>(null);
 
     useEffect(() => {
-        setMounted(true);
-        return () => setMounted(false);
+        const id = requestAnimationFrame(() => setMounted(true));
+        return () => cancelAnimationFrame(id);
     }, []);
 
     const startTransition = useCallback(

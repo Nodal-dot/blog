@@ -17,8 +17,14 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     useEffect(() => {
         const stored = localStorage.getItem("theme") as Theme | null;
         const initialTheme = stored || "light";
-        setTheme(initialTheme);
-        document.documentElement.setAttribute("data-theme", initialTheme);
+
+        // ✅ безопасный setState через requestAnimationFrame
+        const id = requestAnimationFrame(() => {
+            setTheme(initialTheme);
+            document.documentElement.setAttribute("data-theme", initialTheme);
+        });
+
+        return () => cancelAnimationFrame(id);
     }, []);
 
     const toggleTheme = () => {

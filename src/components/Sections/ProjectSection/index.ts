@@ -1,1 +1,1 @@
-export { ProjectSection as default } from "./ui/ProjectSection";
+export { ProjectSectionContainer as default } from "./ui/ProjectSection.container";

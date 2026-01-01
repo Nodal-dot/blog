@@ -19,7 +19,7 @@ export const CONFIG = {
     SPEED: 0.002,
     FOV: 400,
     POINT_COUNT: 40,
-    CONNECT_NEIGHBORS: 4,
+    CONNECT_NEIGHBORS: 5,
     ARC_STEPS: 20,
 };
 
