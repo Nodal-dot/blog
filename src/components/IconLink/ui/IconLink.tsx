@@ -1,12 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { type FC } from "react";
 import Image from "next/image";
 import { useTheme } from "@/providers/theme/ThemeProvider";
 import styles from "./IconLink.module.scss";
 import { classNames } from "@/utils/classNames";
 
-interface IIconLinkProps {
+interface IconLinkProps {
     href: string;
     ariaLabel: string;
     iconLight: string;
@@ -17,16 +17,17 @@ interface IIconLinkProps {
     size?: "sm" | "md" | "lg";
 }
 
-const IconLink: React.FC<IIconLinkProps> = ({
-    href,
-    ariaLabel,
-    iconLight,
-    iconDark,
-    width = 24,
-    height = 24,
-    size = "md",
-    className,
-}) => {
+const IconLink: FC<IconLinkProps> = (props) => {
+    const {
+        href,
+        ariaLabel,
+        iconLight,
+        iconDark,
+        width = 24,
+        height = 24,
+        size = "md",
+        className,
+    } = props;
     const { theme } = useTheme();
 
     return (

@@ -1,15 +1,16 @@
 import React from "react";
-import styles from "./NavLink.module.scss";
+import styles from "./NavigationLink.module.scss";
 import { classNames } from "@/utils/classNames";
 
-interface INavLinkProps {
+interface NavLinkProps {
     href: string;
     label: string;
     isActive: boolean;
     onClick: () => void;
 }
 
-const NavLink: React.FC<INavLinkProps> = ({ href, label, isActive, onClick }) => {
+const NavLink: React.FC<NavLinkProps> = (props) => {
+    const { href, label, isActive, onClick } = props;
     const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
         onClick();
@@ -26,4 +27,4 @@ const NavLink: React.FC<INavLinkProps> = ({ href, label, isActive, onClick }) =>
     );
 };
 
-export const MemoizedNavLink = React.memo(NavLink);
+export const MemoizedNavigationLink = React.memo(NavLink);

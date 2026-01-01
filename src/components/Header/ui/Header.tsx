@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, type FC } from "react";
 import { useTranslations } from "next-intl";
 import styles from "./Header.module.scss";
 import Navigation from "@/components/Navigation";
@@ -10,7 +10,7 @@ import IconLink from "@/components/IconLink";
 import MobileMenu from "@/components/MobileMenu";
 import { throttle } from "@/utils/throttle";
 
-export const Header: React.FC = () => {
+export const Header: FC = () => {
     const t = useTranslations();
     const headerRef = useRef<HTMLElement | null>(null);
     useEffect(() => {

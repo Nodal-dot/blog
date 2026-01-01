@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, type FC } from "react";
 import styles from "./SkillSection.module.scss";
 import { useSkillCanvas } from "../hooks/useSkillCanvas";
 
@@ -8,7 +8,8 @@ interface SkillCanvasWrapperProps {
     onReady?: () => void;
 }
 
-const SkillCanvasWrapper: React.FC<SkillCanvasWrapperProps> = ({ onReady }) => {
+const SkillCanvasWrapper: FC<SkillCanvasWrapperProps> = (props) => {
+    const { onReady } = props;
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const tooltipRef = useRef<HTMLDivElement | null>(null);
 

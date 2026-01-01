@@ -6,18 +6,19 @@ import dynamic from "next/dynamic";
 import styles from "./ProjectSection.module.scss";
 import { classNames } from "@/utils/classNames";
 import Skeleton from "@/components/Skeleton";
-import type { IProjectCardProps } from "@/components/Cards/ProjectCard/ui/ProjectCard";
+import type { ProjectCardProps } from "@/components/Cards/ProjectCard/ui/ProjectCard";
 
 const ProjectSwiper = dynamic(() => import("./ProjectSwiper"), {
     ssr: false,
     loading: () => <Skeleton />,
 });
 
-interface Props {
-    projects: IProjectCardProps[];
+interface ProjectSectionProps {
+    projects: ProjectCardProps[];
 }
 
-export const ProjectSection: FC<Props> = ({ projects }) => {
+export const ProjectSection: FC<ProjectSectionProps> = (props) => {
+    const { projects } = props;
     const [isSwiperReady, setIsSwiperReady] = useState(false);
 
     return (

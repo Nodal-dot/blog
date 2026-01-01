@@ -18,7 +18,6 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         const stored = localStorage.getItem("theme") as Theme | null;
         const initialTheme = stored || "light";
 
-        // ✅ безопасный setState через requestAnimationFrame
         const id = requestAnimationFrame(() => {
             setTheme(initialTheme);
             document.documentElement.setAttribute("data-theme", initialTheme);

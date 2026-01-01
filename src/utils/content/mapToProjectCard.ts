@@ -1,7 +1,7 @@
 import type { Project } from "./types";
-import type { IProjectCardProps } from "@/components/Cards/ProjectCard/ui/ProjectCard";
+import type { ProjectCardProps } from "@/components/Cards/ProjectCard/ui/ProjectCard";
 
-export function mapProjectsToCards(projects: Project[], locale: string): IProjectCardProps[] {
+export function mapProjectsToCards(projects: Project[], locale: string): ProjectCardProps[] {
     return projects.map((project) => ({
         title: project.title,
         subtitle: project.subtitle,

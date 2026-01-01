@@ -1,11 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { type FC } from "react";
 import { createPortal } from "react-dom";
 import styles from "./Modal.module.scss";
 import { classNames } from "@/utils/classNames";
 
-interface IModalProps {
+interface ModalProps {
     open: boolean;
     onClose: () => void;
     children: React.ReactNode;
@@ -13,7 +13,8 @@ interface IModalProps {
     description?: string;
 }
 
-const Modal: React.FC<IModalProps> = ({ open, onClose, children, title, description }) => {
+const Modal: FC<ModalProps> = (props) => {
+    const { open, onClose, children, title, description } = props;
     const [mounted, setMounted] = React.useState(false);
     const modalRef = React.useRef<HTMLDivElement>(null);
 
@@ -21,7 +22,6 @@ const Modal: React.FC<IModalProps> = ({ open, onClose, children, title, descript
         setMounted(true);
     }, []);
 
-    // Lock scroll when modal is open
     React.useEffect(() => {
         if (open) {
             document.body.style.overflow = "hidden";
@@ -33,7 +33,6 @@ const Modal: React.FC<IModalProps> = ({ open, onClose, children, title, descript
         };
     }, [open]);
 
-    // Close on ESC
     React.useEffect(() => {
         const onKeyDown = (e: KeyboardEvent) => {
             if (e.key === "Escape") onClose();

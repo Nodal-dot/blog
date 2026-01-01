@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, type FC } from "react";
 import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { Languages } from "lucide-react";
 import styles from "./LanguageSwitcher.module.scss";
 import { classNames } from "@/utils/classNames";
 
-export const LanguageSwitcher: React.FC = () => {
+export const LanguageSwitcher: FC = () => {
     const [langOpen, setLangOpen] = useState(false);
     const langRef = useRef<HTMLDivElement>(null);
     const pathname = usePathname();

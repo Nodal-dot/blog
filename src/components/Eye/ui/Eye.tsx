@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, type FC } from "react";
 import gsap from "gsap";
 import style from "./Eye.module.scss";
 
-const Eye: React.FC = () => {
+const Eye: FC = () => {
     const pupilRef = useRef<HTMLDivElement>(null);
     const scleraRef = useRef<HTMLDivElement>(null);
     const blocksRefs = useRef<HTMLDivElement[]>([]);

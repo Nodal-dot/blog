@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { type FC } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Pagination } from "swiper/modules";
 
@@ -10,15 +10,16 @@ import "swiper/css/pagination";
 
 import ProjectCard from "@/components/Cards/ProjectCard";
 import styles from "./ProjectSection.module.scss";
-import type { IProjectCardProps } from "@/components/Cards/ProjectCard/ui/ProjectCard";
+import type { ProjectCardProps } from "@/components/Cards/ProjectCard/ui/ProjectCard";
 
-interface Props {
-    projects: IProjectCardProps[];
+interface ProjectSwiperProps {
+    projects: ProjectCardProps[];
     onReady?: () => void;
     paginationClassName: string;
 }
 
-const ProjectSwiper: React.FC<Props> = ({ projects, onReady, paginationClassName }) => {
+const ProjectSwiper: FC<ProjectSwiperProps> = (props) => {
+    const { projects, onReady, paginationClassName } = props;
     return (
         <Swiper
             onInit={(swiper) => {

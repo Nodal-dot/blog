@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, type FC } from "react";
 import dynamic from "next/dynamic";
 import styles from "./SkillSection.module.scss";
 import { classNames } from "@/utils/classNames";
@@ -11,7 +11,7 @@ const SkillCanvasWrapper = dynamic(() => import("./SkillCanvasWrapper"), {
     loading: () => <Skeleton />,
 });
 
-export const SkillSection: React.FC = () => {
+export const SkillSection: FC = () => {
     const [isCanvasReady, setIsCanvasReady] = useState(false);
 
     return (

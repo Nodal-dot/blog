@@ -1,18 +1,19 @@
 "use client";
 
-import React from "react";
+import React, { type FC } from "react";
 import styles from "./MobileMenu.module.scss";
-import NavLink from "@/components/NavLink";
+import NavigationLink from "@/components/NavigationLink";
 import { usePageTransition } from "@/providers/transition/PageTransitionProvider";
 import { usePathname } from "@/i18n/navigation";
 import Modal from "@/components/Modal";
 import { useModal } from "@/hooks/modal";
 
-interface IMobileMenuProps {
+interface MobileMenuProps {
     links: { href: string; label: string }[];
 }
 
-export const MobileMenu: React.FC<IMobileMenuProps> = ({ links }) => {
+export const MobileMenu: FC<MobileMenuProps> = (props) => {
+    const { links } = props;
     const { open, toggleModal, closeModal } = useModal();
     const pathname = usePathname();
     const { startTransition } = usePageTransition();
@@ -34,7 +35,7 @@ export const MobileMenu: React.FC<IMobileMenuProps> = ({ links }) => {
             <Modal open={open} onClose={closeModal}>
                 <nav className={styles["mobile-menu__nav"]}>
                     {links.map(({ href, label }) => (
-                        <NavLink
+                        <NavigationLink
                             href={href}
                             label={label}
                             key={label}

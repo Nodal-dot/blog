@@ -1,6 +1,6 @@
 "use client";
 
-import React, { type JSX, type ReactNode } from "react";
+import React, { type FC, type JSX, type ReactNode } from "react";
 import style from "./Button.module.scss";
 import { classNames } from "@/utils/classNames";
 
@@ -14,15 +14,16 @@ type ButtonProps = {
     disabled?: boolean;
 };
 
-const Button: React.FC<ButtonProps> = ({
-    children,
-    leftIcon,
-    rightIcon,
-    as: Component = "button",
-    className,
-    onClick,
-    disabled,
-}) => {
+const Button: FC<ButtonProps> = (props) => {
+    const {
+        children,
+        leftIcon,
+        rightIcon,
+        as: Component = "button",
+        className,
+        onClick,
+        disabled,
+    } = props;
     return (
         <Component
             className={classNames(
