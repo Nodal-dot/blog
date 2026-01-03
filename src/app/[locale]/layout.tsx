@@ -2,6 +2,7 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { Montserrat } from "next/font/google";
 import "@/styles/index.scss";
 import type { ReactNode } from "react";
@@ -28,6 +29,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
                         <div className="container">
                             <Header />
                             <main>{children}</main>
+                            <Footer />
                         </div>
                     </ClientLayer>
                 </NextIntlClientProvider>

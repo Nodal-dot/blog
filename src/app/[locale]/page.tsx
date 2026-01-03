@@ -1,11 +1,12 @@
 import "@/styles/index.scss";
 import MainSection from "@/components/Sections/MainSection";
 import ProjectSection from "@/components/Sections/ProjectSection";
-import SkillSection from "@/components/Sections/SkillSection";
 import type { FC } from "react";
 
 interface IHomePage {
-    params: { locale: string };
+    params: Promise<{
+        locale: string;
+    }>;
 }
 
 const HomePage: FC<IHomePage> = async (props) => {
@@ -16,7 +17,6 @@ const HomePage: FC<IHomePage> = async (props) => {
         <>
             <MainSection />
             <ProjectSection locale={locale} />
-            <SkillSection />
         </>
     );
 };

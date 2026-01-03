@@ -29,6 +29,8 @@
     }
 
     &__nav-desktop {
+        justify-self: start;
+
         @include tablet {
             display: none;
         }

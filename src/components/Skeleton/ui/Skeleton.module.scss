@@ -8,7 +8,7 @@
     min-height: 200px;
     border-radius: 2.4rem;
 
-    background: #e5e5e5; // TODO ADD COLOR TOKENS
+    background: var(--active-background-color);
 }
 
 .shimmer {

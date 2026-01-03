@@ -3,6 +3,16 @@
 @use "@styles/utils/transition" as *;
 
 .button {
+    --btn-padding: 1.2rem 1.6rem;
+    --btn-border: 1px solid var(--divider-color);
+    --btn-radius: 1.2rem;
+    --btn-color: var(--text-contrast-color);
+    --btn-bg: var(--background-contrast-color);
+    --btn-before-bg: var(--background-color);
+    --btn-hover-color: var(--text-color);
+    --btn-active-before-bg: var(--active-background-color);
+    --btn-focus-outline: var(--focus-outline-color);
+
     @include default-tr;
 
     cursor: pointer;
@@ -11,19 +21,19 @@
 
     overflow: hidden;
     display: inline-flex;
-    gap: 0.5rem;
+    gap: 0.8rem;
     align-items: center;
     justify-content: center;
 
-    padding: 1.2rem 1.6rem;
-    border: 1px solid var(--divider-color);
-    border-radius: 1.2rem;
+    padding: var(--btn-padding);
+    border: var(--btn-border);
+    border-radius: var(--btn-radius);
 
-    color: var(--text-contrast-color);
+    color: var(--btn-color);
 
-    background-color: var(--background-contrast-color);
+    background-color: var(--btn-bg);
 
-    transition-property: color, background-color, border;
+    transition-property: color, background-color;
 
     &::before {
         @include default-tr;
@@ -40,22 +50,22 @@
         height: 0;
         border-radius: 50%;
 
-        background-color: var(--background-color);
+        background-color: var(--btn-before-bg);
 
         transition-property: background-color, width, height;
     }
 
     &:hover {
-        color: var(--text-color);
+        color: var(--btn-hover-color);
     }
 
     &:active::before {
         color: var(--active-text-color);
-        background-color: var(--active-background-color);
+        background-color: var(--btn-active-before-bg);
     }
 
     &:focus-visible {
-        outline: 2px solid var(--focus-outline-color);
+        outline: 2px solid var(--btn-focus-outline);
         outline-offset: 2px;
     }
 
@@ -65,14 +75,16 @@
     }
 
     &__icon {
+        @include box(2.4rem);
+
         display: inline-flex;
 
-        &--left {
-            margin-right: 0.5rem;
+        @include tablet {
+            @include box(2rem);
         }
 
-        &--right {
-            margin-left: 0.5rem;
+        @include mobile {
+            @include box(1.6rem);
         }
     }
 

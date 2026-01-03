@@ -5,48 +5,40 @@ import style from "./Button.module.scss";
 import { classNames } from "@/utils/classNames";
 
 type ButtonProps = {
-    children: ReactNode;
+    children?: ReactNode;
     leftIcon?: ReactNode;
     rightIcon?: ReactNode;
     as?: keyof JSX.IntrinsicElements;
     className?: string;
     onClick?: () => void;
     disabled?: boolean;
+    ariaLabel?: string;
 };
 
-const Button: FC<ButtonProps> = (props) => {
-    const {
-        children,
-        leftIcon,
-        rightIcon,
-        as: Component = "button",
-        className,
-        onClick,
-        disabled,
-    } = props;
+const Button: FC<ButtonProps> = ({
+    children,
+    leftIcon,
+    rightIcon,
+    as: Component = "button",
+    className,
+    onClick,
+    disabled,
+    ariaLabel,
+}) => {
     return (
         <Component
             className={classNames(
-                style["button"],
-                {
-                    [style["button--disabled"]]: disabled!,
-                },
+                style.button,
+                { [style["button--disabled"]]: disabled! },
                 className
             )}
             onClick={onClick}
             disabled={disabled}
+            aria-label={ariaLabel}
         >
-            {leftIcon && (
-                <span className={classNames(style["button__icon"], style["button__icon--left"])}>
-                    {leftIcon}
-                </span>
-            )}
-            <span className={style["button__text"]}>{children}</span>
-            {rightIcon && (
-                <span className={classNames(style["button__icon"], style["button__icon--right"])}>
-                    {rightIcon}
-                </span>
-            )}
+            {leftIcon && <span className={style.button__icon}>{leftIcon}</span>}
+            {children && <span className={style.button__text}>{children}</span>}
+            {rightIcon && <span className={style.button__icon}>{rightIcon}</span>}
         </Component>
     );
 };
