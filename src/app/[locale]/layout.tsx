@@ -8,6 +8,7 @@ import "@/styles/index.scss";
 import type { ReactNode } from "react";
 import ClientLayer from "@/components/ClientLayer/ClientLayer";
 import type { Viewport } from "next";
+import "@/styles/index.scss";
 
 const montserrat = Montserrat({ subsets: ["latin", "cyrillic"] });
 

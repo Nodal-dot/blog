@@ -4,6 +4,7 @@ import React, { useEffect, useRef, type FC } from "react";
 import { useTranslations } from "next-intl";
 import styles from "./Header.module.scss";
 import Navigation from "@/components/Navigation";
+import { getNavigationsLinks } from "@/components/Header/Header.data";
 import ThemeToggle from "@/components/ThemeToggle";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import IconLink from "@/components/IconLink";
@@ -17,8 +18,8 @@ export const Header: FC = () => {
     useEffect(() => {
         const setHeight = () => {
             if (headerRef.current) {
-                const h = headerRef.current.offsetHeight;
-                document.body.style.setProperty("--header-height", `${h}px`);
+                const height = headerRef.current.offsetHeight;
+                document.body.style.setProperty("--header-height", `${height}px`);
             }
         };
 
@@ -33,19 +34,15 @@ export const Header: FC = () => {
         };
     }, []);
 
-    const navLinks = [
-        { href: "/", label: t("Nav.home") },
-        { href: "/about", label: t("Nav.about") },
-        { href: "/blog", label: t("Nav.blog") },
-    ];
-
+    const navigationItems = getNavigationsLinks();
+    const links = navigationItems.map((link) => ({ href: link.href, label: t(link.labelKey) }));
     return (
         <header ref={headerRef} className={styles["header"]}>
             <div className={styles["header__nav-desktop"]}>
-                <Navigation links={navLinks} />
+                <Navigation links={links} />
             </div>
 
-            <MobileMenu links={navLinks} />
+            <MobileMenu links={links} />
 
             <div className={styles["header__socials"]}>
                 <IconLink

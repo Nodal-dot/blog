@@ -12,7 +12,7 @@ interface PageSEOParams {
     locale: Locale;
 }
 
-export function createPageMetadata({
+export async function createPageMetadata({
     title,
     description,
     keywords = [],
@@ -20,7 +20,7 @@ export function createPageMetadata({
     openGraphDescription,
     path,
     locale,
-}: PageSEOParams): Metadata {
+}: PageSEOParams): Promise<Metadata> {
     const base = BASE_SEO[locale];
 
     return {
@@ -32,7 +32,18 @@ export function createPageMetadata({
         metadataBase: new URL(base.url),
         alternates: {
             canonical: path,
-            languages: { en: "/en", ru: "/ru" },
+            languages: Object.keys(BASE_SEO).reduce<Record<string, string>>((acc, l) => {
+                const lang = l as keyof typeof BASE_SEO;
+                let localizedPath = path;
+                const currentPrefix = `/${locale}`;
+                if (path.startsWith(currentPrefix)) {
+                    localizedPath = path.replace(new RegExp(`^/${locale}`), `/${lang}`);
+                } else {
+                    localizedPath = `/${lang}${path.startsWith("/") ? path : `/${path}`}`;
+                }
+                acc[lang] = localizedPath;
+                return acc;
+            }, {}),
         },
         keywords,
         robots: { index: true, follow: true },
@@ -45,7 +56,9 @@ export function createPageMetadata({
             description: openGraphDescription || description,
             images: [
                 {
-                    url: base.defaultImage,
+                    url: base.defaultImage.startsWith("http")
+                        ? base.defaultImage
+                        : `${base.url}${base.defaultImage}`,
                     width: 1200,
                     height: 630,
                     alt: openGraphTitle || title,

@@ -1,4 +1,3 @@
-import "@/styles/index.scss";
 import MainSection from "@/components/Sections/MainSection";
 import ProjectSection from "@/components/Sections/ProjectSection";
 import type { FC } from "react";
@@ -29,7 +28,7 @@ export default HomePage;
 export async function generateMetadata({
     params,
 }: {
-    params: { locale: Locale };
+    params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
     const { locale } = await params;
 

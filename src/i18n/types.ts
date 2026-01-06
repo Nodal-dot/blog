@@ -1,4 +1,3 @@
-export enum Locale {
-    EN = "en",
-    RU = "ru",
-}
+export type Locale = "en" | "ru";
+
+export const LOCALES = ["en", "ru"] as const;
