@@ -78,6 +78,8 @@
         @include box(2.4rem);
 
         display: inline-flex;
+        align-items: center;
+        justify-content: center;
 
         @include tablet {
             @include box(2rem);

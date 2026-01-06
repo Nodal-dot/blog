@@ -2,7 +2,7 @@
 
 import React, { type FC } from "react";
 import styles from "./MobileMenu.module.scss";
-import NavigationLink from "@/components/NavigationLink";
+import Link from "@/components/Link";
 import { usePageTransition } from "@/providers/transition/PageTransitionProvider";
 import { usePathname } from "@/i18n/navigation";
 import Modal from "@/components/Modal";
@@ -35,7 +35,7 @@ export const MobileMenu: FC<MobileMenuProps> = (props) => {
             <Modal open={open} onClose={closeModal}>
                 <nav className={styles["mobile-menu__nav"]}>
                     {links.map(({ href, label }) => (
-                        <NavigationLink
+                        <Link
                             href={href}
                             label={label}
                             key={label}

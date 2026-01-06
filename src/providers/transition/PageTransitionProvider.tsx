@@ -1,6 +1,14 @@
 "use client";
 
-import React, { createContext, useState, useRef, useContext, useEffect, useCallback } from "react";
+import {
+    createContext,
+    useState,
+    useRef,
+    useContext,
+    useEffect,
+    useCallback,
+    type ReactNode,
+} from "react";
 import { createPortal } from "react-dom";
 import styles from "./PageTransition.module.scss";
 import { useRouter } from "@/i18n/navigation";
@@ -15,7 +23,7 @@ const PageTransitionContext = createContext<IPageTransitionContextProps>({
     isTransitioning: false,
 });
 
-export const PageTransitionProvider = ({ children }: { children: React.ReactNode }) => {
+export const PageTransitionProvider = ({ children }: { children: ReactNode }) => {
     const router = useRouter();
     const [isTransitioning, setIsTransitioning] = useState(false);
     const [mounted, setMounted] = useState(false);

@@ -8,8 +8,8 @@ interface SkeletonProps {
 
 export const Skeleton: React.FC<SkeletonProps> = ({ className }) => {
     return (
-        <div className={classNames(styles.skeleton, className)}>
-            <span className={styles.shimmer}></span>
+        <div className={classNames(styles["skeleton"], className)}>
+            <span className={styles["skeleton__shimmer"]}></span>
         </div>
     );
 };

@@ -4,7 +4,7 @@ import React, { type FC, type JSX, type ReactNode } from "react";
 import style from "./Button.module.scss";
 import { classNames } from "@/utils/classNames";
 
-type ButtonProps = {
+export type ButtonProps = {
     children?: ReactNode;
     leftIcon?: ReactNode;
     rightIcon?: ReactNode;

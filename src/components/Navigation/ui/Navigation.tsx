@@ -4,7 +4,7 @@ import React, { type FC } from "react";
 import { usePathname } from "@/i18n/navigation";
 import { usePageTransition } from "@/providers/transition/PageTransitionProvider";
 import styles from "./Navigation.module.scss";
-import NavLink from "@/components/NavigationLink";
+import Link from "@/components/Link";
 import { classNames } from "@/utils/classNames";
 
 interface NavigationProps {
@@ -20,7 +20,7 @@ export const Navigation: FC<NavigationProps> = (props) => {
             <ul className={classNames(styles["navigation__list"])}>
                 {links.map(({ href, label }) => (
                     <li key={href}>
-                        <NavLink
+                        <Link
                             href={href}
                             label={label}
                             isActive={pathname === href}

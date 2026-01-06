@@ -4,6 +4,7 @@
 .mobile-menu {
     display: none;
     justify-self: start;
+
     @include tablet {
         display: block;
     }

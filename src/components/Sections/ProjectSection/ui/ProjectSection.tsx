@@ -22,11 +22,10 @@ export const ProjectSection: FC<ProjectSectionProps> = (props) => {
     const [isSwiperReady, setIsSwiperReady] = useState(false);
 
     return (
-        <section className={classNames(styles["project-section"], "section")}>
+        <section id="project-section" className={classNames(styles["project-section"], "section")}>
             <h2 className={styles["project-section__title"]}>Мои проекты</h2>
 
             {!isSwiperReady && <Skeleton />}
-
             <div
                 className={classNames(styles["project-section__content"], {
                     [styles["project-section__content--hidden"]]: !isSwiperReady,

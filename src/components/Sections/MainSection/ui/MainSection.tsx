@@ -7,6 +7,7 @@ import Eye from "@/components/Eye";
 import Button from "@/components/Button";
 import { classNames } from "@/utils/classNames";
 import { useTranslations } from "next-intl";
+import ScrollButton from "@/components/ScrollButton";
 
 export const MainSection: React.FC = () => {
     const t = useTranslations();
@@ -19,9 +20,11 @@ export const MainSection: React.FC = () => {
                     <h2>{t("HomePage.mainSection.profession")}</h2>
                 </div>
                 <p>{t("HomePage.mainSection.description")}</p>
-                <Button rightIcon={<ArrowDown />} className={styles["main-section__button"]}>
-                    {t("HomePage.mainSection.button")}
-                </Button>
+                <ScrollButton target="#project-section">
+                    <Button rightIcon={<ArrowDown />} className={styles["main-section__button"]}>
+                        {t("HomePage.mainSection.button")}
+                    </Button>
+                </ScrollButton>
             </div>
             <div className={styles["main-section__eye"]} aria-hidden="true">
                 <Eye />

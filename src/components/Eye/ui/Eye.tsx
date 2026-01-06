@@ -91,7 +91,7 @@ const Eye: FC = () => {
                 />
             ))}
 
-            <div className={style["eye__eye"]}>
+            <div className={style["eye__wrapper"]}>
                 {eyelashTypes.map((type) => (
                     <div
                         key={type}
