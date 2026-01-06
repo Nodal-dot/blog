@@ -11,20 +11,22 @@ export function getProjects(locale: string): Project[] {
 
     return fs
         .readdirSync(dir)
-        .filter((f) => f.endsWith(".mdx"))
+        .filter((file) => file.endsWith(".mdx"))
         .map((file) => {
             const slug = file.replace(/\.mdx$/, "");
             const source = fs.readFileSync(path.join(dir, file), "utf8");
             const { data } = matter(source);
+
             return {
                 slug,
                 title: data.title,
                 subtitle: data.subtitle,
                 image: {
                     src: data.imageSrc,
-                    alt: data.imageAlt,
+                    alt: data.imageAlt ?? "Project image",
                 },
                 buttonText: data.buttonText,
+                tags: data.tags ?? [],
             };
         });
 }

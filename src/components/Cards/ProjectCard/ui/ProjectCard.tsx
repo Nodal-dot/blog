@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, type FC } from "react";
 import style from "./ProjectCard.module.scss";
 import Image from "next/image";
 import Button from "@/components/Button";
@@ -14,7 +14,7 @@ export interface ProjectCardProps {
     href?: string;
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = (props) => {
+const ProjectCard: FC<ProjectCardProps> = (props) => {
     const { title, subtitle, image, href, buttonText, tags = ["React", "Node js"] } = props;
     const [hovered, setHovered] = useState(false);
 

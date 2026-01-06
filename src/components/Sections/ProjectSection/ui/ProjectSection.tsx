@@ -7,6 +7,7 @@ import styles from "./ProjectSection.module.scss";
 import { classNames } from "@/utils/classNames";
 import Skeleton from "@/components/Skeleton";
 import type { ProjectCardProps } from "@/components/Cards/ProjectCard/ui/ProjectCard";
+import { useTranslations } from "next-intl";
 
 const ProjectSwiper = dynamic(() => import("./ProjectSwiper"), {
     ssr: false,
@@ -20,10 +21,13 @@ interface ProjectSectionProps {
 export const ProjectSection: FC<ProjectSectionProps> = (props) => {
     const { projects } = props;
     const [isSwiperReady, setIsSwiperReady] = useState(false);
+    const t = useTranslations();
 
     return (
         <section id="project-section" className={classNames(styles["project-section"], "section")}>
-            <h2 className={styles["project-section__title"]}>Мои проекты</h2>
+            <h2 className={styles["project-section__title"]}>
+                {t("HomePage.ProjectsSection.title")}
+            </h2>
 
             {!isSwiperReady && <Skeleton />}
             <div

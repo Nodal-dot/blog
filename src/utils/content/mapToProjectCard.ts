@@ -7,9 +7,10 @@ export function mapProjectsToCards(projects: Project[], locale: string): Project
         subtitle: project.subtitle,
         image: {
             src: project.image.src,
-            alt: project.image.alt || "Project image",
+            alt: project.image.alt,
         },
         buttonText: project.buttonText || "Подробнее",
+        tags: project.tags,
         href: `/${locale}/projects/${project.slug}`,
     }));
 }
