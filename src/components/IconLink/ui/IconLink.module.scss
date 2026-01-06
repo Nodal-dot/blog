@@ -1,8 +1,12 @@
+@use "@styles/utils/transition" as *;
+
 .link {
+    @include default-tr;
+
     display: flex;
     align-items: center;
     color: inherit;
-    transition: transform 0.2s;
+    transition-property: transform;
 
     &:hover {
         transform: translateY(-3px);

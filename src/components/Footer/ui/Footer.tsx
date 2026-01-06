@@ -4,6 +4,7 @@ import ScrollButton from "@/components/ScrollButton";
 import Link from "@/components/Link";
 import Button from "@/components/Button";
 import { ArrowUp } from "lucide-react";
+import { GITHUB_URL } from "@/config/constants";
 
 export const Footer: FC = () => {
     return (
@@ -11,7 +12,7 @@ export const Footer: FC = () => {
             <span className={styles.footer__meta}>© {new Date().getFullYear()}</span>
             <span className={styles.footer__meta}>Vladimir · Frontend Developer</span>
             <span className={styles.footer__meta}>
-                <Link href={"https://github.com/Nodal-dot"} label={"@Nodal-dot"} />
+                <Link href={GITHUB_URL} label={"@Nodal-dot"} />
             </span>
 
             <div className={styles.footer__scroll}>

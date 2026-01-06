@@ -20,8 +20,10 @@ export function getProjects(locale: string): Project[] {
                 slug,
                 title: data.title,
                 subtitle: data.subtitle,
-                imageSrc: data.imageSrc,
-                imageAlt: data.imageAlt,
+                image: {
+                    src: data.imageSrc,
+                    alt: data.imageAlt,
+                },
                 buttonText: data.buttonText,
             };
         });

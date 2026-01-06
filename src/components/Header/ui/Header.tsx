@@ -9,6 +9,7 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 import IconLink from "@/components/IconLink";
 import MobileMenu from "@/components/MobileMenu";
 import { throttle } from "@/utils/throttle";
+import { GITHUB_URL } from "@/config/constants";
 
 export const Header: FC = () => {
     const t = useTranslations();
@@ -48,7 +49,7 @@ export const Header: FC = () => {
 
             <div className={styles["header__socials"]}>
                 <IconLink
-                    href="https://github.com"
+                    href={GITHUB_URL}
                     ariaLabel="GitHub"
                     iconLight="/assets/sprites/github-mark.svg"
                     iconDark="/assets/sprites/github-mark-white.svg"

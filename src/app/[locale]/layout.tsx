@@ -7,8 +7,13 @@ import { Montserrat } from "next/font/google";
 import "@/styles/index.scss";
 import type { ReactNode } from "react";
 import ClientLayer from "@/components/ClientLayer/ClientLayer";
+import type { Viewport } from "next";
 
 const montserrat = Montserrat({ subsets: ["latin", "cyrillic"] });
+
+export const viewport: Viewport = {
+    themeColor: "#ffffff",
+};
 
 type LocaleParams = { locale: string };
 type LocaleLayoutProps = {
@@ -23,6 +28,12 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
 
     return (
         <html lang={locale}>
+            <head>
+                <meta name="msapplication-config" content="/browserconfig.xml" />
+                <meta name="msapplication-TileColor" content="#ffffff" />
+                <meta name="msapplication-TileImage" content="/favicon-144x144.png" />
+                <link rel="manifest" href={`/api/manifest?locale=${locale}`} />
+            </head>
             <body className={montserrat.className}>
                 <NextIntlClientProvider locale={locale}>
                     <ClientLayer>

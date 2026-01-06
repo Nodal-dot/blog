@@ -13,6 +13,8 @@ export type ButtonProps = {
     onClick?: () => void;
     disabled?: boolean;
     ariaLabel?: string;
+    href?: string;
+    hovered?: boolean;
 };
 
 const Button: FC<ButtonProps> = ({
@@ -22,19 +24,27 @@ const Button: FC<ButtonProps> = ({
     as: Component = "button",
     className,
     onClick,
-    disabled,
+    disabled = false,
     ariaLabel,
+    href,
+    hovered = false,
 }) => {
+    const isLink = Component === "a";
+
     return (
         <Component
             className={classNames(
                 style.button,
-                { [style["button--disabled"]]: disabled! },
+                {
+                    [style["button--disabled"]]: disabled && !isLink,
+                    [style["button--hovered"]]: hovered,
+                },
                 className
             )}
             onClick={onClick}
-            disabled={disabled}
             aria-label={ariaLabel}
+            href={isLink ? href : undefined}
+            tabIndex={disabled && isLink ? -1 : undefined}
         >
             {leftIcon && <span className={style.button__icon}>{leftIcon}</span>}
             {children && <span className={style.button__text}>{children}</span>}

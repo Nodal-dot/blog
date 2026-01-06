@@ -5,8 +5,10 @@ export function mapProjectsToCards(projects: Project[], locale: string): Project
     return projects.map((project) => ({
         title: project.title,
         subtitle: project.subtitle,
-        imageSrc: project.imageSrc,
-        imageAlt: project.imageAlt || "Project image",
+        image: {
+            src: project.image.src,
+            alt: project.image.alt || "Project image",
+        },
         buttonText: project.buttonText || "Подробнее",
         href: `/${locale}/projects/${project.slug}`,
     }));

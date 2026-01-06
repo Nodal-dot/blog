@@ -1,6 +1,7 @@
 @use "@styles/utils/breakpoints" as *;
 @use "@styles/utils/box" as *;
 @use "@styles/utils/transition" as *;
+@use "@styles/utils/typography" as *;
 
 .button {
     --btn-padding: 1.2rem 1.6rem;
@@ -14,6 +15,7 @@
     --btn-focus-outline: var(--focus-outline-color);
 
     @include default-tr;
+    @include font-size(button);
 
     cursor: pointer;
 
@@ -30,6 +32,7 @@
     border-radius: var(--btn-radius);
 
     color: var(--btn-color);
+    text-decoration: none;
 
     background-color: var(--btn-bg);
 
@@ -56,6 +59,10 @@
     }
 
     &:hover {
+        color: var(--btn-hover-color);
+    }
+
+    &--hovered {
         color: var(--btn-hover-color);
     }
 
@@ -96,6 +103,11 @@
     }
 
     &:hover::before {
+        width: 200%;
+        height: 200%;
+    }
+
+    &--hovered::before {
         width: 200%;
         height: 200%;
     }
