@@ -4,7 +4,6 @@ import { routing } from "@/i18n/routing";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Montserrat } from "next/font/google";
-import "@/styles/index.scss";
 import type { ReactNode } from "react";
 import ClientLayer from "@/components/ClientLayer/ClientLayer";
 import type { Viewport } from "next";

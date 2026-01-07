@@ -1,0 +1,143 @@
+@use "@styles/utils/typography" as *;
+@use "@styles/utils/breakpoints" as *;
+@use "@styles/utils/transition" as *;
+
+.not-found {
+    position: relative;
+    z-index: 0;
+
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    height: 100dvh;
+
+    color: var(--text-color);
+    text-align: center;
+
+    background: var(--background-contrast-color);
+
+    &__glitch {
+        position: relative;
+
+        margin-bottom: 6.4rem;
+
+        font-size: clamp(6rem, 15vw, 18rem);
+        font-weight: 900;
+        color: var(--text-contrast-color);
+        text-shadow:
+            0.05em 0 var(--skill-line-active-color),
+            -0.03em -0.04em var(--hover-text-color),
+            0.025em 0.04em var(--text-2-color);
+        text-transform: uppercase;
+
+        animation: glitch 725ms infinite;
+
+        @include tablet {
+            margin-bottom: 3.2rem;
+        }
+
+        @include mobile {
+            margin-bottom: 2.4rem;
+        }
+    }
+
+    &__glitch span {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    &__glitch span:first-child {
+        transform: translate(-0.04em, -0.03em);
+        opacity: 0.75;
+        clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+        animation: glitch 500ms infinite;
+    }
+
+    &__glitch span:last-child {
+        transform: translate(0.04em, 0.03em);
+        opacity: 0.75;
+        clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+        animation: glitch 375ms infinite;
+    }
+
+    &__message {
+        @include font-size(h2);
+
+        margin-bottom: 1.6rem;
+        color: var(--text-contrast-color);
+    }
+
+    &__button.not-found__button {
+        --btn-border: 1px solid var(--text-contrast-color);
+    }
+
+    &__button--ghost {
+        opacity: 0;
+    }
+
+    &__grid {
+        pointer-events: none;
+
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 0;
+
+        display: grid;
+        grid-template-columns: repeat(40, 1fr);
+        grid-template-rows: repeat(20, 1fr);
+
+        width: 100%;
+        height: 100%;
+    }
+
+    &__tile {
+        @include default-tr;
+
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        transition-property: background;
+
+        &.active {
+            background: var(--text-contrast-color);
+        }
+    }
+}
+
+@keyframes glitch {
+    0%,
+    15% {
+        text-shadow:
+            0.05em 0 var(--skill-line-active-color),
+            -0.03em -0.04em var(--hover-text-color),
+            0.025em 0.04em var(--text-2-color);
+    }
+
+    16%,
+    49% {
+        text-shadow:
+            -0.05em -0.025em var(--skill-line-active-color),
+            0.025em 0.035em var(--hover-text-color),
+            -0.05em -0.05em var(--text-2-color);
+    }
+
+    50%,
+    99% {
+        text-shadow:
+            0.05em 0.035em var(--skill-line-active-color),
+            0.03em 0 var(--hover-text-color),
+            0 -0.04em var(--text-2-color);
+    }
+
+    100% {
+        text-shadow:
+            -0.05em 0 var(--skill-line-active-color),
+            -0.025em -0.04em var(--hover-text-color),
+            -0.04em -0.025em var(--text-2-color);
+    }
+}

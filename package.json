@@ -16,7 +16,7 @@
         "lint:css": "stylelint '**/*.{scss,css}'",
         "lint:css:fix": "stylelint '**/*.{scss,css}' --fix",
         "fix:all": "npm run lint:fix && npm run format:fix && npm run lint:css:fix",
-        "analyze": "set ANALYZE=true && npm run build"
+        "analyze": "cross-env ANALYZE=true next build"
     },
     "dependencies": {
         "focus-trap": "^7.6.5",

@@ -1,7 +1,11 @@
 "use client";
 
 import { type FC, type ReactElement, cloneElement } from "react";
-import type { ButtonProps } from "@/components/Button/ui/Button";
+import {
+    type ButtonAsButton,
+    type ButtonAsLink,
+    type ButtonProps,
+} from "@/components/Button/ui/Button";
 
 type ScrollButtonProps = {
     children: ReactElement<ButtonProps>;
@@ -29,10 +33,20 @@ export const ScrollButton: FC<ScrollButtonProps> = (props) => {
             behavior,
         });
     };
+    if (children.props.as === "a") {
+        const el = children as React.ReactElement<ButtonAsLink>;
+        return cloneElement(el, {
+            onClick: (event: React.MouseEvent<HTMLAnchorElement>) => {
+                el.props.onClick?.(event);
+                scroll();
+            },
+        });
+    }
 
-    return cloneElement(children, {
-        onClick: () => {
-            children.props.onClick?.();
+    const el = children as React.ReactElement<ButtonAsButton>;
+    return cloneElement(el, {
+        onClick: (event: React.MouseEvent<HTMLButtonElement>) => {
+            el.props.onClick?.(event);
             scroll();
         },
     });

@@ -1,56 +1,102 @@
 "use client";
 
-import React, { type FC, type JSX, type ReactNode } from "react";
+import React, {
+    forwardRef,
+    type ButtonHTMLAttributes,
+    type AnchorHTMLAttributes,
+    type ReactNode,
+    type ElementType,
+} from "react";
 import style from "./Button.module.scss";
 import { classNames } from "@/utils/classNames";
 
-export type ButtonProps = {
+interface BaseButtonProps {
     children?: ReactNode;
     leftIcon?: ReactNode;
     rightIcon?: ReactNode;
-    as?: keyof JSX.IntrinsicElements;
     className?: string;
-    onClick?: () => void;
-    disabled?: boolean;
+    hovered?: boolean;
+    as?: ElementType;
     ariaLabel?: string;
     href?: string;
-    hovered?: boolean;
-};
+    disabled?: boolean;
+}
 
-const Button: FC<ButtonProps> = ({
-    children,
-    leftIcon,
-    rightIcon,
-    as: Component = "button",
-    className,
-    onClick,
-    disabled = false,
-    ariaLabel,
-    href,
-    hovered = false,
-}) => {
-    const isLink = Component === "a";
+export type ButtonAsButton = {
+    as?: "button";
+} & ButtonHTMLAttributes<HTMLButtonElement>;
+
+export type ButtonAsLink = {
+    as: "a";
+    href: string;
+} & AnchorHTMLAttributes<HTMLAnchorElement>;
+
+export type ButtonProps = BaseButtonProps & (ButtonAsButton | ButtonAsLink);
+
+const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>((props, ref) => {
+    const {
+        children,
+        leftIcon,
+        rightIcon,
+        className,
+        hovered = false,
+        disabled = false,
+        ariaLabel,
+        ...rest
+    } = props;
+
+    const content = (
+        <>
+            {leftIcon && <span className={style.button__icon}>{leftIcon}</span>}
+            {children && <span className={style.button__text}>{children}</span>}
+            {rightIcon && <span className={style.button__icon}>{rightIcon}</span>}
+        </>
+    );
+
+    if (props.as === "a") {
+        const { href, onClick, ...anchorProps } = rest as ButtonAsLink;
+
+        return (
+            <a
+                ref={ref as React.Ref<HTMLAnchorElement>}
+                href={href}
+                onClick={onClick}
+                aria-label={ariaLabel}
+                className={classNames(
+                    style.button,
+                    { [style["button--hovered"]]: hovered },
+                    className
+                )}
+                {...anchorProps}
+            >
+                {content}
+            </a>
+        );
+    }
+
+    const { onClick, ...buttonProps } = rest as ButtonAsButton;
 
     return (
-        <Component
+        <button
+            ref={ref as React.Ref<HTMLButtonElement>}
+            onClick={onClick}
+            disabled={disabled}
+            aria-label={ariaLabel}
             className={classNames(
                 style.button,
                 {
-                    [style["button--disabled"]]: disabled && !isLink,
+                    [style["button--disabled"]]: disabled,
                     [style["button--hovered"]]: hovered,
                 },
                 className
             )}
-            onClick={onClick}
-            aria-label={ariaLabel}
-            href={isLink ? href : undefined}
-            tabIndex={disabled && isLink ? -1 : undefined}
+            {...buttonProps}
         >
-            {leftIcon && <span className={style.button__icon}>{leftIcon}</span>}
-            {children && <span className={style.button__text}>{children}</span>}
-            {rightIcon && <span className={style.button__icon}>{rightIcon}</span>}
-        </Component>
+            {content}
+        </button>
     );
-};
+});
+
+Button.displayName = "Button";
 
 export const MemoizedButton = React.memo(Button);
