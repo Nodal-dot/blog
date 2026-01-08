@@ -9,6 +9,7 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    gap: 3.2rem;
     align-items: center;
     justify-content: center;
 
@@ -19,12 +20,19 @@
 
     background: var(--background-contrast-color);
 
+    @include tablet {
+        gap: 2.4rem;
+    }
+
+    @include mobile {
+        gap: 1.6rem;
+    }
+
     &__glitch {
+        @include font-size(glitch);
+
         position: relative;
 
-        margin-bottom: 6.4rem;
-
-        font-size: clamp(6rem, 15vw, 18rem);
         font-weight: 900;
         color: var(--text-contrast-color);
         text-shadow:
@@ -34,14 +42,6 @@
         text-transform: uppercase;
 
         animation: glitch 725ms infinite;
-
-        @include tablet {
-            margin-bottom: 3.2rem;
-        }
-
-        @include mobile {
-            margin-bottom: 2.4rem;
-        }
     }
 
     &__glitch span {
@@ -67,7 +67,6 @@
     &__message {
         @include font-size(h2);
 
-        margin-bottom: 1.6rem;
         color: var(--text-contrast-color);
     }
 

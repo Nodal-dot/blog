@@ -15,8 +15,6 @@ const Eye = dynamic(() => import("@/components/Eye"), {
     loading: () => <Skeleton />,
 });
 
-
-
 export const MainSection: React.FC = () => {
     const t = useTranslations();
 

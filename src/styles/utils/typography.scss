@@ -1,4 +1,5 @@
 @use "sass:map";
+@use "sass:meta";
 @use "breakpoints";
 
 $font-sizes: (
@@ -10,6 +11,7 @@ $font-sizes: (
     h6: 1.6rem,
     body: 1.6rem,
     button: 2rem,
+    glitch: 18rem,
 );
 $font-sizes-tablet: (
     h1: 3.2rem,
@@ -20,6 +22,7 @@ $font-sizes-tablet: (
     h6: 1.4rem,
     body: 1.4rem,
     button: 1.6rem,
+    glitch: 16rem,
 );
 $font-sizes-mobile: (
     h1: 3.2rem,
@@ -30,20 +33,23 @@ $font-sizes-mobile: (
     h6: 1.4rem,
     body: 1.4rem,
     button: 1.2rem,
+    glitch: 10rem,
 );
 
 @mixin font-size($type) {
     $size: map.get($font-sizes, $type);
 
-    font-size: $size;
-    line-height: calc(#{$size} * 1.3);
+    @if $size {
+        font-size: $size;
+        line-height: 1;
+    }
 
     @include breakpoints.tablet {
         $size: map.get($font-sizes-tablet, $type);
 
         @if $size {
             font-size: $size;
-            line-height: calc(#{$size} * 1.35);
+            line-height: 1;
         }
     }
 
@@ -52,7 +58,23 @@ $font-sizes-mobile: (
 
         @if $size {
             font-size: $size;
-            line-height: calc(#{$size} * 1.4);
+            line-height: 1;
         }
+    }
+}
+
+@mixin root-fonts() {
+    font-size: 62.5%;
+
+    @media (max-width: 767px) {
+        font-size: calc(10px + 13 * (100vw - 375px) / 447);
+    }
+
+    @media (min-width: 768px) and (max-width: 1023px) {
+        font-size: calc(10px + 4 * (100vw - 768px) / 255);
+    }
+
+    @media (min-width: 1024px) and (max-width: 1360px) {
+        font-size: calc(8px + 2 * (100vw - 1024px) / 336);
     }
 }
