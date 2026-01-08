@@ -17,13 +17,13 @@ const ThemeToggle: React.FC = () => {
             className={`${styles["theme-toggle"]} ${theme === "dark" ? styles["theme-toggle--dark"] : ""}`}
             data-theme={theme}
         >
-            <div className={styles["theme-toggle__container"]}>
-                <div className={styles["theme-toggle__icons"]}>
+            <span className={styles["theme-toggle__container"]}>
+                <span className={styles["theme-toggle__icons"]} aria-hidden>
                     <Sun size={18} className={styles["theme-toggle__icon"]} />
                     <Moon size={18} className={styles["theme-toggle__icon"]} />
-                </div>
-                <div className={styles["theme-toggle__thumb"]} />
-            </div>
+                </span>
+                <span className={styles["theme-toggle__thumb"]} aria-hidden />
+            </span>
         </button>
     );
 };

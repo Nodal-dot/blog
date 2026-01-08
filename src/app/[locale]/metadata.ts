@@ -28,6 +28,7 @@ export async function createPageMetadata({
             default: title,
             template: "%s | Your Name",
         },
+        manifest: `/api/manifest?locale=${locale}`,
         description,
         metadataBase: new URL(base.url),
         alternates: {
@@ -64,6 +65,11 @@ export async function createPageMetadata({
                     alt: openGraphTitle || title,
                 },
             ],
+        },
+        other: {
+            "msapplication-config": "/browserconfig.xml",
+            "msapplication-TileColor": "#ffffff",
+            "msapplication-TileImage": "/favicon-144x144.png",
         },
         icons: {
             icon: "/favicon.ico",

@@ -23,7 +23,6 @@ export const MobileMenu: FC<MobileMenuProps> = (props) => {
             <button
                 onClick={toggleModal}
                 aria-expanded={open}
-                aria-controls="mobile-nav"
                 aria-label={"Открыть меню"}
                 className={`${styles["mobile-menu__trigger"]}`}
             >

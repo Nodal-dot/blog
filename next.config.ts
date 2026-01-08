@@ -8,9 +8,6 @@ const withBundleAnalyzer = bundleAnalyzer({
 
 const nextConfig: NextConfig = {
     reactStrictMode: true,
-    images: {
-        domains: ["images.unsplash.com"],
-    },
 };
 
 const withNextIntl = createNextIntlPlugin();
