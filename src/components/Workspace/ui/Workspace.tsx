@@ -83,27 +83,20 @@ export const Workspace: FC = () => {
         };
         blinkCycle();
 
-        gsap.to(pupilRef.current, {
-            x: gsap.utils.random(-10, 10),
-            y: gsap.utils.random(-10, 10),
-            duration: 1.2,
-            ease: "power1.inOut",
-            repeat: -1,
-            yoyo: true,
-        });
+        const movePupil = () => {
+            gsap.to(pupilRef.current, {
+                x: gsap.utils.random(-10, 10),
+                y: gsap.utils.random(-10, 10),
+                duration: gsap.utils.random(1, 2),
+                ease: "power1.inOut",
+                onComplete: movePupil,
+            });
+        };
+        movePupil();
     };
 
     const handleScreenClick = () => {
         typeWriter();
-
-        if (pupilRef.current) {
-            gsap.to(pupilRef.current, {
-                x: gsap.utils.random(-10, 10),
-                y: gsap.utils.random(-10, 10),
-                duration: 0.5,
-                ease: "power1.inOut",
-            });
-        }
 
         if (lidRef.current) {
             gsap.fromTo(
@@ -204,40 +197,43 @@ export const Workspace: FC = () => {
     return (
         <div
             ref={wrapperRef}
-            className={classNames(styles['workspace'], {
+            className={classNames(styles["workspace"], {
                 [styles["workspace--light-on"]]: lightOn,
             })}
         >
-            <div className={styles['workspace__monitor-group']}>
-                <div className={styles['workspace__light-beam']} style={{ opacity: lightOn ? 1 : 0 }} />
+            <div className={styles["workspace__monitor-group"]}>
+                <div
+                    className={styles["workspace__light-beam"]}
+                    style={{ opacity: lightOn ? 1 : 0 }}
+                />
 
                 <div
-                    className={styles['workspace__screen-bar']}
+                    className={styles["workspace__screen-bar"]}
                     onClick={() => setLightOn((v) => !v)}
                 />
 
-                <div className={styles['workspace__monitor-frame']}>
-                    <div className={styles['workspace__screen']} onClick={handleScreenClick}>
-                        <div ref={codeContainerRef} className={styles['workspace__code-container']}>
+                <div className={styles["workspace__monitor-frame"]}>
+                    <div className={styles["workspace__screen"]} onClick={handleScreenClick}>
+                        <div ref={codeContainerRef} className={styles["workspace__code-container"]}>
                             <pre>
                                 <code ref={codeRef} className="language-javascript" />
                             </pre>
                         </div>
 
-                        <div className={styles['workspace__eye-widget']}>
+                        <div className={styles["workspace__eye-widget"]}>
                             <svg viewBox="0 0 100 100">
                                 <circle
                                     cx="50"
                                     cy="50"
                                     r="45"
-                                    className={styles['workspace__eye-ball']}
+                                    className={styles["workspace__eye-ball"]}
                                 />
                                 <g ref={pupilRef}>
                                     <circle
                                         cx="50"
                                         cy="50"
                                         r="22"
-                                        className={styles['workspace__pupil']}
+                                        className={styles["workspace__pupil"]}
                                     />
                                 </g>
                                 <rect
@@ -247,35 +243,37 @@ export const Workspace: FC = () => {
                                     width={100}
                                     height={0}
                                     rx={55}
-                                    className={styles['workspace__lid']}
+                                    className={styles["workspace__lid"]}
                                 />
                             </svg>
                         </div>
                     </div>
                 </div>
 
-                <div className={styles['workspace__stand-neck']} />
-                <div className={styles['workspace__stand-base']} />
+                <div className={styles["workspace__stand-neck"]} />
+                <div className={styles["workspace__stand-base"]} />
             </div>
 
-            <div className={styles['workspace__mug-container']}>
-                <div className={styles['workspace__smoke-wrapper']}>
+            <div className={styles["workspace__mug-container"]}>
+                <div className={styles["workspace__smoke-wrapper"]}>
                     {Array.from({ length: SMOKE_COUNT }).map((_, i) => (
                         <div
                             key={i}
-                            ref={(el) => el && (smokeRefs.current[i] = el)}
+                            ref={(el) => {
+                                if (el) smokeRefs.current[i] = el;
+                            }}
                             className={styles.workspace__smoke}
                             style={{ left: `${45 + i * 2}%` }}
                         />
                     ))}
                 </div>
 
-                <div className={styles['workspace__mug']}>
-                    <div className={styles['workspace__mug-handle']} />
+                <div className={styles["workspace__mug"]}>
+                    <div className={styles["workspace__mug-handle"]} />
                 </div>
             </div>
 
-            <div className={styles['workspace__desk']} />
+            <div className={styles["workspace__desk"]} />
         </div>
     );
 };

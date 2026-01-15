@@ -1,82 +1,40 @@
-.container {
+@use "@styles/utils/typography" as *;
+
+.interactiveText__container {
     display: flex;
     flex-direction: column;
     gap: 2rem;
     justify-content: center;
 }
 
-.title {
-    margin-bottom: 1rem;
-
-    font-size: 2.5rem;
-    font-weight: 700;
-    line-height: 1.2;
-    color: #1f2937; 
+.interactiveText__paragraph {
+    @include font-size(h3);
 }
 
-.badge {
-    display: inline-block;
-
-    width: 64px;
-    height: 64px;
-    margin-right: 1rem;
-
-    vertical-align: middle;
-
-    svg {
-        width: 100%;
-        height: 100%;
-    }
-}
-
-.paragraph {
-    font-size: 1.125rem;
-    line-height: 1.8;
-    color: #4b5563; 
-}
-
-.fillWord {
-    cursor: default;
-
-    position: relative;
-
-    display: inline-block;
+.interactiveText__fillWord {
+    cursor: pointer;
 
     font-weight: 600;
-    color: #4b5563;
-    text-decoration: none;
-
-    background-image: linear-gradient(to right, #7c3aed, #60a5fa);
-    background-repeat: no-repeat;
-    background-position: left center;
-    background-clip: text;
-    background-clip: text;
-    background-size: 0% 100%;
+    color: var(--text-contrast-color);
+    text-shadow:
+        1px 1px 0 var(--text-color),
+        -1px 1px 0 var(--text-color),
+        1px -1px 0 var(--text-color),
+        -1px -1px 0 var(--text-color);
 
     transition:
-        background-size 0.4s ease-in-out,
-        color 0.4s ease-in-out;
+        color 0.3s ease,
+        text-shadow 0.3s ease;
 
     &:hover {
-        color: transparent; 
-        background-size: 100% 100%;
+        color: var(--text-color);
+        text-shadow: none;
     }
 }
 
-.actions {
+.interactiveText__actions {
     display: flex;
     gap: 1rem;
     align-items: center;
     margin-top: 1rem;
-}
-
-.contactLink {
-    color: #4b5563;
-    text-decoration: underline;
-    text-underline-offset: 4px;
-    transition: color 0.2s;
-
-    &:hover {
-        color: #7c3aed;
-    }
 }
