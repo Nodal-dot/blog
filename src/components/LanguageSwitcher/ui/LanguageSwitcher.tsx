@@ -13,6 +13,22 @@ export const LanguageSwitcher: FC = () => {
     const pathname = usePathname();
     const locale = useLocale();
     const router = useRouter();
+    const closeTimeout = useRef<NodeJS.Timeout | null>(null);
+
+    const [isDesktop, setIsDesktop] = useState(() =>
+        typeof window !== "undefined"
+            ? window.matchMedia("(hover: hover) and (pointer: fine)").matches
+            : true
+    );
+
+    useEffect(() => {
+        const mql = window.matchMedia("(hover: hover) and (pointer: fine)");
+        const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+
+        mql.addEventListener("change", handler);
+        return () => mql.removeEventListener("change", handler);
+    }, []);
+
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
             if (langRef.current && !langRef.current.contains(e.target as Node)) {
@@ -23,14 +39,36 @@ export const LanguageSwitcher: FC = () => {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
+    const handleMouseEnter = () => {
+        if (!isDesktop) return;
+        if (closeTimeout.current) {
+            clearTimeout(closeTimeout.current);
+            closeTimeout.current = null;
+        }
+        setLangOpen(true);
+    };
+
+    const handleMouseLeave = () => {
+        if (!isDesktop) return;
+        closeTimeout.current = setTimeout(() => {
+            setLangOpen(false);
+        }, 150);
+    };
+
     const handleLangChange = (newLocale: string) => {
         router.push(pathname, { locale: newLocale });
         setLangOpen(false);
     };
 
     return (
-        <div className={styles["language-switcher"]} ref={langRef}>
+        <div
+            ref={langRef}
+            className={styles["language-switcher"]}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+        >
             <button
+                type="button"
                 onClick={() => setLangOpen((prev) => !prev)}
                 aria-haspopup="true"
                 aria-expanded={langOpen}
@@ -49,6 +87,7 @@ export const LanguageSwitcher: FC = () => {
                 {["en", "ru"].map((lang) => (
                     <li role="none" key={lang}>
                         <button
+                            type="button"
                             onClick={() => handleLangChange(lang)}
                             role="menuitemradio"
                             aria-checked={locale === lang}

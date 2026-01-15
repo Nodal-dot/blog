@@ -1,0 +1,32 @@
+@use "@styles/utils/typography" as *;
+
+.about-path {
+    display: flex;
+    flex-direction: column;
+    gap: 3.2rem;
+
+    &__title {
+        text-align: center;
+    }
+
+    &__list {
+        display: grid;
+        gap: 2.4rem;
+
+        margin: 0;
+        padding: 0;
+
+        list-style: none;
+    }
+
+    &__item {
+        display: flex;
+        gap: 1.6rem;
+        align-items: flex-start;
+    }
+
+    &__meta {
+        min-width: 18rem;
+        color: var(--muted-color, #7a7a7a);
+    }
+}

@@ -1,0 +1,283 @@
+.workspace {
+    --desk-color: #4e342e;
+    --monitor-frame: #333;
+    --screen-bg: #282a36;
+    --light-gradient: linear-gradient(to bottom, rgb(255 253 200 / 40%) 0%, transparent 100%);
+    --eye-white: #f5f5f5;
+    --pupil-color: #111;
+    --lid-color: #282a36;
+    --smoke-color: white;
+    --mug-color: #fdfdfd;
+    --mug-accent: #323330;
+    --mug-text: #f7df1e;
+
+    position: relative;
+
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+
+    width: 100%;
+    border-radius: 2.4rem;
+
+    &__monitor-group {
+        position: relative;
+        z-index: 5;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        width: 90%;
+        max-width: 80rem;
+        margin-top: 6.4rem;
+        margin-bottom: -0.5rem;
+    }
+
+    &__monitor-frame {
+        position: relative;
+
+        display: flex;
+        flex-direction: column;
+
+        box-sizing: border-box;
+        aspect-ratio: 16 / 10;
+        width: 100%;
+        padding: 1.5rem;
+        border-radius: 2rem;
+
+        background: var(--monitor-frame);
+        box-shadow: 0 4rem 10rem rgb(0 0 0 / 50%);
+    }
+
+    &__screen {
+        cursor: pointer;
+
+        position: relative;
+
+        overflow: hidden;
+
+        width: 100%;
+        height: 100%;
+        border: 0.2rem solid #1a1a1a;
+        border-radius: 1rem;
+
+        background: var(--screen-bg);
+    }
+
+    &__screen-bar {
+        cursor: pointer;
+
+        position: absolute;
+        z-index: 25;
+        top: -1rem;
+        left: 50%;
+        transform: translateX(-50%);
+
+        width: 60%;
+        height: 1.6rem;
+        border: 0.1rem solid #444;
+        border-radius: 1rem;
+
+        background: #111;
+        box-shadow: 0 0.4rem 1rem rgb(0 0 0 / 60%);
+
+        &:hover {
+            background: #222;
+        }
+    }
+
+    &__light-beam {
+        pointer-events: none;
+
+        position: absolute;
+        z-index: 4;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+
+        width: 96%;
+        height: 150%;
+
+        background: var(--light-gradient);
+        clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+
+        transition: opacity 0.5s ease;
+    }
+
+    &__code-container {
+        overflow: hidden;
+
+        height: 100%;
+        padding: 2.4rem;
+
+        font-family: "Fira Code", monospace;
+        color: #f8f8f2;
+
+        pre {
+            margin: 0;
+            word-break: break-all;
+            white-space: pre-wrap;
+        }
+
+        :global(.token.comment) {
+            color: #6272a4;
+        }
+
+        :global(.token.keyword) {
+            color: #ff79c6;
+        }
+
+        :global(.token.string) {
+            color: #f1fa8c;
+        }
+
+        :global(.token.function) {
+            color: #50fa7b;
+        }
+
+        :global(.token.number) {
+            color: #bd93f9;
+        }
+    }
+
+    &__eye-widget {
+        position: absolute;
+        right: 2rem;
+        bottom: 2rem;
+
+        width: 5rem;
+        height: 5rem;
+        padding: 0.5rem;
+        border-radius: 50%;
+    }
+
+    &__eye-ball {
+        fill: var(--eye-white);
+    }
+
+    &__pupil {
+        fill: var(--pupil-color);
+    }
+
+    &__lid {
+        fill: var(--lid-color);
+    }
+
+    &__stand-neck {
+        width: 8rem;
+        height: 4rem;
+        background: linear-gradient(to right, #222, #333, #222);
+    }
+
+    &__stand-base {
+        width: 24rem;
+        height: 1.5rem;
+        border-radius: 1rem 1rem 0 0;
+        background: #1a1a1a;
+    }
+
+    &__desk {
+        z-index: 10;
+
+        width: 120%;
+        height: 6rem;
+        border-top: 0.8rem solid #3e2723;
+
+        background: var(--desk-color);
+        box-shadow: inset 0 1rem 2rem rgb(0 0 0 / 30%);
+    }
+
+    &__mug-container {
+        position: absolute;
+        z-index: 20;
+        bottom: 5.5rem;
+        left: 10%;
+    }
+
+    &__mug {
+        position: relative;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 6rem;
+        height: 7rem;
+        border: 0.2rem solid #eee;
+        border-radius: 0.8rem;
+
+        background: var(--mug-color);
+
+        &::after {
+            content: "JS";
+
+            padding: 0.4rem 0.6rem;
+            border-radius: 0.4rem;
+
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #f7df1e;
+            letter-spacing: 0.05em;
+
+            background: #323330;
+        }
+    }
+
+    &__mug-handle {
+        position: absolute;
+        top: 1.5rem;
+        right: -1.8rem;
+
+        width: 2.5rem;
+        height: 3.5rem;
+        border: 0.6rem solid var(--mug-color);
+        border-radius: 50%;
+    }
+
+    &__smoke-wrapper {
+        pointer-events: none;
+
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+
+        overflow: visible;
+
+        width: 4rem;
+        height: 8rem;
+    }
+
+    &__smoke {
+        position: absolute;
+        bottom: 0;
+
+        width: 0.6rem;
+        height: 3.2rem;
+        border-radius: 50%;
+
+        opacity: 0;
+        background: radial-gradient(
+            ellipse at center,
+            rgb(255 255 255 / 70%) 0%,
+            rgb(255 255 255 / 35%) 40%,
+            rgb(255 255 255 / 10%) 65%,
+            rgb(255 255 255 / 0%) 100%
+        );
+        filter: blur(6px);
+    }
+
+    &__smoke::after {
+        content: "";
+
+        position: absolute;
+        inset: 0;
+
+        opacity: 0.6;
+        background: inherit;
+        filter: blur(8px);
+    }
+}

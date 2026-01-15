@@ -25,6 +25,9 @@ importers:
             next-intl:
                 specifier: ^4.3.4
                 version: 4.7.0(next@15.5.9(@babel/core@7.28.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.97.1))(react@19.1.0)(typescript@5.9.3)
+            prismjs:
+                specifier: ^1.30.0
+                version: 1.30.0
             react:
                 specifier: 19.1.0
                 version: 19.1.0
@@ -68,9 +71,6 @@ importers:
             "@vitest/coverage-v8":
                 specifier: ^3.2.4
                 version: 3.2.4(@vitest/browser@3.2.4)(vitest@3.2.4)
-            cross-env:
-                specifier: ^10.1.0
-                version: 10.1.0
             eslint:
                 specifier: ^9.33.0
                 version: 9.39.2(jiti@2.6.1)
@@ -522,12 +522,6 @@ packages:
         resolution:
             {
                 integrity: sha512-WI0DdZ8xFSbgMjR1sFsKABJ/C5OnRrjT06JXbZKexJGrDuPTzZdDYfFlsgcCXCyf+suG5QU2e/y1Wo2V/OapLQ==,
-            }
-
-    "@epic-web/invariant@1.0.0":
-        resolution:
-            {
-                integrity: sha512-lrTPqgvfFQtR/eY/qkIzp98OGdNJu0m5ji3q/nJI8v3SXkRKEnWiOxMmbvcSoAIzv/cGiuvRy57k4suKQSAdwA==,
             }
 
     "@esbuild/aix-ppc64@0.25.12":
@@ -3162,14 +3156,6 @@ packages:
             typescript:
                 optional: true
 
-    cross-env@10.1.0:
-        resolution:
-            {
-                integrity: sha512-GsYosgnACZTADcmEyJctkJIoqAhHjttw7RsFrVoJNXbsWWqaq6Ym+7kZjq6mS45O0jij6vtiReppKQEtqWy6Dw==,
-            }
-        engines: { node: ">=20" }
-        hasBin: true
-
     cross-spawn@7.0.6:
         resolution:
             {
@@ -5698,6 +5684,13 @@ packages:
             }
         engines: { node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0 }
 
+    prismjs@1.30.0:
+        resolution:
+            {
+                integrity: sha512-DEvV2ZF2r2/63V+tK8hQvrR2ZGn10srHbXviTlcv7Kpzw8jWiNTqbVgjO3IY8RxrrOUF8VPMQQFysYYYv0YZxw==,
+            }
+        engines: { node: ">=6" }
+
     prop-types@15.8.1:
         resolution:
             {
@@ -7201,8 +7194,6 @@ snapshots:
         dependencies:
             tslib: 2.8.1
         optional: true
-
-    "@epic-web/invariant@1.0.0": {}
 
     "@esbuild/aix-ppc64@0.25.12":
         optional: true
@@ -8711,11 +8702,6 @@ snapshots:
             parse-json: 5.2.0
         optionalDependencies:
             typescript: 5.9.3
-
-    cross-env@10.1.0:
-        dependencies:
-            "@epic-web/invariant": 1.0.0
-            cross-spawn: 7.0.6
 
     cross-spawn@7.0.6:
         dependencies:
@@ -10505,6 +10491,8 @@ snapshots:
             "@jest/schemas": 30.0.5
             ansi-styles: 5.2.0
             react-is: 18.3.1
+
+    prismjs@1.30.0: {}
 
     prop-types@15.8.1:
         dependencies:
