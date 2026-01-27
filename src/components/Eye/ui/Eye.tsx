@@ -2,19 +2,26 @@
 
 import React, { useEffect, useRef, type FC } from "react";
 import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 import style from "./Eye.module.scss";
 
+gsap.registerPlugin(ScrollTrigger);
+
 const Eye: FC = () => {
+    const containerRef = useRef<HTMLDivElement>(null);
     const pupilRef = useRef<HTMLDivElement>(null);
     const scleraRef = useRef<HTMLDivElement>(null);
     const blocksRefs = useRef<HTMLDivElement[]>([]);
 
+    const tweensRef = useRef<gsap.core.Animation[]>([]);
+
     useEffect(() => {
+        const container = containerRef.current;
         const pupil = pupilRef.current;
         const sclera = scleraRef.current;
         const blocks = [...blocksRefs.current];
 
-        if (!pupil || !sclera) return;
+        if (!container || !pupil || !sclera) return;
 
         gsap.set(pupil, {
             position: "absolute",
@@ -27,52 +34,66 @@ const Eye: FC = () => {
         const scleraRect = sclera.getBoundingClientRect();
         const pupilRect = pupil.getBoundingClientRect();
 
-        const scleraRadiusX = scleraRect.width / 2;
-        const scleraRadiusY = scleraRect.height / 2;
-        const pupilRadius = pupilRect.width / 2;
+        const a = scleraRect.width / 2 - pupilRect.width / 2 - 10;
 
-        const maxOffsetX = scleraRadiusX - pupilRadius - 5;
-        const maxOffsetY = scleraRadiusY - pupilRadius - 5;
+        const b = scleraRect.height / 2 - pupilRect.height / 2 - 10;
 
-        const movePupil = () => {
-            const angle = Math.random() * Math.PI * 2;
-            const radiusX = Math.random() * maxOffsetX;
-            const radiusY = Math.random() * maxOffsetY;
+        const pupilTl = gsap.timeline({
+            repeat: -1,
+            repeatDelay: 0.8,
+            paused: true,
+            repeatRefresh: true,
+        });
 
-            const x = radiusX * Math.cos(angle);
-            const y = radiusY * Math.sin(angle);
+        pupilTl.to(pupil, {
+            x: () => {
+                const angle = Math.random() * Math.PI * 2;
+                const r = Math.sqrt(Math.random());
+                return Math.cos(angle) * r * a;
+            },
+            y: () => {
+                const angle = Math.random() * Math.PI * 2;
+                const r = Math.sqrt(Math.random());
+                return Math.sin(angle) * r * b;
+            },
+            duration: () => gsap.utils.random(0.8, 1.5),
+            ease: "power2.inOut",
+        });
 
-            gsap.to(pupil, {
-                x,
-                y,
-                duration: gsap.utils.random(0.8, 1.5),
-                ease: "power2.out",
-                onComplete: () => {
-                    setTimeout(movePupil, gsap.utils.random(800, 2000));
-                },
-            });
-        };
-
-        movePupil();
+        tweensRef.current.push(pupilTl);
 
         blocks.forEach((block, i) => {
-            const moveY = gsap.utils.random(10, 25);
-            const duration = gsap.utils.random(4, 7);
-            gsap.to(block, {
-                y: moveY,
+            const tween = gsap.to(block, {
+                y: gsap.utils.random(10, 25),
                 repeat: -1,
                 yoyo: true,
-                duration,
+                duration: gsap.utils.random(4, 7),
                 ease: "sine.inOut",
                 repeatDelay: gsap.utils.random(0.2, 0.8),
                 delay: i * 0.3,
                 force3D: true,
+                paused: true,
             });
+
+            tweensRef.current.push(tween);
         });
 
+        const trigger = ScrollTrigger.create({
+            trigger: container,
+            start: "top bottom",
+            end: "bottom top",
+            onToggle: ({ isActive }) => {
+                tweensRef.current.forEach((anim) => (isActive ? anim.play() : anim.pause()));
+            },
+        });
+
+        // ---------------------------
+        // CLEANUP
+        // ---------------------------
         return () => {
-            gsap.killTweensOf(pupil);
-            blocks.forEach((block) => gsap.killTweensOf(block));
+            trigger.kill();
+            tweensRef.current.forEach((anim) => anim.kill());
+            tweensRef.current = [];
         };
     }, []);
 
@@ -80,7 +101,7 @@ const Eye: FC = () => {
     const blockPositions = ["top-left", "top-right", "bottom-left", "bottom-right"];
 
     return (
-        <div className={style["eye"]}>
+        <div className={style["eye"]} ref={containerRef}>
             {blockPositions.map((pos, index) => (
                 <div
                     key={pos}
@@ -99,7 +120,7 @@ const Eye: FC = () => {
                     />
                 ))}
                 <div className={style["eye__sclera"]} ref={scleraRef}>
-                    <div className={style["eye__pupil"]} ref={pupilRef}></div>
+                    <div className={style["eye__pupil"]} ref={pupilRef} />
                 </div>
             </div>
         </div>
