@@ -15,8 +15,9 @@
         "build-storybook": "storybook build",
         "lint:css": "stylelint '**/*.{scss,css}'",
         "lint:css:fix": "stylelint '**/*.{scss,css}' --fix",
-        "fix:all": "npm run lint:fix && npm run format:fix && npm run lint:css:fix",
-        "analyze": "cross-env ANALYZE=true next build"
+        "fix:all": "pnpm run lint:fix && pnpm run format:fix && pnpm run lint:css:fix",
+        "analyze": "cross-env ANALYZE=true next build",
+        "prepare": "husky"
     },
     "dependencies": {
         "focus-trap": "^7.6.5",
@@ -54,6 +55,7 @@
         "eslint-plugin-storybook": "^9.0.18",
         "eslint-plugin-unused-imports": "^4.2.0",
         "globals": "^16.3.0",
+        "husky": "^9.1.7",
         "jest": "^30.0.5",
         "jiti": "^2.5.1",
         "playwright": "^1.54.1",

@@ -394,10 +394,10 @@ export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkill
                     const hoveredIdx = activeIndexRef.current;
                     const isCurrent = hoveredIdx === idx;
                     const isFront = worldZ > 0;
-                    
+
                     let opacity = baseOpacity;
                     if (hoveredIdx >= 0) {
-                        opacity = isCurrent ? 1.0 : (isFront ? 0.5 : 0.2);
+                        opacity = isCurrent ? 1.0 : isFront ? 0.5 : 0.2;
                     } else {
                         opacity = isFront ? baseOpacity : baseOpacity * 0.5;
                     }
