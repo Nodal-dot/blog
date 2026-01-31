@@ -21,9 +21,13 @@ export const SkillSection: FC = () => {
             {!isCanvasReady && <Skeleton />}
 
             <div
-                className={classNames(styles["skill-section__canvas-wrapper"], {
-                    [styles["skill-section__canvas-wrapper--hidden"]]: !isCanvasReady,
-                })}
+                className={classNames(
+                    styles["skill-section__canvas-wrapper"],
+                    styles["skill-scroll-trigger"],
+                    {
+                        [styles["skill-section__canvas-wrapper--hidden"]]: !isCanvasReady,
+                    }
+                )}
             >
                 <SkillCanvasWrapper onReady={() => setIsCanvasReady(true)} />
             </div>

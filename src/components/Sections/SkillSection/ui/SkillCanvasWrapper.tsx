@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect, type FC } from "react";
+import React, { useRef, useEffect, useLayoutEffect, type FC } from "react";
 import styles from "./SkillSection.module.scss";
 import { useSkillCanvas } from "../hooks/useSkillCanvas";
 
@@ -12,13 +12,24 @@ const SkillCanvasWrapper: FC<SkillCanvasWrapperProps> = (props) => {
     const { onReady } = props;
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const tooltipRef = useRef<HTMLDivElement | null>(null);
+    const containerRef = useRef<HTMLDivElement | null>(null);
 
-    useSkillCanvas(canvasRef, tooltipRef);
+    // Находим контейнер по стабильному классу skill-scroll-trigger
+    useLayoutEffect(() => {
+        const triggerElement = document.querySelector(".skill-scroll-trigger");
+        if (triggerElement instanceof HTMLDivElement) {
+            containerRef.current = triggerElement;
+        }
+    }, []);
+
+    useSkillCanvas({ canvasRef, tooltipRef, containerRef });
 
     useEffect(() => {
-        if (canvasRef.current && tooltipRef.current) {
+        const timer = setTimeout(() => {
             onReady?.();
-        }
+        }, 100);
+
+        return () => clearTimeout(timer);
     }, [onReady]);
 
     return (

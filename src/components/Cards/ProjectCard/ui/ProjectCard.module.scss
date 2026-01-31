@@ -73,20 +73,6 @@
     }
 
     &__tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.8rem;
-
-        margin: 0;
-        padding: 0;
-
-        list-style: none;
-    }
-
-    &__tag {
-        padding: 0.4rem 0.8rem;
-        border-radius: 0.8rem;
-        color: var(--text-contrast-color);
-        background-color: var(--background-contrast-color);
+        /* Стили применяются компонентом Tags */
     }
 }

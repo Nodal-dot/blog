@@ -1,26 +1,25 @@
-export type Point3D = {
-    x0: number;
-    y0: number;
-    z0: number;
-    x?: number;
-    y?: number;
-    z?: number;
-    px?: number;
-    py?: number;
-    scale?: number;
-    icon?: HTMLImageElement;
+import * as THREE from "three";
+
+export type SkillPoint = {
+    position: THREE.Vector3;
     name: string;
-    neighbors?: number[];
+    svgUrl: string;
+    canvasTexture?: HTMLCanvasElement;
 };
 
 export const CONFIG = {
-    RADIUS: 200,
-    ICON_SIZE: 32,
-    SPEED: 0.002,
-    FOV: 400,
-    POINT_COUNT: 40,
-    CONNECT_NEIGHBORS: 5,
-    ARC_STEPS: 20,
+    RADIUS: 8,
+    ICON_SIZE: 1.2,
+    ROTATION_SPEED: 0.0003,
+    SPHERE_POINT_COUNT: 50,
+    CONNECT_NEIGHBORS: 6,
+    LINE_COLOR: "#4a9eff",
+    LINE_ACTIVE_COLOR: "#ff6b6b",
+    INTERACTION_DISTANCE: 1.5,
+    AUTO_ROTATION_ENABLED: true,
+    AUTO_ROTATION_SPEED: 0.0003,
+    MOUSE_ROTATION_ENABLED: true,
+    CLICK_ANIMATION_DURATION: 1500,
 };
 
 export const SKILLS = [
@@ -39,8 +38,8 @@ export const SKILLS = [
     { icon: "/assets/sprites/vite.svg", name: "Vite" },
 ];
 
-export function createSphere(count: number, images: HTMLImageElement[]) {
-    const pts: Point3D[] = [];
+export function generateGoldenSphereCube(count: number): THREE.Vector3[] {
+    const positions: THREE.Vector3[] = [];
     const offset = 2 / count;
     const increment = Math.PI * (3 - Math.sqrt(5));
 
@@ -49,56 +48,58 @@ export function createSphere(count: number, images: HTMLImageElement[]) {
         const r = Math.sqrt(1 - y * y);
         const phi = i * increment;
 
-        pts.push({
-            x0: Math.cos(phi) * r * CONFIG.RADIUS,
-            y0: y * CONFIG.RADIUS,
-            z0: Math.sin(phi) * r * CONFIG.RADIUS,
-            icon: images[i % images.length],
-            name: SKILLS[i % SKILLS.length].name,
-        });
+        const x = Math.cos(phi) * r * CONFIG.RADIUS;
+        const yPos = y * CONFIG.RADIUS;
+        const z = Math.sin(phi) * r * CONFIG.RADIUS;
+
+        positions.push(new THREE.Vector3(x, yPos, z));
     }
 
-    return pts;
+    return positions;
 }
 
-export function fixNeighbors(points: Point3D[]) {
-    points.forEach((p, i) => {
-        const neighbors = points
-            .map((q, j) => ({ idx: j, d: Math.hypot(p.x0 - q.x0, p.y0 - q.y0, p.z0 - q.z0) }))
+export function createSkillPoints(positions: THREE.Vector3[]): SkillPoint[] {
+    return positions.map((position, i) => ({
+        position,
+        name: SKILLS[i % SKILLS.length].name,
+        svgUrl: SKILLS[i % SKILLS.length].icon,
+    }));
+}
+
+export function findNearestNeighbors(
+    points: SkillPoint[],
+    count: number = CONFIG.CONNECT_NEIGHBORS
+): number[][] {
+    return points.map((point, i) => {
+        return points
+            .map((other, j) => ({
+                idx: j,
+                dist: point.position.distanceTo(other.position),
+            }))
             .filter((v) => v.idx !== i)
-            .sort((a, b) => a.d - b.d)
-            .slice(0, CONFIG.CONNECT_NEIGHBORS)
+            .sort((a, b) => a.dist - b.dist)
+            .slice(0, count)
             .map((v) => v.idx);
-        p.neighbors = neighbors;
     });
 }
 
-export function project(p: Point3D) {
-    const scale = CONFIG.FOV / (CONFIG.FOV + p.z!);
-    if (scale <= 0) return null;
-    return { x: p.x! * scale, y: p.y! * scale, scale };
-}
-
-export function slerp(a: Point3D, b: Point3D, t = 0.5): { x: number; y: number; z: number } {
-    const mag = (p: Point3D) => Math.sqrt(p.x! ** 2 + p.y! ** 2 + p.z! ** 2);
-    const norm = (p: Point3D) => {
-        const m = mag(p);
-        return { x: p.x! / m, y: p.y! / m, z: p.z! / m };
-    };
-
-    const v1 = norm(a);
-    const v2 = norm(b);
-    const dot = Math.min(Math.max(v1.x * v2.x + v1.y * v2.y + v1.z * v2.z, -1), 1);
-    const theta = Math.acos(dot);
-    if (theta < 0.0001) return { x: a.x!, y: a.y!, z: a.z! };
-
-    const sinT = Math.sin(theta);
-    const w1 = Math.sin((1 - t) * theta) / sinT;
-    const w2 = Math.sin(t * theta) / sinT;
-
-    return {
-        x: (v1.x * w1 + v2.x * w2) * CONFIG.RADIUS,
-        y: (v1.y * w1 + v2.y * w2) * CONFIG.RADIUS,
-        z: (v1.z * w1 + v2.z * w2) * CONFIG.RADIUS,
-    };
+export async function createSvgTexture(svgUrl: string): Promise<HTMLCanvasElement> {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+            const canvas = document.createElement("canvas");
+            canvas.width = 256;
+            canvas.height = 256;
+            const ctx = canvas.getContext("2d")!;
+            ctx.drawImage(img, 0, 0, 256, 256);
+            resolve(canvas);
+        };
+        img.onerror = () => {
+            const canvas = document.createElement("canvas");
+            canvas.width = 256;
+            canvas.height = 256;
+            resolve(canvas);
+        };
+        img.src = svgUrl;
+    });
 }

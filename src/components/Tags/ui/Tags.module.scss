@@ -1,0 +1,31 @@
+@use "@styles/utils/transition" as *;
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+
+    &__tag {
+        @include default-tr;
+        padding: 0.4rem 0.8rem;
+        border: 1px solid var(--background-contrast-color);
+        border-radius: 0.8rem;
+
+        
+        color: var(--text-color);
+
+        background-color: var(--background-color);
+
+        
+
+        &:hover {
+            border-color: var(--focus-outline-color);
+            background-color: var(--hover-background-color);
+        }
+    }
+}

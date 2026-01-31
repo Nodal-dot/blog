@@ -4,6 +4,7 @@ import React, { useState, type FC } from "react";
 import style from "./ProjectCard.module.scss";
 import Image from "next/image";
 import Button from "@/components/Button";
+import Tags from "@/components/Tags";
 
 export interface ProjectCardProps {
     title: string;
@@ -37,15 +38,7 @@ const ProjectCard: FC<ProjectCardProps> = (props) => {
                     <span className={style["project-card__subtitle"]}>{subtitle}</span>
                 </div>
 
-                {tags.length > 0 && (
-                    <ul className={style["project-card__tags"]}>
-                        {tags.map((tag, index) => (
-                            <li key={index} className={style["project-card__tag"]}>
-                                {tag}
-                            </li>
-                        ))}
-                    </ul>
-                )}
+                <Tags tags={tags} className={style["project-card__tags"]} />
 
                 <Button hovered={hovered}>{buttonText}</Button>
             </div>
