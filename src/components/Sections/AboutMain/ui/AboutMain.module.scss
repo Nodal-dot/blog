@@ -1,3 +1,5 @@
+@use "@styles/utils/breakpoints" as *;
+
 .about-main {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -5,4 +7,17 @@
     align-items: center;
 
     min-height: calc(100dvh - var(--header-height));
+
+    @include tablet {
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 1.2rem;
+
+        min-height: unset;
+        margin-top: var(--header-height);
+    }
+
+    @include mobile {
+        margin-top: 0;
+    }
 }

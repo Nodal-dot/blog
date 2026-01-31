@@ -42,8 +42,9 @@ export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkill
     const mouseRef = useRef(new THREE.Vector2());
     const animationRef = useRef<number | null>(null);
     const resizeTimeoutRef = useRef<number | null>(null);
+    const isMouseInsideRef = useRef(false);
     const canvasScaleRef = useRef<number>(1);
-
+    const isTouchDeviceRef = useRef(false);
     const spriteIndicesRef = useRef<Map<SkillPoint, number>>(new Map());
     const mouseDownRef = useRef(false);
     const mouseDragRef = useRef({ x: 0, y: 0 });
@@ -54,7 +55,9 @@ export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkill
         startTime: 0,
         duration: CONFIG.CLICK_ANIMATION_DURATION,
     });
-
+    useEffect(() => {
+        isTouchDeviceRef.current = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    }, []);
     useEffect(() => {
         if (!canvasRef.current) return;
 
@@ -198,6 +201,9 @@ export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkill
         });
 
         const computeCanvasScale = (width: number, height: number) => {
+            if (isTouchDeviceRef.current) {
+                return 1.2;
+            }
             const minSide = Math.min(width, height);
             const scale = Math.max(0.45, Math.min(1.2, minSide / 600));
             return scale;
@@ -237,9 +243,24 @@ export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkill
         const handleMouseUp = () => {
             mouseDownRef.current = false;
         };
+        const handleMouseEnter = () => {
+            isMouseInsideRef.current = true;
+        };
+
+        const handleMouseLeave = () => {
+            isMouseInsideRef.current = false;
+            activePointRef.current = null;
+            activeIndexRef.current = -1;
+
+            if (tooltipRef.current) {
+                tooltipRef.current.style.display = "none";
+            }
+        };
 
         const handleMouseMove = (event: MouseEvent) => {
+            if (isTouchDeviceRef.current) return;
             if (!canvasRef.current) return;
+            if (!isMouseInsideRef.current) return;
             const rect = canvasRef.current.getBoundingClientRect();
             mouseRef.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
             mouseRef.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
@@ -341,7 +362,8 @@ export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkill
         window.addEventListener("mouseup", handleMouseUp);
         window.addEventListener("mousemove", handleMouseMove);
         canvasRef.current?.addEventListener("click", handleClick);
-
+        canvasRef.current?.addEventListener("mouseenter", handleMouseEnter);
+        canvasRef.current?.addEventListener("mouseleave", handleMouseLeave);
         const animate = () => {
             animationRef.current = requestAnimationFrame(animate);
 
@@ -434,7 +456,6 @@ export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkill
             renderer.render(scene, camera);
         };
 
-        // Функции для запуска и остановки анимации
         const startAnimation = () => {
             if (animationRef.current === null) {
                 animate();

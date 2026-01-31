@@ -23,7 +23,7 @@ export const SkillSection: FC = () => {
             <div
                 className={classNames(
                     styles["skill-section__canvas-wrapper"],
-                    styles["skill-scroll-trigger"],
+                    "skill-scroll-trigger",
                     {
                         [styles["skill-section__canvas-wrapper--hidden"]]: !isCanvasReady,
                     }

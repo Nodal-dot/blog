@@ -14,7 +14,6 @@ const SkillCanvasWrapper: FC<SkillCanvasWrapperProps> = (props) => {
     const tooltipRef = useRef<HTMLDivElement | null>(null);
     const containerRef = useRef<HTMLDivElement | null>(null);
 
-    // Находим контейнер по стабильному классу skill-scroll-trigger
     useLayoutEffect(() => {
         const triggerElement = document.querySelector(".skill-scroll-trigger");
         if (triggerElement instanceof HTMLDivElement) {

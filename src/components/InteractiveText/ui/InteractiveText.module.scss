@@ -1,10 +1,15 @@
 @use "@styles/utils/typography" as *;
+@use "@styles/utils/breakpoints" as *;
 
 .interactiveText__container {
     display: flex;
     flex-direction: column;
     gap: 2rem;
     justify-content: center;
+
+    @include tablet {
+        align-items: center;
+    }
 }
 
 .interactiveText__paragraph {
