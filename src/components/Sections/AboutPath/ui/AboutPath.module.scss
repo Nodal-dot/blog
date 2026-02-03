@@ -1,32 +1,104 @@
-@use "@styles/utils/typography" as *;
+@use "@styles/utils/transition" as *;
+@use "@styles/utils/box" as *;
 
-.about-path {
+.timeline {
+    position: relative;
     display: flex;
     flex-direction: column;
-    gap: 3.2rem;
-
-    &__title {
-        text-align: center;
-    }
+    gap: 2rem;
 
     &__list {
-        display: grid;
+        position: relative;
+
+        display: flex;
+        flex-direction: column;
         gap: 2.4rem;
 
-        margin: 0;
+        margin: 0 10rem;
         padding: 0;
 
         list-style: none;
     }
 
-    &__item {
-        display: flex;
-        gap: 1.6rem;
-        align-items: flex-start;
+    &__progress {
+        pointer-events: none;
+
+        position: absolute;
+        top: 0;
+        left: 0.85rem;
+
+        width: 2px;
+
+        background: var(--background-contrast-color);
     }
 
-    &__meta {
-        min-width: 18rem;
-        color: var(--muted-color, #7a7a7a);
+    &__ball {
+        @include box(1.6rem);
+
+        position: absolute;
+        z-index: 3;
+        top: 0;
+        left: 0.95rem;
+        transform: translateX(-50%);
+
+        border-radius: 50%;
+
+        background: var(--background-contrast-color);
+    }
+
+    &__ball,
+    &__progress {
+        @include default-tr;
+
+        opacity: 0;
+        transition-property: opacity;
+
+        &.is-visible {
+            opacity: 1;
+        }
+    }
+
+    &__item {
+        @include default-tr;
+
+        position: relative;
+        transform: translateX(0);
+
+        padding-left: 3rem;
+
+        opacity: 0.6;
+
+        transition-property: opacity, transform;
+    }
+
+    &__item.is-active {
+        transform: translateX(1rem);
+        opacity: 1;
+    }
+
+    &__title {
+        text-align: center;
+    }
+
+    &__after {
+        display: flex;
+        flex-direction: column;
+        gap: 1.6rem;
+    }
+
+    &__card {
+        @include default-tr;
+
+        display: flex;
+        gap: 1.6rem;
+        align-items: center;
+        justify-content: space-between;
+
+        padding: 2.4rem;
+        border-radius: 1.6rem;
+
+        color: var(--text-contrast-color);
+
+        background: var(--background-contrast-color);
     }
 }
