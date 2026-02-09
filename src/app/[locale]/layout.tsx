@@ -1,11 +1,11 @@
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Header from "@/widgets/Header";
+import Footer from "@/widgets/Footer";
 import { Montserrat } from "next/font/google";
 import type { ReactNode } from "react";
-import ClientLayer from "@/components/ClientLayer/ClientLayer";
+import ClientLayer from "@/app/providers/client/ClientLayer";
 import type { Viewport } from "next";
 import "@/styles/index.scss";
 

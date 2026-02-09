@@ -1,0 +1,135 @@
+@use "@styles/utils/transition" as *;
+@use "@styles/utils/breakpoints" as *;
+@use "@styles/utils/box" as *;
+
+.timeline {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    &__list {
+        position: relative;
+
+        display: flex;
+        flex-direction: column;
+        gap: 2.4rem;
+
+        margin: 0 10rem;
+        padding: 0;
+
+        list-style: none;
+
+        @include tablet {
+            margin: 0 6.4rem;
+        }
+
+        @include mobile {
+            margin: 0;
+        }
+    }
+
+    &__progress {
+        pointer-events: none;
+
+        position: absolute;
+        top: 0;
+        left: 0.85rem;
+
+        width: 2px;
+
+        background: var(--background-contrast-color);
+    }
+
+    &__ball {
+        @include box(1.6rem);
+
+        position: absolute;
+        z-index: 3;
+        top: 0;
+        left: 0.95rem;
+        transform: translateX(-50%);
+
+        border-radius: 50%;
+
+        background: var(--background-contrast-color);
+    }
+
+    &__ball,
+    &__progress {
+        @include default-tr;
+
+        opacity: 0;
+        transition-property: opacity;
+
+        &.is-visible {
+            opacity: 1;
+        }
+
+        @include mobile {
+            display: none;
+        }
+    }
+
+    &__item {
+        @include default-tr;
+
+        position: relative;
+        transform: translateX(0);
+
+        padding-left: 3rem;
+
+        opacity: 0.6;
+
+        transition-property: opacity, transform;
+
+        @include tablet {
+            padding-left: 2.4rem;
+        }
+
+        @include mobile {
+            padding-left: 0;
+        }
+    }
+
+    &__item.is-active {
+        transform: translateX(1rem);
+        opacity: 1;
+
+        @include mobile {
+            transform: none;
+        }
+    }
+
+    &__title {
+        text-align: center;
+    }
+
+    &__before {
+        @include mobile {
+            display: none;
+        }
+    }
+
+    &__after {
+        display: flex;
+        flex-direction: column;
+        gap: 1.6rem;
+    }
+
+    &__card {
+        @include default-tr;
+
+        display: flex;
+        gap: 1.6rem;
+        align-items: center;
+        justify-content: space-between;
+
+        padding: 2.4rem;
+        border-radius: 1.6rem;
+
+        color: var(--text-contrast-color);
+
+        background: var(--background-contrast-color);
+    }
+}

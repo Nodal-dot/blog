@@ -10,6 +10,18 @@
             "title": "Projects"
         }
     },
+    "AboutPage": {
+        "interactiveText": {
+            "title": "About me",
+            "paragraph1": "I am a <dev>frontend developer</dev> specializing in building <perf>high-performance</perf> and <access>accessible</access> interfaces.",
+            "paragraph2": "In code, I value <types>strict typing</types>, clean <architecture>architecture</architecture>, and <pixel>pixel-perfect</pixel> layout. I believe details matter.",
+            "button": "View projects",
+            "buttonAria": "Go to projects"
+        },
+        "SkillSection": {
+            "title": "My skills"
+        }
+    },
     "Nav": {
         "home": "Home",
         "about": "About Me",

@@ -10,6 +10,19 @@
             "title": "Проекты"
         }
     },
+
+    "AboutPage": {
+        "interactiveText": {
+            "title": "Обо мне",
+            "paragraph1": "Я <dev>фронтенд-разработчик</dev>, специализирующийся на создании <perf>производительных</perf> и <access>доступных</access> интерфейсов.",
+            "paragraph2": "В коде ценю <types>строгую типизацию</types>, чистую <architecture>архитектуру</architecture> и <pixel>Pixel Perfect</pixel> верстку. Верю, что детали имеют значение.",
+            "button": "Посмотреть проекты",
+            "buttonAria": "Перейти в проекты"
+        },
+        "SkillSection": {
+            "title": "Мои навыки"
+        }
+    },
     "Nav": {
         "home": "Главная",
         "about": "Обо мне",

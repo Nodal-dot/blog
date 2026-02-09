@@ -1,9 +1,9 @@
-import MainSection from "@/components/Sections/MainSection";
-import ProjectSection from "@/components/Sections/ProjectSection";
 import type { FC } from "react";
 import { createPageMetadata } from "./metadata";
 import type { Metadata } from "next";
 import type { Locale } from "@/i18n/types";
+import MainSection from "./_components/MainSection";
+import ProjectSection from "./_components/ProjectSection";
 
 interface IHomePage {
     params: Promise<{
