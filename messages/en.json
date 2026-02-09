@@ -20,6 +20,30 @@
         },
         "SkillSection": {
             "title": "My skills"
+        },
+
+        "PathSection": {
+            "title": "My Journey",
+            "items": {
+                "freelance": {
+                    "date": "2023 — Present",
+                    "title": "Frontend Developer",
+                    "place": "Freelance",
+                    "tags": "React, Next.js, TypeScript, A11y, Performance"
+                },
+                "company_xyz": {
+                    "date": "2021 — 2023",
+                    "title": "Frontend Engineer",
+                    "place": "Company XYZ",
+                    "tags": "TypeScript, Design System, SCSS"
+                },
+                "university": {
+                    "date": "2018 — 2021",
+                    "title": "BSc in Computer Science",
+                    "place": "University ABC",
+                    "tags": "Algorithms, Data Structures, OOP"
+                }
+            }
         }
     },
     "Nav": {

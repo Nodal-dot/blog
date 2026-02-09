@@ -7,7 +7,7 @@ import "prismjs/themes/prism-tomorrow.css";
 
 import styles from "./Workspace.module.scss";
 import { classNames } from "@/shared/lib/classNames";
-const SMOKE_COUNT = 6;
+const SMOKE_COUNT = 3;
 
 const SOURCE_CODE = [
     "const developer = {",

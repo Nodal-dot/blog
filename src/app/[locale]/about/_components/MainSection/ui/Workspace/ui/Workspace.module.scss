@@ -293,6 +293,8 @@
     }
 
     &__smoke {
+        will-change: transform, opacity;
+
         position: absolute;
         bottom: 0;
 

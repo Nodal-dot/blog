@@ -10,7 +10,7 @@ interface ProjectSectionContainerProps {
 export const ProjectSectionContainer: FC<ProjectSectionContainerProps> = async (props) => {
     const { locale } = props;
     const projects = await getProjects(locale);
-    const cards = mapProjectsToCards(projects, locale);
+    const cards = mapProjectsToCards(projects);
     if (!cards.length) return null;
 
     return <ProjectSection projects={cards} />;

@@ -1,6 +1,6 @@
 import type { Project, ProjectCardProps } from "./types";
 
-export function mapProjectsToCards(projects: Project[], locale: string): ProjectCardProps[] {
+export function mapProjectsToCards(projects: Project[]): ProjectCardProps[] {
     return projects.map((project) => ({
         title: project.title,
         subtitle: project.subtitle,
@@ -10,6 +10,6 @@ export function mapProjectsToCards(projects: Project[], locale: string): Project
         },
         buttonText: project.buttonText || "Подробнее",
         tags: project.tags,
-        href: `/${locale}/projects/${project.slug}`,
+        href: `/projects/${project.slug}`,
     }));
 }
