@@ -2,7 +2,7 @@
 import { ArrowDown } from "lucide-react";
 
 import React from "react";
-import styles from "./MainSection.module.scss";
+import styles from "./MainHero.module.scss";
 import Button from "@/shared/ui/Button";
 import { classNames } from "@/shared/lib/classNames";
 import { useTranslations } from "next-intl";
@@ -10,12 +10,12 @@ import ScrollButton from "@/shared/ui/ScrollButton";
 import dynamic from "next/dynamic";
 import Skeleton from "@/shared/ui/Skeleton";
 
-const Eye = dynamic(() => import("./Eye"), {
+const Eye = dynamic(() => import("@/widgets/Eye"), {
     ssr: false,
     loading: () => <Skeleton />,
 });
 
-export const MainSection: React.FC = () => {
+export const MainHero: React.FC = () => {
     const t = useTranslations();
 
     return (

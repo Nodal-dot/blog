@@ -2,8 +2,6 @@
 @use "@styles/utils/breakpoints" as *;
 
 .footer {
-    @include default-tr;
-
     position: relative;
 
     display: grid;

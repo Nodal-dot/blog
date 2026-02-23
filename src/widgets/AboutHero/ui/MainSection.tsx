@@ -5,9 +5,9 @@ import styles from "./MainSection.module.scss";
 import { classNames } from "@/shared/lib/classNames";
 import dynamic from "next/dynamic";
 import Skeleton from "@/shared/ui/Skeleton";
-import InteractiveText from "./InteractiveText";
+import InteractiveText from "@/widgets/InteractiveText";
 
-const Workspace = dynamic(() => import("./Workspace"), {
+const Workspace = dynamic(() => import("@/widgets/Workspace"), {
     ssr: false,
     loading: () => <Skeleton />,
 });

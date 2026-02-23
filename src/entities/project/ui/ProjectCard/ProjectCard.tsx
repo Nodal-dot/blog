@@ -9,6 +9,7 @@ import type { ProjectCardProps } from "../../model/types";
 import { Link } from "@/i18n/navigation";
 
 const ProjectCard: FC<ProjectCardProps> = (props) => {
+    // TODO fix tags hardcode
     const { title, subtitle, image, href, buttonText, tags = ["React", "Node js"] } = props;
     const [hovered, setHovered] = useState(false);
 

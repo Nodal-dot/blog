@@ -5,6 +5,7 @@ export interface ProjectCardProps {
     buttonText: string;
     tags?: string[];
     href: string;
+    className?: string;
 }
 export interface Project {
     slug: string;

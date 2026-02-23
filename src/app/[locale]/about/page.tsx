@@ -1,13 +1,13 @@
 import type { FC } from "react";
-import MainSection from "./_components/MainSection";
-import PathSection from "./_components/PathSection";
-import SkillSection from "./_components/SkillSection";
+import AboutHero from "@/widgets/AboutHero";
+import AboutPath from "@/widgets/AboutPath";
+import AboutSkill from "@/widgets/AboutSkill";
 
 const AboutPage: FC = () => (
     <>
-        <MainSection />
-        <PathSection />
-        <SkillSection />
+        <AboutHero />
+        <AboutPath />
+        <AboutSkill />
     </>
 );
 

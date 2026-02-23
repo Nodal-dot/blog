@@ -56,5 +56,10 @@
     },
     "Social": {
         "github": "GitHub"
+    },
+    "Metadata": {
+        "title": "Frontend Developer — Nodal-dot",
+        "description": "Frontend developer portfolio.",
+        "keywords": "Frontend Developer,React,Next.js,TypeScript,Portfolio"
     }
 }

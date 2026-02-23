@@ -87,9 +87,6 @@ const Eye: FC = () => {
             },
         });
 
-        // ---------------------------
-        // CLEANUP
-        // ---------------------------
         return () => {
             trigger.kill();
             tweensRef.current.forEach((anim) => anim.kill());

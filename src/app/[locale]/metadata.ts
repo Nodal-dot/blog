@@ -5,7 +5,7 @@ import type { Locale } from "@/i18n/types";
 interface PageSEOParams {
     title: string;
     description: string;
-    keywords?: string[];
+    keywords?: string;
     openGraphTitle?: string;
     openGraphDescription?: string;
     path: string;
@@ -15,14 +15,13 @@ interface PageSEOParams {
 export async function createPageMetadata({
     title,
     description,
-    keywords = [],
+    keywords = "",
     openGraphTitle,
     openGraphDescription,
     path,
     locale,
 }: PageSEOParams): Promise<Metadata> {
     const base = BASE_SEO[locale];
-
     return {
         title: {
             default: title,
@@ -46,7 +45,7 @@ export async function createPageMetadata({
                 return acc;
             }, {}),
         },
-        keywords,
+        keywords: keywords.split(","),
         robots: { index: true, follow: true },
         openGraph: {
             type: "website",

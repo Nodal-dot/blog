@@ -56,5 +56,10 @@
     },
     "Social": {
         "github": "Гитхаб"
+    },
+    "Metadata": {
+        "title": "Фронтенд разработчик — Nodal-dot",
+        "description": "Портфолио фронтенд разработчика.",
+        "keywords": "Фронтенд разработчик,React,Next.js,TypeScript,Портфолио"
     }
 }
