@@ -7,7 +7,6 @@ import "prismjs/themes/prism-tomorrow.css";
 
 import styles from "./Workspace.module.scss";
 import { classNames } from "@/shared/lib/classNames";
-const SMOKE_COUNT = 3;
 
 const SOURCE_CODE = [
     "const developer = {",
@@ -255,19 +254,6 @@ export const Workspace: FC = () => {
             </div>
 
             <div className={styles["workspace__mug-container"]}>
-                <div className={styles["workspace__smoke-wrapper"]}>
-                    {Array.from({ length: SMOKE_COUNT }).map((_, i) => (
-                        <div
-                            key={i}
-                            ref={(el) => {
-                                if (el) smokeRefs.current[i] = el;
-                            }}
-                            className={styles.workspace__smoke}
-                            style={{ left: `${45 + i * 2}%` }}
-                        />
-                    ))}
-                </div>
-
                 <div className={styles["workspace__mug"]}>
                     <div className={styles["workspace__mug-handle"]} />
                 </div>
