@@ -1,7 +1,7 @@
 "use client";
 
 import React, { type FC } from "react";
-import styles from "./MainSection.module.scss";
+import styles from "./AboutHero.module.scss";
 import { classNames } from "@/shared/lib/classNames";
 import dynamic from "next/dynamic";
 import Skeleton from "@/shared/ui/Skeleton";
@@ -11,13 +11,13 @@ const Workspace = dynamic(() => import("@/widgets/Workspace"), {
     ssr: false,
     loading: () => <Skeleton />,
 });
-export const MainSection: FC = () => {
+export const AboutHero: FC = () => {
     return (
-        <section className={classNames(styles["about-main"], "section")}>
+        <section className={classNames(styles["about-hero"], "section")}>
             <Workspace />
             <InteractiveText />
         </section>
     );
 };
 
-export default MainSection;
+export default AboutHero;

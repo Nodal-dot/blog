@@ -1,12 +1,12 @@
 {
     "HomePage": {
-        "mainSection": {
+        "MainHero": {
             "greeting": "Привет. Я Владимир.",
             "profession": "Фронтенд разработчик",
             "description": "Превращаю идеи в аккуратный и логичный код. Люблю продуманные интерфейсы, семантику и эстетику во всём, что делаю.",
             "button": "Посмотреть мои работы"
         },
-        "ProjectsSection": {
+        "MainProjects": {
             "title": "Проекты"
         }
     },
@@ -19,10 +19,10 @@
             "button": "Посмотреть проекты",
             "buttonAria": "Перейти в проекты"
         },
-        "SkillSection": {
+        "AboutSkill": {
             "title": "Мои навыки"
         },
-        "PathSection": {
+        "AboutPath": {
             "title": "Мой путь",
             "items": {
                 "freelance": {

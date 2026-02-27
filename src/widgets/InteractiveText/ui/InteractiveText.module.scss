@@ -1,7 +1,7 @@
 @use "@styles/utils/typography" as *;
 @use "@styles/utils/breakpoints" as *;
 
-.interactiveText__container {
+.interactive-text {
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -10,36 +10,36 @@
     @include tablet {
         align-items: center;
     }
-}
 
-.interactiveText__paragraph {
-    @include font-size(h3);
-}
-
-.interactiveText__fillWord {
-    cursor: pointer;
-
-    font-weight: 600;
-    color: var(--text-contrast-color);
-    text-shadow:
-        1px 1px 0 var(--text-color),
-        -1px 1px 0 var(--text-color),
-        1px -1px 0 var(--text-color),
-        -1px -1px 0 var(--text-color);
-
-    transition:
-        color 0.3s ease,
-        text-shadow 0.3s ease;
-
-    &:hover {
-        color: var(--text-color);
-        text-shadow: none;
+    &__paragraph {
+        @include font-size(h3);
     }
-}
 
-.interactiveText__actions {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    margin-top: 1rem;
+    &__fill-word {
+        cursor: pointer;
+
+        font-weight: 600;
+        color: var(--text-contrast-color);
+        text-shadow:
+            1px 1px 0 var(--text-color),
+            -1px 1px 0 var(--text-color),
+            1px -1px 0 var(--text-color),
+            -1px -1px 0 var(--text-color);
+
+        transition:
+            color 0.3s ease,
+            text-shadow 0.3s ease;
+
+        &:hover {
+            color: var(--text-color);
+            text-shadow: none;
+        }
+
+        &__actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-top: 1rem;
+        }
+    }
 }

@@ -1,17 +1,17 @@
 import { getProjects, mapProjectsToCards } from "@/entities/project";
-import ProjectSection from "./ProjectSection";
+import MainProjects from "./MainProjects";
 
 import type { FC } from "react";
 
-interface ProjectSectionContainerProps {
+interface MainProjectsContainerProps {
     locale: string;
 }
 
-export const ProjectSectionContainer: FC<ProjectSectionContainerProps> = async (props) => {
+export const MainProjectsContainer: FC<MainProjectsContainerProps> = async (props) => {
     const { locale } = props;
     const projects = await getProjects(locale);
     const cards = mapProjectsToCards(projects);
     if (!cards.length) return null;
 
-    return <ProjectSection projects={cards} />;
+    return <MainProjects projects={cards} />;
 };

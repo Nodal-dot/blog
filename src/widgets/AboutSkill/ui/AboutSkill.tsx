@@ -2,7 +2,7 @@
 
 import React, { useState, type FC } from "react";
 import dynamic from "next/dynamic";
-import styles from "./SkillSection.module.scss";
+import styles from "./AboutSkill.module.scss";
 import { classNames } from "@/shared/lib/classNames";
 import Skeleton from "@/shared/ui/Skeleton";
 import { useTranslations } from "next-intl";
@@ -12,22 +12,22 @@ const SkillCanvasWrapper = dynamic(() => import("./SkillCanvasWrapper"), {
     loading: () => <Skeleton />,
 });
 
-export const SkillSection: FC = () => {
+export const AboutSkill: FC = () => {
     const [isCanvasReady, setIsCanvasReady] = useState(false);
-    const t = useTranslations("AboutPage.SkillSection");
+    const t = useTranslations("AboutPage.AboutSkill");
 
     return (
-        <section className={classNames(styles["skill-section"], styles["section"])}>
+        <section className={classNames(styles["about-skill"], styles["section"])}>
             <h2>{t("title")}</h2>
 
             {!isCanvasReady && <Skeleton />}
 
             <div
                 className={classNames(
-                    styles["skill-section__canvas-wrapper"],
+                    styles["about-skill__canvas-wrapper"],
                     "skill-scroll-trigger",
                     {
-                        [styles["skill-section__canvas-wrapper--hidden"]]: !isCanvasReady,
+                        [styles["about-skill__canvas-wrapper--hidden"]]: !isCanvasReady,
                     }
                 )}
             >
@@ -37,4 +37,4 @@ export const SkillSection: FC = () => {
     );
 };
 
-export default SkillSection;
+export default AboutSkill;

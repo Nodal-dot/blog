@@ -3,31 +3,29 @@
 import React, { useState, type FC } from "react";
 import dynamic from "next/dynamic";
 
-import styles from "./ProjectSection.module.scss";
+import styles from "./MainProjects.module.scss";
 import { classNames } from "@/shared/lib/classNames";
 import Skeleton from "@/shared/ui/Skeleton";
 import { useTranslations } from "next-intl";
 import type { ProjectCardProps } from "@/entities/project";
 
-const ProjectSwiper = dynamic(() => import("./ProjectSwiper"), {
+const ProjectSwiper = dynamic(() => import("./ProjectsSwiper"), {
     ssr: false,
     loading: () => <Skeleton />,
 });
 
-interface ProjectSectionProps {
+interface MainProjectsProps {
     projects: ProjectCardProps[];
 }
 
-export const ProjectSection: FC<ProjectSectionProps> = (props) => {
+export const MainProjects: FC<MainProjectsProps> = (props) => {
     const { projects } = props;
     const [isSwiperReady, setIsSwiperReady] = useState(false);
-    const t = useTranslations();
+    const t = useTranslations("HomePage.MainProjects");
 
     return (
         <section id="project-section" className={classNames(styles["project-section"], "section")}>
-            <h2 className={styles["project-section__title"]}>
-                {t("HomePage.ProjectsSection.title")}
-            </h2>
+            <h2 className={styles["project-section__title"]}>{t("title")}</h2>
 
             {!isSwiperReady && <Skeleton />}
             <div
@@ -49,4 +47,4 @@ export const ProjectSection: FC<ProjectSectionProps> = (props) => {
     );
 };
 
-export default ProjectSection;
+export default MainProjects;

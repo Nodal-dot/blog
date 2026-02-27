@@ -30,7 +30,6 @@ export const Workspace: FC = () => {
     const codeRef = useRef<HTMLElement>(null);
     const pupilRef = useRef<SVGGElement>(null);
     const lidRef = useRef<SVGRectElement>(null);
-    const smokeRefs = useRef<HTMLDivElement[]>([]);
     const codeContainerRef = useRef<HTMLDivElement>(null);
 
     const isMounted = useRef(false);
@@ -137,60 +136,6 @@ export const Workspace: FC = () => {
             typeWriter();
             startEyeAnimation();
         });
-
-        smokeRefs.current.forEach((smoke, i) => {
-            const tl = gsap.timeline({
-                delay: i * 0.5,
-                repeat: -1,
-            });
-
-            tl.fromTo(
-                smoke,
-                {
-                    y: 0,
-                    opacity: 0,
-                    scaleY: 0.4,
-                    scaleX: 0.6,
-                },
-                {
-                    opacity: 0.7,
-                    duration: 0.8,
-                    ease: "sine.out",
-                }
-            )
-                .to(
-                    smoke,
-                    {
-                        y: -80,
-                        scaleY: 1.6,
-                        scaleX: 2.2,
-                        rotate: gsap.utils.random(-12, 12),
-                        duration: 3.5,
-                        ease: "sine.out",
-                    },
-                    "<"
-                )
-                .to(
-                    smoke,
-                    {
-                        x: gsap.utils.random(-18, 18),
-                        duration: 1.6,
-                        repeat: 2,
-                        yoyo: true,
-                        ease: "sine.inOut",
-                    },
-                    "<"
-                )
-                .to(
-                    smoke,
-                    {
-                        opacity: 0,
-                        duration: 1.2,
-                        ease: "sine.in",
-                    },
-                    "-=1"
-                );
-        });
     }, []);
 
     return (
@@ -199,6 +144,7 @@ export const Workspace: FC = () => {
             className={classNames(styles["workspace"], {
                 [styles["workspace--light-on"]]: lightOn,
             })}
+            aria-hidden
         >
             <div className={styles["workspace__monitor-group"]}>
                 <div

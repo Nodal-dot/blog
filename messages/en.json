@@ -1,12 +1,12 @@
 {
     "HomePage": {
-        "mainSection": {
+        "MainHero": {
             "greeting": "Hello. I'm Vladimir.",
             "profession": "Frontend Developer",
             "description": "I turn ideas into neat and logical code. I love well-thought-out interfaces, semantics, and aesthetics in everything I do.",
             "button": "See my work"
         },
-        "ProjectsSection": {
+        "MainProjects": {
             "title": "Projects"
         }
     },
@@ -18,11 +18,11 @@
             "button": "View projects",
             "buttonAria": "Go to projects"
         },
-        "SkillSection": {
+        "AboutSkill": {
             "title": "My skills"
         },
 
-        "PathSection": {
+        "AboutPath": {
             "title": "My Journey",
             "items": {
                 "freelance": {

@@ -8,7 +8,7 @@ import { Code2, Layers, GraduationCap } from "lucide-react";
 
 import Tags from "@/shared/ui/Tags";
 import { classNames } from "@/shared/lib/classNames";
-import styles from "./PathSection.module.scss";
+import styles from "./AboutPath.module.scss";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -20,8 +20,8 @@ const ICON_MAP = {
 
 type PathItemKey = keyof typeof ICON_MAP;
 
-export const PathSection: FC = () => {
-    const t = useTranslations("AboutPage.PathSection");
+export const AboutPath: FC = () => {
+    const t = useTranslations("AboutPage.AboutPath");
     const itemsRef = useRef<HTMLLIElement[]>([]);
     const ballRef = useRef<HTMLDivElement>(null);
     const progressRef = useRef<HTMLDivElement>(null);
@@ -86,12 +86,11 @@ export const PathSection: FC = () => {
     }, []);
 
     return (
-        <section className={classNames(styles.timeline, "section")}>
-            <h2 className={styles.timeline__title}>{t("title")}</h2>
-
-            <ol className={styles.timeline__list} role="list">
-                <div ref={progressRef} className={styles.timeline__progress} />
-                <div ref={ballRef} className={styles.timeline__ball} />
+        <section className={classNames(styles["about-path"], "section")}>
+            <h2 className={styles["about-path__title"]}>{t("title")}</h2>
+            <ol className={styles["about-path__list"]} role="list">
+                <div ref={progressRef} className={styles["about-path__progress"]} />
+                <div ref={ballRef} className={styles["about-path__ball"]} />
 
                 {itemKeys.map((key, i) => {
                     const tags = t(`items.${key}.tags`)
@@ -104,20 +103,20 @@ export const PathSection: FC = () => {
                             ref={(el) => {
                                 if (el) itemsRef.current[i] = el;
                             }}
-                            className={styles.timeline__item}
+                            className={styles["about-path__item"]}
                         >
-                            <div className={styles.timeline__card}>
-                                <div className={styles.timeline__after}>
+                            <div className={styles["about-path__card"]}>
+                                <div className={styles["about-path__after"]}>
                                     <h3>{t(`items.${key}.title`)}</h3>
-                                    <span className={styles.timeline__date}>
+                                    <span className={styles["about-path__date"]}>
                                         {t(`items.${key}.date`)}
                                     </span>
-                                    <span className={styles.timeline__place}>
+                                    <span className={styles["about-path__place"]}>
                                         {t(`items.${key}.place`)}
                                     </span>
-                                    <Tags tags={tags} className={styles.timeline__tags} />
+                                    <Tags tags={tags} className={styles["about-path__tags"]} />
                                 </div>
-                                <div className={styles.timeline__before}>{ICON_MAP[key]}</div>
+                                <div className={styles["about-path__before"]}>{ICON_MAP[key]}</div>
                             </div>
                         </li>
                     );
@@ -127,4 +126,4 @@ export const PathSection: FC = () => {
     );
 };
 
-export default PathSection;
+export default AboutPath;

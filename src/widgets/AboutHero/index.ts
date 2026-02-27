@@ -1,1 +1,1 @@
-export { MainSection as default } from "./ui/MainSection";
+export { AboutHero as default } from "./ui/AboutHero";

@@ -3,7 +3,7 @@ import { createPageMetadata } from "./metadata";
 import type { Metadata } from "next";
 import type { Locale } from "@/i18n/types";
 import MainHero from "@/widgets/MainHero";
-import MainProject from "@/widgets/MainProject";
+import MainProjects from "@/widgets/MainProjects";
 import { getTranslations } from "next-intl/server";
 
 interface HomePageProps {
@@ -19,7 +19,7 @@ const HomePage: FC<HomePageProps> = async (props) => {
     return (
         <>
             <MainHero />
-            <MainProject locale={locale} />
+            <MainProjects locale={locale} />
         </>
     );
 };

@@ -16,19 +16,19 @@ const Eye = dynamic(() => import("@/widgets/Eye"), {
 });
 
 export const MainHero: React.FC = () => {
-    const t = useTranslations();
+    const t = useTranslations("HomePage.MainHero");
 
     return (
         <section className={classNames(styles["main-section"], "section")}>
             <div className={styles["main-section__content"]}>
                 <div className={styles["main-section__headline"]}>
-                    <h1>{t("HomePage.mainSection.greeting")}</h1>
-                    <h2>{t("HomePage.mainSection.profession")}</h2>
+                    <h1>{t("greeting")}</h1>
+                    <h2>{t("profession")}</h2>
                 </div>
-                <p>{t("HomePage.mainSection.description")}</p>
+                <p>{t("description")}</p>
                 <ScrollButton target="#project-section">
                     <Button rightIcon={<ArrowDown />} className={styles["main-section__button"]}>
-                        {t("HomePage.mainSection.button")}
+                        {t("button")}
                     </Button>
                 </ScrollButton>
             </div>

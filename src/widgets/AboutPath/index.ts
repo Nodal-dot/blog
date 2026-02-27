@@ -1,1 +1,1 @@
-export { PathSection as default } from "./ui/PathSection";
+export { AboutPath as default } from "./ui/AboutPath";

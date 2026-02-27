@@ -8,16 +8,16 @@ import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 
-import styles from "./ProjectSection.module.scss";
+import styles from "./MainProjects.module.scss";
 import { ProjectCard, type ProjectCardProps } from "@/entities/project";
 
-interface ProjectSwiperProps {
+interface ProjectsSwiperProps {
     projects: ProjectCardProps[];
     onReady?: () => void;
     paginationClassName: string;
 }
 
-const ProjectSwiper: FC<ProjectSwiperProps> = (props) => {
+const ProjectsSwiper: FC<ProjectsSwiperProps> = (props) => {
     const { projects, onReady, paginationClassName } = props;
     return (
         <Swiper
@@ -67,4 +67,4 @@ const ProjectSwiper: FC<ProjectSwiperProps> = (props) => {
     );
 };
 
-export default ProjectSwiper;
+export default ProjectsSwiper;

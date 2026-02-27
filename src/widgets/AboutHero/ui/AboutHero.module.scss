@@ -1,6 +1,6 @@
 @use "@styles/utils/breakpoints" as *;
 
-.about-main {
+.about-hero {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 3.2rem;

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect, useLayoutEffect, type FC } from "react";
-import styles from "./SkillSection.module.scss";
+import styles from "./AboutSkill.module.scss";
 import { useSkillCanvas } from "../hooks/useSkillCanvas";
 
 interface SkillCanvasWrapperProps {
@@ -33,8 +33,8 @@ const SkillCanvasWrapper: FC<SkillCanvasWrapperProps> = (props) => {
 
     return (
         <>
-            <canvas ref={canvasRef} className={styles["skill-section__canvas"]} />
-            <div ref={tooltipRef} className={styles["skill-section__tooltip"]} />
+            <canvas ref={canvasRef} className={styles["about-skill__canvas"]} />
+            <div ref={tooltipRef} className={styles["about-skill__tooltip"]} />
         </>
     );
 };
