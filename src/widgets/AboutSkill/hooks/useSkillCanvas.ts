@@ -10,7 +10,6 @@ import {
     CONFIG,
     type SkillPoint,
 } from "../utils/sphereUtils";
-import { useTheme } from "@/app/providers/theme";
 
 interface UseSkillCanvasProps {
     canvasRef: React.RefObject<HTMLCanvasElement | null>;
@@ -27,69 +26,84 @@ interface AnimationState {
 }
 
 export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkillCanvasProps) {
-    const { theme } = useTheme();
-    const sceneRef = useRef<THREE.Scene | null>(null);
-    const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
-    const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
-    const groupRef = useRef<THREE.Group | null>(null);
-    const particlesRef = useRef<THREE.Sprite[]>([]);
-    const linesRef = useRef<THREE.LineSegments[]>([]);
-    const skillPointsRef = useRef<SkillPoint[]>([]);
-    const neighborIndicesRef = useRef<number[][]>([]);
-    const activePointRef = useRef<SkillPoint | null>(null);
-    const activeIndexRef = useRef<number>(-1);
+    type State = {
+        scene?: THREE.Scene | null;
+        camera?: THREE.PerspectiveCamera | null;
+        renderer?: THREE.WebGLRenderer | null;
+        group?: THREE.Group | null;
+        particles: THREE.Sprite[];
+        lines: THREE.LineSegments[];
+        skillPoints: SkillPoint[];
+        neighborIndices: number[][];
+        activePoint?: SkillPoint | null;
+        activeIndex: number;
+        animationId?: number | null;
+        resizeTimeout?: number | null;
+        enableAnimation?: boolean;
+        isMouseInside: boolean;
+        canvasScale: number;
+        isTouchDevice: boolean;
+        spriteIndices: Map<SkillPoint, number>;
+        mouseDown: boolean;
+        mouseDrag: { x: number; y: number };
+        clickAnimation: AnimationState;
+    };
+
+    const stateRef = useRef<State>({
+        particles: [],
+        lines: [],
+        skillPoints: [],
+        neighborIndices: [],
+        activeIndex: -1,
+        isMouseInside: false,
+        canvasScale: 1,
+        isTouchDevice: false,
+        spriteIndices: new Map(),
+        mouseDown: false,
+        mouseDrag: { x: 0, y: 0 },
+        clickAnimation: {
+            isAnimating: false,
+            startQuat: new THREE.Quaternion(),
+            targetQuat: new THREE.Quaternion(),
+            startTime: 0,
+            duration: CONFIG.CLICK_ANIMATION_DURATION,
+        },
+    });
+
     const raycasterRef = useRef(new THREE.Raycaster());
     const mouseRef = useRef(new THREE.Vector2());
-    const animationRef = useRef<number | null>(null);
-    const resizeTimeoutRef = useRef<number | null>(null);
-    const isMouseInsideRef = useRef(false);
-    const canvasScaleRef = useRef<number>(1);
-    const isTouchDeviceRef = useRef(false);
-    const spriteIndicesRef = useRef<Map<SkillPoint, number>>(new Map());
-    const mouseDownRef = useRef(false);
-    const mouseDragRef = useRef({ x: 0, y: 0 });
-    const clickAnimationRef = useRef<AnimationState>({
-        isAnimating: false,
-        startQuat: new THREE.Quaternion(),
-        targetQuat: new THREE.Quaternion(),
-        startTime: 0,
-        duration: CONFIG.CLICK_ANIMATION_DURATION,
-    });
     useEffect(() => {
-        isTouchDeviceRef.current = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+        stateRef.current.isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
     }, []);
     useEffect(() => {
         if (!canvasRef.current) return;
 
         const canvasElement = canvasRef.current;
-        const particleSprites = particlesRef.current;
-        const lineSegments = linesRef.current;
+        const particles = stateRef.current.particles;
+        const lines = stateRef.current.lines;
+        let resizeTimeoutId: number | null = null;
+        let animationIdLocal: number | null = null;
 
         const scene = new THREE.Scene();
-        sceneRef.current = scene;
-
         const camera = new THREE.PerspectiveCamera(
             75,
-            canvasRef.current.clientWidth / canvasRef.current.clientHeight,
+            canvasRef.current!.clientWidth / canvasRef.current!.clientHeight,
             0.1,
             1000
         );
         camera.position.z = 18;
-        cameraRef.current = camera;
 
         const renderer = new THREE.WebGLRenderer({
-            canvas: canvasRef.current,
+            canvas: canvasRef.current!,
             antialias: true,
             alpha: true,
         });
         renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.setSize(canvasRef.current.clientWidth, canvasRef.current.clientHeight);
+        renderer.setSize(canvasRef.current!.clientWidth, canvasRef.current!.clientHeight);
         renderer.setClearColor(0x000000, 0);
-        rendererRef.current = renderer;
 
         const group = new THREE.Group();
         scene.add(group);
-        groupRef.current = group;
 
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
         scene.add(ambientLight);
@@ -100,8 +114,46 @@ export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkill
 
         const positions = generateGoldenSphereCube(CONFIG.SPHERE_POINT_COUNT);
         const skillPoints = createSkillPoints(positions);
-        skillPointsRef.current = skillPoints;
-        neighborIndicesRef.current = findNearestNeighbors(skillPoints);
+        stateRef.current.skillPoints = skillPoints;
+        stateRef.current.neighborIndices = findNearestNeighbors(skillPoints);
+
+        stateRef.current.scene = scene;
+        stateRef.current.camera = camera;
+        stateRef.current.renderer = renderer;
+        stateRef.current.group = group;
+        const rendererLocal = renderer;
+
+        const prefersReducedMotion =
+            typeof window !== "undefined" &&
+            window.matchMedia &&
+            window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const deviceMemory =
+            (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? Infinity;
+        const hwConcurrency = (navigator as Navigator).hardwareConcurrency ?? Infinity;
+        let enableAnimation = true;
+        if (prefersReducedMotion) enableAnimation = false;
+        if (deviceMemory < 1.5) enableAnimation = false;
+        if (hwConcurrency <= 2) enableAnimation = false;
+        stateRef.current.enableAnimation = enableAnimation;
+
+        const nb = navigator as Navigator & {
+            getBattery?: () => Promise<{ level?: number; charging?: boolean }>;
+        };
+        if (nb.getBattery) {
+            nb.getBattery().then((batt) => {
+                if (batt.level !== undefined && batt.level <= 0.2 && !batt.charging) {
+                    stateRef.current.enableAnimation = false;
+                    if (animationIdLocal) {
+                        cancelAnimationFrame(animationIdLocal);
+                        animationIdLocal = null;
+                    }
+                    stateRef.current.renderer?.render(
+                        stateRef.current.scene!,
+                        stateRef.current.camera!
+                    );
+                }
+            });
+        }
 
         skillPoints.forEach(async (skillPoint, index) => {
             const canvas = await createSvgTexture(skillPoint.svgUrl);
@@ -110,21 +162,31 @@ export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkill
             const texture = new THREE.CanvasTexture(canvas);
             texture.magFilter = THREE.LinearFilter;
             texture.minFilter = THREE.LinearFilter;
+            texture.flipY = false;
+            texture.premultiplyAlpha = false;
+            texture.center.set(0.5, 0.5);
+            texture.rotation = Math.PI;
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.repeat.x = -1;
+            texture.needsUpdate = true;
 
             const spriteMaterial = new THREE.SpriteMaterial({
                 map: texture,
                 sizeAttenuation: true,
                 opacity: 0.8,
             });
+
+            spriteMaterial.rotation = 0;
             spriteMaterial.userData = { baseOpacity: 0.8 };
             const sprite = new THREE.Sprite(spriteMaterial);
+            sprite.rotation.set(0, 0, 0);
             sprite.position.copy(skillPoint.position);
             sprite.scale.set(CONFIG.ICON_SIZE, CONFIG.ICON_SIZE, 1);
             sprite.userData = { skillPoint, index };
 
             group.add(sprite);
-            particlesRef.current.push(sprite);
-            spriteIndicesRef.current.set(skillPoint, index);
+            stateRef.current.particles.push(sprite);
+            stateRef.current.spriteIndices.set(skillPoint, index);
         });
 
         const readColor = (name: string, fallback: string) => {
@@ -177,7 +239,7 @@ export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkill
             return new THREE.BufferGeometry().setFromPoints(pts);
         };
 
-        neighborIndicesRef.current.forEach((neighbors, i) => {
+        stateRef.current.neighborIndices.forEach((neighbors, i) => {
             neighbors.forEach((neighborIdx) => {
                 if (i < neighborIdx) {
                     const geometry = makeCurvedGeometry(
@@ -195,13 +257,13 @@ export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkill
                     );
                     line.userData = { startIdx: i, endIdx: neighborIdx };
                     group.add(line);
-                    linesRef.current.push(line as unknown as THREE.LineSegments);
+                    stateRef.current.lines.push(line as unknown as THREE.LineSegments);
                 }
             });
         });
 
         const computeCanvasScale = (width: number, height: number) => {
-            if (isTouchDeviceRef.current) {
+            if (stateRef.current.isTouchDevice) {
                 return 1.2;
             }
             const minSide = Math.min(width, height);
@@ -213,44 +275,44 @@ export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkill
             if (!canvasRef.current) return;
             const width = canvasRef.current.clientWidth;
             const height = canvasRef.current.clientHeight;
-            canvasScaleRef.current = computeCanvasScale(width, height);
+            stateRef.current.canvasScale = computeCanvasScale(width, height);
 
-            camera.aspect = width / height;
-            camera.updateProjectionMatrix();
+            stateRef.current.camera!.aspect = width / height;
+            stateRef.current.camera!.updateProjectionMatrix();
 
-            camera.position.z = 18 / canvasScaleRef.current;
+            stateRef.current.camera!.position.z = 18 / stateRef.current.canvasScale;
 
-            renderer.setSize(width, height);
-            renderer.setPixelRatio(window.devicePixelRatio);
+            stateRef.current.renderer!.setSize(width, height);
+            stateRef.current.renderer!.setPixelRatio(window.devicePixelRatio);
         };
 
         const debouncedResize = () => {
-            if (resizeTimeoutRef.current) window.clearTimeout(resizeTimeoutRef.current);
-            resizeTimeoutRef.current = window.setTimeout(() => {
+            if (resizeTimeoutId) window.clearTimeout(resizeTimeoutId);
+            resizeTimeoutId = window.setTimeout(() => {
                 handleResizeImmediate();
-                resizeTimeoutRef.current = null;
-            }, 150);
+                resizeTimeoutId = null;
+            }, 150) as unknown as number;
         };
 
         handleResizeImmediate();
         window.addEventListener("resize", debouncedResize);
 
         const handleMouseDown = (event: MouseEvent) => {
-            mouseDownRef.current = true;
-            mouseDragRef.current = { x: event.clientX, y: event.clientY };
+            stateRef.current.mouseDown = true;
+            stateRef.current.mouseDrag = { x: event.clientX, y: event.clientY };
         };
 
         const handleMouseUp = () => {
-            mouseDownRef.current = false;
+            stateRef.current.mouseDown = false;
         };
         const handleMouseEnter = () => {
-            isMouseInsideRef.current = true;
+            stateRef.current.isMouseInside = true;
         };
 
         const handleMouseLeave = () => {
-            isMouseInsideRef.current = false;
-            activePointRef.current = null;
-            activeIndexRef.current = -1;
+            stateRef.current.isMouseInside = false;
+            stateRef.current.activePoint = null;
+            stateRef.current.activeIndex = -1;
 
             if (tooltipRef.current) {
                 tooltipRef.current.style.display = "none";
@@ -258,16 +320,15 @@ export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkill
         };
 
         const handleMouseMove = (event: MouseEvent) => {
-            if (isTouchDeviceRef.current) return;
+            if (stateRef.current.isTouchDevice) return;
             if (!canvasRef.current) return;
-            if (!isMouseInsideRef.current) return;
+            if (!stateRef.current.isMouseInside) return;
             const rect = canvasRef.current.getBoundingClientRect();
             mouseRef.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
             mouseRef.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
-            if (mouseDownRef.current && groupRef.current) {
-                const deltaX = event.clientX - mouseDragRef.current.x;
-                const deltaY = event.clientY - mouseDragRef.current.y;
+            if (stateRef.current.mouseDown && stateRef.current.group) {
+                const deltaX = event.clientX - stateRef.current.mouseDrag.x;
+                const deltaY = event.clientY - stateRef.current.mouseDrag.y;
 
                 const qY = new THREE.Quaternion().setFromAxisAngle(
                     new THREE.Vector3(0, 1, 0),
@@ -277,14 +338,14 @@ export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkill
                     new THREE.Vector3(1, 0, 0),
                     deltaY * 0.01
                 );
-                groupRef.current.quaternion.multiply(qY);
-                groupRef.current.quaternion.multiply(qX);
+                stateRef.current.group!.quaternion.multiply(qY);
+                stateRef.current.group!.quaternion.multiply(qX);
 
-                mouseDragRef.current = { x: event.clientX, y: event.clientY };
+                stateRef.current.mouseDrag = { x: event.clientX, y: event.clientY };
             }
 
-            raycasterRef.current.setFromCamera(mouseRef.current, camera);
-            const intersects = raycasterRef.current.intersectObjects(particlesRef.current);
+            raycasterRef.current.setFromCamera(mouseRef.current, stateRef.current.camera!);
+            const intersects = raycasterRef.current.intersectObjects(stateRef.current.particles);
 
             let hovered: SkillPoint | null = null;
             let hoveredIndex = -1;
@@ -295,8 +356,8 @@ export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkill
                 hoveredIndex = obj.userData.index;
             }
 
-            activePointRef.current = hovered;
-            activeIndexRef.current = hoveredIndex;
+            stateRef.current.activePoint = hovered;
+            stateRef.current.activeIndex = hoveredIndex;
             if (tooltipRef.current) {
                 if (hovered) {
                     tooltipRef.current.textContent = hovered.name;
@@ -310,7 +371,7 @@ export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkill
 
             const connectedIndices = new Set<number>();
 
-            linesRef.current.forEach((line) => {
+            stateRef.current.lines.forEach((line) => {
                 const { startIdx, endIdx } = line.userData;
                 const material = line.material as THREE.LineBasicMaterial;
                 const isActive = hoveredIndex === startIdx || hoveredIndex === endIdx;
@@ -323,8 +384,7 @@ export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkill
                     connectedIndices.add(endIdx);
                 }
             });
-
-            particlesRef.current.forEach((sprite) => {
+            stateRef.current.particles.forEach((sprite) => {
                 const material = sprite.material as THREE.SpriteMaterial;
                 const isCurrent = hoveredIndex === sprite.userData.index;
                 material.opacity = isCurrent ? 1 : (material.userData?.baseOpacity ?? 0.8);
@@ -333,14 +393,14 @@ export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkill
         };
 
         const handleClick = (event: MouseEvent) => {
-            if (!canvasRef.current || !groupRef.current) return;
+            if (!canvasRef.current || !stateRef.current.group) return;
 
             const rect = canvasRef.current.getBoundingClientRect();
             const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
             const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
-            raycasterRef.current.setFromCamera(new THREE.Vector2(x, y), camera);
-            const intersects = raycasterRef.current.intersectObjects(particlesRef.current);
+            raycasterRef.current.setFromCamera(new THREE.Vector2(x, y), stateRef.current.camera!);
+            const intersects = raycasterRef.current.intersectObjects(stateRef.current.particles);
 
             if (intersects.length > 0) {
                 const obj = intersects[0].object as THREE.Sprite;
@@ -350,11 +410,12 @@ export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkill
                 const targetVec = new THREE.Vector3(0, 0, 1);
                 const targetQuat = new THREE.Quaternion().setFromUnitVectors(posNorm, targetVec);
 
-                clickAnimationRef.current.isAnimating = true;
-                clickAnimationRef.current.startQuat = groupRef.current.quaternion.clone();
-                clickAnimationRef.current.targetQuat = targetQuat;
-                clickAnimationRef.current.startTime = Date.now();
-                clickAnimationRef.current.duration = CONFIG.CLICK_ANIMATION_DURATION;
+                stateRef.current.clickAnimation.isAnimating = true;
+                stateRef.current.clickAnimation.startQuat =
+                    stateRef.current.group!.quaternion.clone();
+                stateRef.current.clickAnimation.targetQuat = targetQuat;
+                stateRef.current.clickAnimation.startTime = Date.now();
+                stateRef.current.clickAnimation.duration = CONFIG.CLICK_ANIMATION_DURATION;
             }
         };
 
@@ -364,56 +425,69 @@ export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkill
         canvasRef.current?.addEventListener("click", handleClick);
         canvasRef.current?.addEventListener("mouseenter", handleMouseEnter);
         canvasRef.current?.addEventListener("mouseleave", handleMouseLeave);
-        const animate = () => {
-            animationRef.current = requestAnimationFrame(animate);
+        const targetFPS = hwConcurrency <= 4 ? 30 : 60;
+        let lastFrame = performance.now();
 
-            if (groupRef.current) {
-                if (clickAnimationRef.current.isAnimating) {
-                    const elapsed = Date.now() - clickAnimationRef.current.startTime;
-                    const progress = Math.min(elapsed / clickAnimationRef.current.duration, 1);
+        const animate = () => {
+            animationIdLocal = requestAnimationFrame(animate);
+            stateRef.current.animationId = animationIdLocal;
+            if (!stateRef.current.enableAnimation) return;
+            const now = performance.now();
+            const elapsed = now - lastFrame;
+            if (elapsed < 1000 / targetFPS) return;
+            lastFrame = now;
+
+            if (stateRef.current.group) {
+                if (stateRef.current.clickAnimation.isAnimating) {
+                    const elapsed = Date.now() - stateRef.current.clickAnimation.startTime;
+                    const progress = Math.min(
+                        elapsed / stateRef.current.clickAnimation.duration,
+                        1
+                    );
                     const easeProgress =
                         progress < 0.5
                             ? 2 * progress * progress
                             : -1 + (4 - 2 * progress) * progress;
 
-                    const q = clickAnimationRef.current.startQuat
+                    const q = stateRef.current.clickAnimation.startQuat
                         .clone()
-                        .slerp(clickAnimationRef.current.targetQuat, easeProgress);
-                    groupRef.current.quaternion.copy(q);
+                        .slerp(stateRef.current.clickAnimation.targetQuat, easeProgress);
+                    stateRef.current.group!.quaternion.copy(q);
 
                     if (progress >= 1) {
-                        clickAnimationRef.current.isAnimating = false;
+                        stateRef.current.clickAnimation.isAnimating = false;
                     }
-                } else if (!mouseDownRef.current) {
+                } else if (!stateRef.current.mouseDown) {
                     const q = new THREE.Quaternion().setFromAxisAngle(
                         new THREE.Vector3(0, 1, 0),
                         CONFIG.AUTO_ROTATION_SPEED
                     );
-                    groupRef.current.quaternion.multiply(q);
+                    stateRef.current.group!.quaternion.multiply(q);
                 }
 
                 const frontSet = new Set<number>();
-                particlesRef.current.forEach((sprite) => {
+                stateRef.current.particles.forEach((sprite) => {
                     const wp = sprite.position
                         .clone()
-                        .applyQuaternion(groupRef.current!.quaternion);
+                        .applyQuaternion(stateRef.current.group!.quaternion);
                     if (wp.z > 0) frontSet.add(sprite.userData.index);
                 });
 
-                particlesRef.current.forEach((sprite) => {
+                stateRef.current.particles.forEach((sprite) => {
                     const wp = sprite.position
                         .clone()
-                        .applyQuaternion(groupRef.current!.quaternion);
+                        .applyQuaternion(stateRef.current.group!.quaternion);
                     const worldZ = wp.z;
                     const depthFactor = (worldZ + CONFIG.RADIUS) / (2 * CONFIG.RADIUS);
                     const scaleFactor = 0.5 + depthFactor * 0.5;
-                    const spriteScale = CONFIG.ICON_SIZE * scaleFactor * canvasScaleRef.current;
+                    const spriteScale =
+                        CONFIG.ICON_SIZE * scaleFactor * stateRef.current.canvasScale;
                     sprite.scale.set(spriteScale, spriteScale, 1);
 
                     const material = sprite.material as THREE.SpriteMaterial;
                     const baseOpacity = material.userData?.baseOpacity ?? 0.8;
                     const idx = sprite.userData.index as number;
-                    const hoveredIdx = activeIndexRef.current;
+                    const hoveredIdx = stateRef.current.activeIndex;
                     const isCurrent = hoveredIdx === idx;
                     const isFront = worldZ > 0;
 
@@ -428,8 +502,8 @@ export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkill
                     material.needsUpdate = true;
                 });
 
-                const hoveredIdx = activeIndexRef.current;
-                linesRef.current.forEach((line) => {
+                const hoveredIdx = stateRef.current.activeIndex;
+                stateRef.current.lines.forEach((line) => {
                     const { startIdx, endIdx } = line.userData;
                     const material = line.material as THREE.LineBasicMaterial;
                     const bothFront = frontSet.has(startIdx) && frontSet.has(endIdx);
@@ -453,20 +527,26 @@ export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkill
                 });
             }
 
-            renderer.render(scene, camera);
+            stateRef.current.renderer!.render(stateRef.current.scene!, stateRef.current.camera!);
         };
 
         const startAnimation = () => {
-            if (animationRef.current === null) {
-                animate();
+            if (stateRef.current.enableAnimation) {
+                if (!animationIdLocal) animate();
+            } else {
+                stateRef.current.renderer?.render(
+                    stateRef.current.scene!,
+                    stateRef.current.camera!
+                );
             }
         };
 
         const stopAnimation = () => {
-            if (animationRef.current !== null) {
-                cancelAnimationFrame(animationRef.current);
-                animationRef.current = null;
+            if (animationIdLocal) {
+                cancelAnimationFrame(animationIdLocal);
+                animationIdLocal = null;
             }
+            stateRef.current.animationId = null;
         };
 
         const observer = new IntersectionObserver(
@@ -490,22 +570,22 @@ export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkill
             window.removeEventListener("mousemove", handleMouseMove);
             canvasElement?.removeEventListener("click", handleClick);
             window.removeEventListener("resize", debouncedResize);
-            if (resizeTimeoutRef.current) window.clearTimeout(resizeTimeoutRef.current);
+            if (resizeTimeoutId) window.clearTimeout(resizeTimeoutId);
             observer.disconnect();
             stopAnimation();
 
-            particleSprites.forEach((sprite) => {
+            particles.forEach((sprite) => {
                 const material = sprite.material as THREE.SpriteMaterial;
                 material.map?.dispose();
                 material.dispose();
             });
 
-            lineSegments.forEach((line) => {
+            lines.forEach((line) => {
                 (line.material as THREE.LineBasicMaterial).dispose();
                 line.geometry.dispose();
             });
 
-            renderer.dispose();
+            rendererLocal?.dispose();
         };
-    }, [canvasRef, tooltipRef, containerRef, theme]);
+    }, [canvasRef, tooltipRef, containerRef]);
 }
