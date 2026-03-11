@@ -1,1 +1,1 @@
-export { usePageTransition } from "./ui/PageTransitionProvider";
+export { usePageTransition, PageTransitionProvider } from "./ui/PageTransitionProvider";

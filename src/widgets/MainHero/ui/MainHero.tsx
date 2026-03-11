@@ -19,20 +19,20 @@ export const MainHero: React.FC = () => {
     const t = useTranslations("HomePage.MainHero");
 
     return (
-        <section className={classNames(styles["main-section"], "section")}>
-            <div className={styles["main-section__content"]}>
-                <div className={styles["main-section__headline"]}>
+        <section className={classNames(styles["main-hero"], "section")}>
+            <div className={styles["main-hero__content"]}>
+                <div className={styles["main-hero__headline"]}>
                     <h1>{t("greeting")}</h1>
                     <h2>{t("profession")}</h2>
                 </div>
                 <p>{t("description")}</p>
-                <ScrollButton target="#project-section">
-                    <Button rightIcon={<ArrowDown />} className={styles["main-section__button"]}>
+                <ScrollButton target="#main-posts">
+                    <Button rightIcon={<ArrowDown />} className={styles["main-hero__button"]}>
                         {t("button")}
                     </Button>
                 </ScrollButton>
             </div>
-            <div className={styles["main-section__eye"]} aria-hidden="true">
+            <div className={styles["main-hero__eye"]} aria-hidden="true">
                 <Eye />
             </div>
         </section>

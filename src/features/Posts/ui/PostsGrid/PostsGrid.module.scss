@@ -1,0 +1,17 @@
+@use "@styles/utils/breakpoints" as *;
+
+.posts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+
+    @include tablet {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.6rem;
+    }
+
+    @include mobile {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 1.2rem;
+    }
+}

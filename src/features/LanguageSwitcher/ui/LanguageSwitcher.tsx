@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "@/i18n/navigation";
 import { Languages } from "lucide-react";
 import styles from "./LanguageSwitcher.module.scss";
 import { classNames } from "@/shared/lib/classNames";
+import { useResponsive } from "@/app/providers/responsive";
 
 export const LanguageSwitcher: FC = () => {
     const [langOpen, setLangOpen] = useState(false);
@@ -15,19 +16,7 @@ export const LanguageSwitcher: FC = () => {
     const router = useRouter();
     const closeTimeout = useRef<NodeJS.Timeout | null>(null);
 
-    const [isDesktop, setIsDesktop] = useState(() =>
-        typeof window !== "undefined"
-            ? window.matchMedia("(hover: hover) and (pointer: fine)").matches
-            : true
-    );
-
-    useEffect(() => {
-        const mql = window.matchMedia("(hover: hover) and (pointer: fine)");
-        const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
-
-        mql.addEventListener("change", handler);
-        return () => mql.removeEventListener("change", handler);
-    }, []);
+    const { isDesktop } = useResponsive();
 
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {

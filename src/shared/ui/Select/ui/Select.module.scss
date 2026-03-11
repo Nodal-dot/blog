@@ -1,0 +1,162 @@
+@use "@styles/utils/transition" as *;
+@use "@styles/utils/typography" as *;
+
+.select {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    width: max-content;
+
+    &__label {
+        user-select: none;
+        color: var(--text-color);
+        text-transform: uppercase;
+        opacity: 0.8;
+    }
+
+    &__container {
+        position: relative;
+    }
+
+    &__trigger {
+        @include default-tr;
+
+        cursor: pointer;
+
+        position: relative;
+
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        justify-content: space-between;
+
+        width: 100%;
+        padding: 1.2rem 1.6rem;
+        border: none;
+        border-bottom: 2px solid var(--divider-color);
+        border-radius: 0;
+
+        color: var(--text-color);
+
+        background-color: transparent;
+
+        transition-property: background-color, border-color;
+
+        &::before {
+            @include default-tr;
+
+            content: "";
+
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            transform: scaleX(0);
+
+            width: 100%;
+            height: 2px;
+
+            background-color: var(--text-color);
+
+            transition-property: transform;
+        }
+
+        &:hover,
+        &[aria-expanded="true"] {
+            &::before {
+                transform: scaleX(1);
+            }
+        }
+    }
+
+    &__value {
+        @include font-size(body);
+
+        display: block;
+        flex: 1;
+        font-weight: 400;
+        text-align: left;
+    }
+
+    &__icon {
+        @include default-tr;
+
+        flex-shrink: 0;
+        color: var(--text-color);
+        opacity: 0.6;
+        transition-property: transform, opacity;
+
+        &-opened {
+            transform: rotate(-180deg);
+            opacity: 1;
+        }
+    }
+
+    &__options {
+        @include default-tr;
+
+        pointer-events: none;
+
+        position: absolute;
+        z-index: 10;
+        top: 110%;
+        right: 0;
+        left: 0;
+
+        display: flex;
+        flex-direction: column;
+
+        width: 100%;
+        margin: 0;
+        padding: 0.6rem 0;
+        border: 1px solid var(--text-color);
+        border-radius: 1.2rem;
+
+        list-style: none;
+
+        opacity: 0;
+        background-color: var(--background-color);
+
+        transition-property: opacity, border-color;
+
+        &-opened {
+            pointer-events: auto;
+            opacity: 1;
+        }
+    }
+
+    &__option {
+        @include default-tr;
+        @include font-size(body);
+
+        cursor: pointer;
+
+        display: flex;
+        justify-content: center;
+
+        width: 100%;
+        padding: 0.75rem 1.2rem;
+        border: none;
+        border-radius: 1.2rem;
+
+        color: var(--text-color);
+        text-align: left;
+
+        background-color: transparent;
+
+        transition-property: background-color;
+
+        &:focus {
+            background-color: transparent;
+            outline: none;
+        }
+
+        &:hover {
+            background-color: var(--hover-background-color);
+        }
+
+        &-selected {
+            pointer-events: none;
+            font-weight: 600;
+        }
+    }
+}

@@ -1,0 +1,15 @@
+@use "@styles/utils/breakpoints" as *;
+
+.posts-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 3.2rem;
+
+    @include tablet {
+        gap: 2.4rem;
+    }
+
+    @include mobile {
+        gap: 1.6rem;
+    }
+}

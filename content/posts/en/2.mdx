@@ -1,0 +1,39 @@
+---
+title: "Project Blog — First Project2"
+excerpt: "Test2"
+subtitle: "My personal blog and portfolio2"
+imageSrc: "/projects/1.jpg"
+imageAlt: "Blog header"
+buttonText: "Read more"
+tags:
+    - Test
+---
+
+Welcome to my blog — this is my first public project, built as a place to publish articles, showcase projects and experiment with frontend techniques.
+
+What's inside
+
+- Stack: Next.js (app router), React 19, TypeScript.
+- Content: MDX + `gray-matter` for frontmatter — project entries live in `content/projects/{locale}` and are read via `getProjects`.
+- Localization: `next-intl` and the `src/app/[locale]` routing structure for English and Russian content.
+- Styling: Sass with CSS Modules for component‑scoped styles.
+- UI: modular components (`Header`, `Footer`, `ProjectCard`, `ProjectSection`, `ThemeToggle`).
+
+Highlights
+
+- `ThemeProvider` implements theme switching by writing `data-theme` on `document.documentElement` and persisting the choice to `localStorage` — a lightweight, effective approach.
+- `PageTransitionProvider` renders a portal loader and coordinates navigation so transitions feel smooth and intentional.
+- The projects section combines MDX content with React components and a `ProjectSwiper` (powered by `swiper`) for an interactive showcase.
+
+Developer tooling
+
+- Scripts: `dev`, `build`, `lint`, `storybook`, `test` are included to support development and quality checks.
+- Tooling: ESLint, Prettier, Stylelint, Jest/Vitest and Storybook for component development and testing.
+
+Architecture & running locally
+The codebase is componentized under `src/components`, providers under `src/providers`, and utilities under `src/utils`. To run locally:
+
+```bash
+pnpm install
+pnpm dev
+```

@@ -6,8 +6,8 @@
             "description": "I turn ideas into neat and logical code. I love well-thought-out interfaces, semantics, and aesthetics in everything I do.",
             "button": "See my work"
         },
-        "MainProjects": {
-            "title": "Projects"
+        "MainPosts": {
+            "title": "Posts"
         }
     },
     "AboutPage": {
@@ -15,8 +15,8 @@
             "title": "About me",
             "paragraph1": "I am a <dev>frontend developer</dev> specializing in building <perf>high-performance</perf> and <access>accessible</access> interfaces.",
             "paragraph2": "In code, I value <types>strict typing</types>, clean <architecture>architecture</architecture>, and <pixel>pixel-perfect</pixel> layout. I believe details matter.",
-            "button": "View projects",
-            "buttonAria": "Go to projects"
+            "button": "View posts",
+            "buttonAria": "Go to posts"
         },
         "AboutSkill": {
             "title": "My skills"
@@ -49,7 +49,7 @@
     "Nav": {
         "home": "Home",
         "about": "About Me",
-        "blog": "Blog"
+        "posts": "Posts"
     },
     "Theme": {
         "toggle": "Toggle theme"

@@ -21,6 +21,8 @@
 
         background-color: var(--background-color);
 
+        transition-property: background-color;
+
         &:hover {
             background-color: var(--hover-background-color);
         }

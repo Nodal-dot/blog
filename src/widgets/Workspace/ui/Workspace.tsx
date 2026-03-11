@@ -1,12 +1,15 @@
 "use client";
 
-import React, { useEffect, useRef, useState, type FC } from "react";
+import React, { useRef, useState, type FC } from "react";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import Prism from "prismjs";
 import "prismjs/themes/prism-tomorrow.css";
 
 import styles from "./Workspace.module.scss";
 import { classNames } from "@/shared/lib/classNames";
+
+gsap.registerPlugin(useGSAP);
 
 const SOURCE_CODE = [
     "const developer = {",
@@ -32,7 +35,7 @@ export const Workspace: FC = () => {
     const lidRef = useRef<SVGRectElement>(null);
     const codeContainerRef = useRef<HTMLDivElement>(null);
 
-    const isMounted = useRef(false);
+    const rafRef = useRef<number | null>(null);
 
     const typeWriter = () => {
         if (!codeRef.current) return;
@@ -52,58 +55,15 @@ export const Workspace: FC = () => {
             );
 
             index++;
+
             if (index < fullText.length) {
-                requestAnimationFrame(addChar);
+                rafRef.current = requestAnimationFrame(addChar);
             }
         };
 
         addChar();
     };
 
-    const startEyeAnimation = () => {
-        if (!lidRef.current || !pupilRef.current) return;
-
-        const blinkCycle = () => {
-            gsap.fromTo(
-                lidRef.current,
-                { height: 0 },
-                {
-                    height: 110,
-                    duration: 0.8,
-                    ease: "power2.inOut",
-                    yoyo: true,
-                    repeat: 1,
-                    onComplete: () => {
-                        gsap.delayedCall(gsap.utils.random(2, 4), blinkCycle);
-                    },
-                }
-            );
-        };
-        blinkCycle();
-
-        const movePupil = () => {
-            gsap.to(pupilRef.current, {
-                x: gsap.utils.random(-10, 10),
-                y: gsap.utils.random(-10, 10),
-                duration: gsap.utils.random(1, 2),
-                ease: "power1.inOut",
-                onComplete: movePupil,
-            });
-        };
-        movePupil();
-    };
-
-    const handleScreenClick = () => {
-        typeWriter();
-
-        if (lidRef.current) {
-            gsap.fromTo(
-                lidRef.current,
-                { height: 0 },
-                { height: 110, duration: 0.3, ease: "power2.inOut", yoyo: true, repeat: 1 }
-            );
-        }
-    };
     const prepareCodeLayout = () => {
         if (!codeRef.current || !codeContainerRef.current) return;
 
@@ -119,29 +79,84 @@ export const Workspace: FC = () => {
             if (!codeContainerRef.current) return;
 
             const height = codeContainerRef.current.scrollHeight;
-
             codeContainerRef.current.style.height = `${height}px`;
 
             codeRef.current!.innerHTML = "";
         });
     };
 
-    useEffect(() => {
-        if (isMounted.current) return;
-        isMounted.current = true;
+    const handleScreenClick = () => {
+        typeWriter();
 
-        prepareCodeLayout();
+        if (lidRef.current) {
+            gsap.fromTo(
+                lidRef.current,
+                { height: 0 },
+                {
+                    height: 110,
+                    duration: 0.3,
+                    ease: "power2.inOut",
+                    yoyo: true,
+                    repeat: 1,
+                }
+            );
+        }
+    };
 
-        requestAnimationFrame(() => {
-            typeWriter();
-            startEyeAnimation();
-        });
-    }, []);
+    useGSAP(
+        () => {
+            prepareCodeLayout();
+
+            requestAnimationFrame(() => {
+                typeWriter();
+            });
+
+            if (!lidRef.current || !pupilRef.current) return;
+
+            const blinkCycle = () => {
+                gsap.fromTo(
+                    lidRef.current,
+                    { height: 0 },
+                    {
+                        height: 110,
+                        duration: 0.8,
+                        ease: "power2.inOut",
+                        yoyo: true,
+                        repeat: 1,
+                        onComplete: () => {
+                            gsap.delayedCall(gsap.utils.random(2, 4), blinkCycle);
+                        },
+                    }
+                );
+            };
+
+            blinkCycle();
+
+            const movePupil = () => {
+                gsap.to(pupilRef.current, {
+                    x: gsap.utils.random(-10, 10),
+                    y: gsap.utils.random(-10, 10),
+                    duration: gsap.utils.random(1, 2),
+                    ease: "power1.inOut",
+                    onComplete: movePupil,
+                });
+            };
+
+            movePupil();
+
+            return () => {
+                if (rafRef.current) {
+                    cancelAnimationFrame(rafRef.current);
+                }
+            };
+        },
+        { scope: wrapperRef }
+    );
 
     return (
         <div
             ref={wrapperRef}
-            className={classNames(styles["workspace"], {
+            className={classNames(styles.workspace, {
                 [styles["workspace--light-on"]]: lightOn,
             })}
             aria-hidden
@@ -173,6 +188,7 @@ export const Workspace: FC = () => {
                                     r="45"
                                     className={styles["workspace__eye-ball"]}
                                 />
+
                                 <g ref={pupilRef}>
                                     <circle
                                         cx="50"
@@ -181,6 +197,7 @@ export const Workspace: FC = () => {
                                         className={styles["workspace__pupil"]}
                                     />
                                 </g>
+
                                 <rect
                                     ref={lidRef}
                                     x={0}
