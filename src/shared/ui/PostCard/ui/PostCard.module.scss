@@ -1,4 +1,5 @@
 @use "@styles/utils/transition" as *;
+@use "@styles/utils/box" as *;
 
 .post-card {
     position: relative;
@@ -24,6 +25,9 @@
     &__media {
         @include default-tr;
 
+        position: relative;
+        z-index: 2;
+
         overflow: hidden;
 
         width: 100%;
@@ -45,6 +49,52 @@
             object-fit: cover;
 
             transition-property: transform;
+        }
+    }
+
+    &__trigger {
+        @include default-tr;
+
+        position: absolute;
+        inset: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &-icon {
+            @include default-tr;
+
+            padding: 1.2rem;
+            border-radius: 50%;
+
+            opacity: 0;
+            background-color: var(--background-color);
+
+            transition-property: opacity;
+
+            > svg {
+                @include box(3.2rem);
+                @include default-tr;
+
+                transition-property: transform;
+            }
+        }
+
+        &:hover {
+            background-color: rgb(0 0 0 / 20%);
+
+            .post-card__trigger-icon {
+                opacity: 1;
+            }
+        }
+
+        &:active {
+            .post-card__trigger-icon {
+                > svg {
+                    transform: scale(1.1);
+                }
+            }
         }
     }
 
@@ -98,17 +148,3 @@
         }
     }
 }
-
-// .mediaPlaceholder {
-//     @include default-tr;
-//     height: 20rem;
-//     background: rgba(0,0,0,0.1);
-//     border-radius: 1rem;
-//     margin-bottom: 1.6rem;
-
-//     .mode-compact & {
-//         height: 0;
-//         margin-bottom: 0;
-//         opacity: 0;
-//     }
-// }

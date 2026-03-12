@@ -2,7 +2,8 @@ import React, { type FC } from "react";
 import Image from "next/image";
 import styles from "./PostCard.module.scss";
 import { Link } from "@/i18n/navigation";
-import Tags from "@/shared/ui/Tags";
+import Tags from "@/shared/ui/Tags/index";
+import { Maximize2 } from "lucide-react";
 
 export type ViewMode = "compact" | "image" | "video";
 
@@ -14,9 +15,8 @@ export interface PostCardProps {
     videoUrl?: string;
     tags?: string[];
     viewMode: ViewMode;
-    onHoverPlay?: (id: string, videoUrl?: string) => void;
 }
-
+// TODO on view mode image has lag in classes none
 export const PostCard: FC<PostCardProps> = ({
     id,
     title,
@@ -25,23 +25,9 @@ export const PostCard: FC<PostCardProps> = ({
     videoUrl,
     tags = [],
     viewMode,
-    onHoverPlay,
 }) => {
-    const handleMouseEnter = () => {
-        if ((viewMode === "image" || viewMode === "video") && onHoverPlay)
-            onHoverPlay(id, videoUrl);
-    };
-
-    const handleMouseLeave = () => {
-        if (onHoverPlay) onHoverPlay("");
-    };
-
     return (
-        <article
-            className={`${styles["post-card"]} ${styles[`mode-${viewMode}`]}`}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-        >
+        <article className={`${styles["post-card"]} ${styles[`mode-${viewMode}`]}`}>
             <Link href={`/posts/${id}`} className={styles["post-card__link"]}>
                 <h3 className={styles["post-card__title"]}>{title}</h3>
             </Link>
@@ -49,21 +35,26 @@ export const PostCard: FC<PostCardProps> = ({
             {excerpt && <p className={styles["post-card__excerpt"]}>{excerpt}</p>}
 
             <div className={styles["post-card__media"]}>
-                <Image
-                    src={image.src}
-                    alt={image.alt ?? title}
-                    width={1200}
-                    height={675}
-                    className={styles.image}
-                />
+                {viewMode === "image" ? (
+                    <Image
+                        src={image.src}
+                        alt={image.alt ?? title}
+                        width={1200}
+                        height={675}
+                        className={styles.image}
+                    />
+                ) : (
+                    <video src={videoUrl} />
+                )}
+
+                <button className={styles["post-card__trigger"]}>
+                    <span aria-hidden className={styles["post-card__trigger-icon"]}>
+                        <Maximize2 />
+                    </span>
+                </button>
             </div>
 
-            {/* TODO Плейхолдер для видео тоже должен уметь скрываться/показываться */}
-            {/* {viewMode === "video" && <div className={styles.mediaPlaceholder}></div>} */}
-
-            <div className={styles["post-card__tags-wrapper"]}>
-                <Tags tags={tags} />
-            </div>
+            <Tags tags={tags} />
         </article>
     );
 };

@@ -1,6 +1,6 @@
 import React, { type FC } from "react";
 import styles from "./PostsFilter.module.scss";
-import { classNames } from "@/shared/lib/classNames";
+import Tags from "@/shared/ui/Tags";
 
 interface PostsFilterProps {
     allTags: string[];
@@ -12,21 +12,20 @@ const PostsFilter: FC<PostsFilterProps> = ({ allTags, selected, toggleTag }) => 
     return (
         <div className={styles["posts-filter"]}>
             <div className={styles["posts-filter__scroll"]}>
-                {allTags.map((tag) => {
-                    const active = selected.includes(tag);
-                    return (
-                        <button
-                            key={tag}
-                            className={classNames(styles["posts-filter__tag"], {
-                                [styles["posts-filter__tag--active"]]: active,
-                            })}
-                            onClick={() => toggleTag(tag)}
-                            aria-pressed={active}
-                        >
-                            {tag}
-                        </button>
-                    );
-                })}
+                <Tags
+                    as="div"
+                    tagAs="button"
+                    tags={allTags}
+                    value={selected}
+                    onChange={(tags) => {
+                        const changed =
+                            tags.find((t) => !selected.includes(t)) ??
+                            selected.find((t) => !tags.includes(t));
+
+                        if (changed) toggleTag(changed);
+                    }}
+                    className={styles["posts-filter__tags"]}
+                />
             </div>
         </div>
     );

@@ -10,7 +10,7 @@
 
     list-style: none;
 
-    &__tag {
+    &__item {
         @include default-tr;
 
         padding: 0.4rem 0.8rem;
@@ -23,8 +23,13 @@
 
         transition-property: background-color;
 
-        &:hover {
+        &:hover:not(.tags__item--active) {
             background-color: var(--hover-background-color);
+        }
+
+        &--active {
+            color: var(--text-contrast-color);
+            background-color: var(--background-contrast-color);
         }
     }
 }
