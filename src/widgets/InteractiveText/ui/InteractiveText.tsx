@@ -1,5 +1,3 @@
-"use client";
-
 import React, { type FC } from "react";
 import styles from "./InteractiveText.module.scss";
 import Button from "@/shared/ui/Button";

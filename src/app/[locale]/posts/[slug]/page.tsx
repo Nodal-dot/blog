@@ -7,73 +7,85 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import styles from "./post.module.scss";
 
-import { marked } from "marked";
+import { compileMDX } from "next-mdx-remote/rsc";
 
 export async function generateMetadata({
-    params,
+  params,
 }: {
-    params: Promise<{ locale: Locale; slug: string }>;
+  params: Promise<{ locale: Locale; slug: string }>;
 }): Promise<Metadata> {
-    const { locale, slug } = await params;
-    const file = path.join(process.cwd(), "content/posts", locale, `${slug}.mdx`);
-    if (!fs.existsSync(file)) return { title: "Post" };
-    const source = fs.readFileSync(file, "utf8");
-    const { data } = matter(source);
-    return {
-        title: data.title || "Post",
-        description: data.excerpt || "",
-    };
+  const { locale, slug } = await params;
+
+  const file = path.join(process.cwd(), "content/posts", locale, `${slug}.mdx`);
+  if (!fs.existsSync(file)) return { title: "Post" };
+
+  const source = fs.readFileSync(file, "utf8");
+  const { data } = matter(source);
+
+  return {
+    title: data.title,
+    description: data.excerpt,
+  };
 }
+
 export interface PostPageProps {
-    params: Promise<{ locale: Locale; slug: string }>;
+  params: Promise<{ locale: Locale; slug: string }>;
 }
 
 export default async function PostPage(props: PostPageProps) {
-    const { params } = props;
-    const { locale, slug } = await params;
-    const file = path.join(process.cwd(), "content/posts", locale, `${slug}.mdx`);
-    if (!fs.existsSync(file)) return notFound();
+  const { params } = props;
+  const { locale, slug } = await params;
 
-    const source = fs.readFileSync(file, "utf8");
-    const { data, content } = matter(source);
+  const file = path.join(process.cwd(), "content/posts", locale, `${slug}.mdx`);
+  if (!fs.existsSync(file)) return notFound();
 
-    const html = marked.parse(content || "");
+  const source = fs.readFileSync(file, "utf8");
 
-    return (
-        <main className={styles.page}>
-            <header className={styles.hero}>
-                {data.imageSrc ? (
-                    <div className={styles.heroMedia}>
-                        <Image
-                            src={data.imageSrc}
-                            alt={data.imageAlt ?? data.title}
-                            fill
-                            sizes="(max-width: 768px) 100vw, 1200px"
-                            style={{ objectFit: "cover" }}
-                        />
-                    </div>
-                ) : data.videoUrl ? (
-                    <div className={styles.heroMedia}>
-                        <video src={data.videoUrl} controls className={styles.video} />
-                    </div>
-                ) : null}
+  const { content, frontmatter } = await compileMDX({
+    source,
+    options: {
+      parseFrontmatter: true,
+    },
+  });
 
-                <div className={styles.heroContent}>
-                    <h1 className={styles.title}>{data.title}</h1>
-                    {data.excerpt && <p className={styles.excerpt}>{data.excerpt}</p>}
-                    {data.tags && (
-                        <div className={styles.tags}>
-                            {data.tags.map((t: string) => (
-                                <span key={t} className={styles.tag}>
-                                    {t}
-                                </span>
-                            ))}
-                        </div>
-                    )}
-                </div>
-            </header>
+  const data = frontmatter;
 
-            <article className={styles.content} dangerouslySetInnerHTML={{ __html: html }} />
-        </main>
-    );
+  return (
+    <main className={styles.page}>
+      <header className={styles.hero}>
+        {data.imageSrc ? (
+          <div className={styles.heroMedia}>
+            <Image
+              src={data.imageSrc}
+              alt={data.imageAlt ?? data.title}
+              fill
+              sizes="(max-width: 768px) 100vw, 1200px"
+              style={{ objectFit: "cover" }}
+            />
+          </div>
+        ) : data.videoUrl ? (
+          <div className={styles.heroMedia}>
+            <video src={data.videoUrl} controls className={styles.video} />
+          </div>
+        ) : null}
+
+        <div className={styles.heroContent}>
+          <h1 className={styles.title}>{data.title}</h1>
+          {data.excerpt && <p className={styles.excerpt}>{data.excerpt}</p>}
+
+          {data.tags && (
+            <div className={styles.tags}>
+              {data.tags.map((t: string) => (
+                <span key={t} className={styles.tag}>
+                  {t}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      </header>
+
+      <article className={styles.content}>{content}</article>
+    </main>
+  );
 }
