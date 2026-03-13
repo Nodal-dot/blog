@@ -1,6 +1,6 @@
 "use client";
 
-import { MEDIA } from "@/config/breakpoints";
+import { MEDIA } from "@/shared/config/breakpoints";
 import React, { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
 type Device = "mobile" | "tablet" | "desktop";

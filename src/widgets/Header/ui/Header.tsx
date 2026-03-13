@@ -10,7 +10,7 @@ import LanguageSwitcher from "@/features/LanguageSwitcher";
 import IconLink from "@/shared/ui/IconLink";
 import MobileMenu from "@/features/MobileMenu";
 import { throttle } from "@/shared/lib/throttle";
-import { GITHUB_URL } from "@/config/urls";
+import { GITHUB_URL } from "@/shared/config/urls";
 
 export const Header: FC = () => {
     const t = useTranslations();

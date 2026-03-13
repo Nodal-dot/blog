@@ -4,7 +4,7 @@ import ScrollButton from "@/shared/ui/ScrollButton";
 import Link from "@/shared/ui/Link";
 import Button from "@/shared/ui/Button";
 import { ArrowUp } from "lucide-react";
-import { GITHUB_URL } from "@/config/urls";
+import { GITHUB_URL } from "@/shared/config/urls";
 
 export const Footer: FC = () => {
     return (

@@ -7,7 +7,7 @@ import { Montserrat } from "next/font/google";
 import type { ReactNode } from "react";
 import ClientLayer from "@/app/providers/client/ClientLayer";
 import type { Viewport } from "next";
-import "@/styles/index.scss";
+import "@/shared/styles/index.scss";
 
 const montserrat = Montserrat({ subsets: ["latin", "cyrillic"] });
 
