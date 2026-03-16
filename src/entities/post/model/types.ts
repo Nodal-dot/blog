@@ -1,7 +1,7 @@
 export interface Post {
     id: string;
     title: string;
-    excerpt: string;
+    subtitle: string;
     image: { src: string; alt: string };
     videoUrl?: string;
     tags?: string[];

@@ -1,1 +1,0 @@
-export { PostsHeader } from "./PostsHeader";

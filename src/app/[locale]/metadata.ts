@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { BASE_SEO } from "./seo";
-import type { Locale } from "@/i18n/types";
+import type { Locale } from "@/shared/i18n/types";
 
 interface PageSEOParams {
     title: string;

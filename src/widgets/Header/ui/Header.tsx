@@ -3,14 +3,15 @@
 import React, { useEffect, useRef, type FC } from "react";
 import { useTranslations } from "next-intl";
 import styles from "./Header.module.scss";
-import Navigation from "@/features/Navigation";
-import { getNavigationsLinks } from "@/widgets/Header/Header.data";
-import ThemeToggle from "@/features/ThemeToggle";
-import LanguageSwitcher from "@/features/LanguageSwitcher";
+
 import IconLink from "@/shared/ui/IconLink";
-import MobileMenu from "@/features/MobileMenu";
 import { throttle } from "@/shared/lib/throttle";
 import { GITHUB_URL } from "@/shared/config/urls";
+import { getNavigationsLinks } from "../model/navigation";
+import ThemeToggle from "./ThemeToggle";
+import LanguageSwitcher from "./LanguageSwitcher";
+import MobileMenu from "./MobileMenu";
+import Navigation from "./Navigation";
 
 export const Header: FC = () => {
     const t = useTranslations();

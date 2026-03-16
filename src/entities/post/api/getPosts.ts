@@ -1,11 +1,10 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import type { Locale } from "@/i18n/types";
 
 const ROOT = path.join(process.cwd(), "content/posts");
 
-export async function getPosts(locale: Locale) {
+export async function getPosts(locale: string) {
     const dir = path.join(ROOT, locale);
     if (!fs.existsSync(dir)) return [];
 
@@ -16,14 +15,14 @@ export async function getPosts(locale: Locale) {
             const id = file.replace(/\.mdx$/, "");
             const source = fs.readFileSync(path.join(dir, file), "utf8");
             const { data } = matter(source);
-
+            const post = data;
             return {
                 id,
-                title: data.title,
-                excerpt: data.excerpt,
-                image: { src: data.imageSrc, alt: data.imageAlt ?? data.title },
-                videoUrl: data.videoUrl ?? undefined,
-                tags: data.tags ?? [],
+                title: post.title,
+                subtitle: post.subtitle,
+                image: { src: post.imageSrc, alt: post.imageAlt },
+                videoUrl: post.videoUrl ?? undefined,
+                tags: post.tags ?? [],
             };
         });
 }

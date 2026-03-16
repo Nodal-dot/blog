@@ -1,18 +1,7 @@
-import React, { type FC } from "react";
-import type { Locale } from "@/i18n/types";
-import { getPosts } from "@/entities/post/api/getPosts";
-import PostsFeed from "@/widgets/PostsFeed";
+import PostsPage from "@/pages/posts";
 
-interface PostsPageProps {
-    params: Promise<{ locale: Locale }>;
-}
-
-const PostsPage: FC<PostsPageProps> = async (props) => {
-    const { params } = props;
-    const { locale } = await params;
-    const posts = await getPosts(locale);
-
-    return <PostsFeed posts={posts} />;
+const PostsPageRouter = () => {
+    return <PostsPage />;
 };
 
-export default PostsPage;
+export default PostsPageRouter;

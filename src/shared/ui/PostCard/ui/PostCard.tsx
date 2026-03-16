@@ -1,7 +1,7 @@
 import React, { type FC } from "react";
 import Image from "next/image";
 import styles from "./PostCard.module.scss";
-import { Link } from "@/i18n/navigation";
+import { Link } from "@/shared/i18n/navigation";
 import Tags from "@/shared/ui/Tags/index";
 import { Maximize2 } from "lucide-react";
 
@@ -10,7 +10,7 @@ export type ViewMode = "compact" | "image" | "video";
 export interface PostCardProps {
     id: string;
     title: string;
-    excerpt: string;
+    subtitle: string;
     image: { src: string; alt: string };
     videoUrl?: string;
     tags?: string[];
@@ -20,7 +20,7 @@ export interface PostCardProps {
 export const PostCard: FC<PostCardProps> = ({
     id,
     title,
-    excerpt,
+    subtitle,
     image,
     videoUrl,
     tags = [],
@@ -32,10 +32,10 @@ export const PostCard: FC<PostCardProps> = ({
                 <h3 className={styles["post-card__title"]}>{title}</h3>
             </Link>
 
-            {excerpt && <p className={styles["post-card__excerpt"]}>{excerpt}</p>}
+            {subtitle && <p className={styles["post-card__subtitle"]}>{subtitle}</p>}
 
             <div className={styles["post-card__media"]}>
-                {viewMode === "image" ? (
+                {viewMode === "image" || viewMode === "compact" ? (
                     <Image
                         src={image.src}
                         alt={image.alt ?? title}

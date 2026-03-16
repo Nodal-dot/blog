@@ -1,14 +1,6 @@
+import AboutPage from "@/pages/about";
 import type { FC } from "react";
-import AboutHero from "@/widgets/AboutHero";
-import AboutPath from "@/widgets/AboutPath";
-import AboutSkill from "@/widgets/AboutSkill";
 
-const AboutPage: FC = () => (
-    <>
-        <AboutHero />
-        <AboutPath />
-        <AboutSkill />
-    </>
-);
+const AboutPageRouter: FC = () => <AboutPage />;
 
-export default AboutPage;
+export default AboutPageRouter;

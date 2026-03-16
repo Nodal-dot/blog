@@ -2,17 +2,26 @@
 
 import React, { useState, type FC } from "react";
 
-import { PostsHeader, PostsGrid, PostsFilter, usePostsFilter } from "@/features/Posts";
 import { PostCard, type ViewMode } from "@/shared/ui/PostCard";
 import type { Post } from "@/entities/post";
 import styles from "./PostsFeed.module.scss";
 import { classNames } from "@/shared/lib/classNames";
+import Search from "@/shared/ui/Search";
+import { Select, type SelectOption } from "@/shared/ui/Select";
+import Tags from "@/shared/ui/Tags";
+import { usePostsFilter } from "@/features/posts/posts-filter";
 
-interface PostsClientProps {
+interface PostsFeedProps {
     posts: Post[];
 }
 
-export const PostsFeed: FC<PostsClientProps> = ({ posts }) => {
+const VIEW_MODES: SelectOption[] = [
+    { value: "compact", label: "Compact" },
+    { value: "image", label: "Image" },
+    { value: "video", label: "Video" },
+];
+
+const PostsFeed: FC<PostsFeedProps> = ({ posts }) => {
     const { query, setQuery, selectedTags, toggleTag, allTags, visiblePosts } = usePostsFilter({
         posts,
     });
@@ -20,29 +29,51 @@ export const PostsFeed: FC<PostsClientProps> = ({ posts }) => {
 
     return (
         <section className={classNames(styles["posts-feed"], "section")}>
-            <PostsHeader
-                query={query}
-                onQueryChange={setQuery}
-                viewMode={viewMode}
-                onViewModeChange={setViewMode}
-            />
+            <div className={styles["posts-feed__header"]}>
+                <Search value={query} onChange={setQuery} />
+                <Select
+                    value={viewMode}
+                    onChange={(value) => setViewMode(value as ViewMode)}
+                    options={VIEW_MODES}
+                    label="View Mode"
+                    ariaLabel="Select view mode for posts"
+                />
+            </div>
+            {
+                // TODO: use swiper for tags
+            }
+            <div className={styles["posts-feed__tags-wrapper"]}>
+                <Tags
+                    as="div"
+                    tagAs="button"
+                    tags={allTags}
+                    value={selectedTags}
+                    onChange={(tags) => {
+                        const changed =
+                            tags.find((tag) => !selectedTags.includes(tag)) ??
+                            selectedTags.find((tag) => !tags.includes(tag));
 
-            <PostsFilter allTags={allTags} selected={selectedTags} toggleTag={toggleTag} />
+                        if (changed) toggleTag(changed);
+                    }}
+                    className={styles["posts-feed__tags-wrapper"]}
+                />
+            </div>
 
-            <PostsGrid>
+            <div className={styles["posts-feed__grid"]}>
                 {visiblePosts.map((post) => (
                     <PostCard
                         key={post.id}
                         id={post.id}
                         title={post.title}
-                        excerpt={post.excerpt ?? ""}
+                        subtitle={post.subtitle}
                         image={post.image}
                         videoUrl={post.videoUrl}
                         tags={post.tags}
                         viewMode={viewMode}
                     />
                 ))}
-            </PostsGrid>
+            </div>
         </section>
     );
 };
+export default PostsFeed;

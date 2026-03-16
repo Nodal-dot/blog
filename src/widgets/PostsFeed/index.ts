@@ -1,1 +1,1 @@
-export { PostsFeed as default } from "./ui/PostsFeed";
+export { PostsFeedContainer as default } from "./ui/PostsFeed.container";

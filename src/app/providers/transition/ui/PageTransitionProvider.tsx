@@ -11,7 +11,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import styles from "./PageTransition.module.scss";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter } from "@/shared/i18n/navigation";
 
 interface IPageTransitionContextProps {
     startTransition: (to: string, locale?: string) => void;
@@ -46,7 +46,7 @@ export const PageTransitionProvider = ({ children }: { children: ReactNode }) =>
     useEffect(() => {
         if (!isTransitioning || !transitionData.current) return;
 
-        const data = transitionData.current; // ← фикс
+        const data = transitionData.current;
 
         const handleTransitionEnd = () => {
             if (!data) return;

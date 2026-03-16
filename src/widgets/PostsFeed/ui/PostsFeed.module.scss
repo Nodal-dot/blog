@@ -12,4 +12,38 @@
     @include mobile {
         gap: 1.6rem;
     }
+
+    &__header {
+        display: flex;
+        gap: 3.2rem;
+        align-items: flex-end;
+        justify-content: space-between;
+
+        @include mobile {
+            flex-direction: column-reverse;
+            gap: 2.4rem;
+            align-items: flex-start;
+        }
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+
+        @include tablet {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.6rem;
+        }
+
+        @include mobile {
+            grid-template-columns: repeat(1, 1fr);
+            gap: 1.2rem;
+        }
+    }
+
+    &__tags-wrapper {
+        display: flex;
+        gap: 0.8rem;
+    }
 }

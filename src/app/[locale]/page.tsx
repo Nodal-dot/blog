@@ -1,30 +1,14 @@
-import type { FC } from "react";
 import { createPageMetadata } from "./metadata";
 import type { Metadata } from "next";
-import type { Locale } from "@/i18n/types";
-import MainHero from "@/widgets/MainHero";
-import MainPostsContainer from "@/widgets/MainPosts";
+import type { Locale } from "@/shared/i18n/types";
 import { getTranslations } from "next-intl/server";
+import MainPage from "@/pages/main";
 
-interface HomePageProps {
-    params: Promise<{
-        locale: Locale;
-    }>;
-}
-
-const HomePage: FC<HomePageProps> = async (props) => {
-    const { params } = props;
-    const { locale } = await params;
-
-    return (
-        <>
-            <MainHero />
-            <MainPostsContainer locale={locale} />
-        </>
-    );
+const MainPageRouter = () => {
+    return <MainPage />;
 };
 
-export default HomePage;
+export default MainPageRouter;
 
 export async function generateMetadata({
     params,

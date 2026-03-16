@@ -1,6 +1,6 @@
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
-import { routing } from "@/i18n/routing";
+import { routing } from "@/shared/i18n/routing";
 import Header from "@/widgets/Header";
 import Footer from "@/widgets/Footer";
 import { Montserrat } from "next/font/google";

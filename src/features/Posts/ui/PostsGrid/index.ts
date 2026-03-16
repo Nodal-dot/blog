@@ -1,1 +1,0 @@
-export { PostsGrid } from "./PostsGrid";

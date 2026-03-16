@@ -1,3 +1,4 @@
+import type { Locale } from "@/shared/i18n/types";
 import { NextResponse } from "next/server";
 
 interface ManifestIcon {
@@ -19,7 +20,7 @@ interface WebManifest {
     background_color: string;
 }
 
-const manifests: Record<"ru" | "en", WebManifest> = {
+const manifests: Record<Locale, WebManifest> = {
     ru: {
         name: "Nodal-dot — Портфолио фронтенд разработчика",
         short_name: "Nodal-dot",
