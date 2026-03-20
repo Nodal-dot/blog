@@ -5,9 +5,11 @@ import Header from "@/widgets/Header";
 import Footer from "@/widgets/Footer";
 import { Montserrat } from "next/font/google";
 import type { ReactNode } from "react";
-import ClientLayer from "@/app/providers/client/ClientLayer";
 import type { Viewport } from "next";
 import "@/shared/styles/index.scss";
+import { ThemeProvider } from "../providers/theme";
+import { PageTransitionProvider } from "../providers/transition";
+import { ResponsiveProvider } from "../providers/responsive";
 
 const montserrat = Montserrat({ subsets: ["latin", "cyrillic"] });
 
@@ -30,13 +32,18 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
         <html lang={locale}>
             <body className={montserrat.className}>
                 <NextIntlClientProvider locale={locale}>
-                    <ClientLayer>
-                        <div className="container">
-                            <Header />
-                            <main>{children}</main>
-                            <Footer />
-                        </div>
-                    </ClientLayer>
+                    <ThemeProvider>
+                        <PageTransitionProvider>
+                            <ResponsiveProvider>
+                                {" "}
+                                <div className="container">
+                                    <Header />
+                                    <main>{children}</main>
+                                    <Footer />
+                                </div>
+                            </ResponsiveProvider>
+                        </PageTransitionProvider>
+                    </ThemeProvider>
                 </NextIntlClientProvider>
             </body>
         </html>
