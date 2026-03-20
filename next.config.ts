@@ -8,6 +8,9 @@ const withBundleAnalyzer = bundleAnalyzer({
 
 const nextConfig: NextConfig = {
     reactStrictMode: true,
+    sassOptions: {
+        additionalData: `@use "@/shared/styles/utils/index" as *;`,
+    },
 };
 
 const withNextIntl = createNextIntlPlugin("./src/shared/i18n/request.ts");
