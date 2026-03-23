@@ -43,5 +43,10 @@
     &__tags-wrapper {
         display: flex;
         gap: 0.8rem;
+        width: 100%;
+    }
+
+    :global(.swiper-slide) {
+        width: fit-content;
     }
 }

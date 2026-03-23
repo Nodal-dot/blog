@@ -8,9 +8,10 @@ import styles from "./PostsFeed.module.scss";
 import { classNames } from "@/shared/lib/classNames";
 import Search from "@/shared/ui/Search";
 import { Select, type SelectOption } from "@/shared/ui/Select";
-import Tags from "@/shared/ui/Tags";
 import { usePostsFilter } from "@/features/posts/posts-filter";
-
+import { Swiper, SwiperSlide } from "swiper/react";
+import Tag from "@/shared/ui/Tag";
+import "swiper/css";
 interface PostsFeedProps {
     posts: Post[];
 }
@@ -27,6 +28,10 @@ const PostsFeed: FC<PostsFeedProps> = ({ posts }) => {
     });
     const [viewMode, setViewMode] = useState<ViewMode>("image");
 
+    const tagClickHandler = (tag: string): void => {
+        toggleTag(tag);
+    };
+
     return (
         <section className={classNames(styles["posts-feed"], "section")}>
             <div className={styles["posts-feed__header"]}>
@@ -39,25 +44,27 @@ const PostsFeed: FC<PostsFeedProps> = ({ posts }) => {
                     ariaLabel="Select view mode for posts"
                 />
             </div>
-            {
-                // TODO: use swiper for tags
-            }
-            <div className={styles["posts-feed__tags-wrapper"]}>
-                <Tags
-                    as="div"
-                    tagAs="button"
-                    tags={allTags}
-                    value={selectedTags}
-                    onChange={(tags) => {
-                        const changed =
-                            tags.find((tag) => !selectedTags.includes(tag)) ??
-                            selectedTags.find((tag) => !tags.includes(tag));
 
-                        if (changed) toggleTag(changed);
-                    }}
-                    className={styles["posts-feed__tags-wrapper"]}
-                />
-            </div>
+            <Swiper
+                slidesPerView={"auto"}
+                spaceBetween={8}
+                className={styles["posts-feed__tags-wrapper"]}
+            >
+                {allTags.map((tag, index) => {
+                    const active = selectedTags.includes(tag);
+                    return (
+                        <SwiperSlide className={styles["posts-feed__tag-slide"]} key={index}>
+                            <Tag
+                                tagAs={"button"}
+                                data-active={active}
+                                onClick={() => tagClickHandler(tag)}
+                            >
+                                {tag}
+                            </Tag>
+                        </SwiperSlide>
+                    );
+                })}
+            </Swiper>
 
             <div className={styles["posts-feed__grid"]}>
                 {visiblePosts.map((post) => (

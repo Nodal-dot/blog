@@ -3,7 +3,7 @@
 import React, { type FC, useCallback, useState } from "react";
 import style from "./Tags.module.scss";
 import { classNames } from "@/shared/lib/classNames";
-
+import Tag from "@/shared/ui/Tag";
 export interface TagsProps {
     tags: string[];
     className?: string;
@@ -21,7 +21,7 @@ export const Tags: FC<TagsProps> = ({
     tags,
     className = "",
     as: Wrapper = "ul",
-    tagAs: Tag = "li",
+    tagAs,
     value,
     defaultValue = [],
     onChange,
@@ -55,10 +55,8 @@ export const Tags: FC<TagsProps> = ({
 
                 return (
                     <Tag
+                        tagAs={tagAs}
                         key={index}
-                        className={classNames(style["tags__item"], {
-                            [style["tags__item--active"]]: active,
-                        })}
                         data-active={active}
                         onClick={() => toggleTag(tag)}
                     >

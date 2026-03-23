@@ -1,0 +1,22 @@
+.tag {
+    @include default-tr;
+
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--background-contrast-color);
+    border-radius: 0.8rem;
+
+    color: var(--text-color);
+
+    background-color: var(--background-color);
+
+    transition-property: background-color;
+
+    &:hover:not([data-active="true"]) {
+        background-color: var(--hover-background-color);
+    }
+
+    &[data-active="true"] {
+        color: var(--text-contrast-color);
+        background-color: var(--background-contrast-color);
+    }
+}

@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import type { Metadata } from "next";
-import type { Locale } from "@/i18n/types";
+import type { Locale } from "@/shared/i18n/types";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import styles from "./post.module.scss";
