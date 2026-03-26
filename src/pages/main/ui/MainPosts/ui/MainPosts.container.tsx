@@ -1,4 +1,4 @@
-import { getPosts } from "@/entities/post";
+import { getPosts } from "@/entities/post/api/getPosts";
 import MainPosts from "./MainPosts";
 
 import { getLocale } from "next-intl/server";

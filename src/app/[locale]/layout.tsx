@@ -35,7 +35,6 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
                     <ThemeProvider>
                         <PageTransitionProvider>
                             <ResponsiveProvider>
-                                {" "}
                                 <div className="container">
                                     <Header />
                                     <main>{children}</main>

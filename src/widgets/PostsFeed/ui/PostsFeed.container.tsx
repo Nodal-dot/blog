@@ -1,6 +1,5 @@
-import { getPosts } from "@/entities/post";
+import { getPosts } from "@/entities/post/api/getPosts";
 import PostsFeed from "./PostsFeed";
-
 import { getLocale } from "next-intl/server";
 
 export const PostsFeedContainer = async () => {

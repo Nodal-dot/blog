@@ -21,8 +21,8 @@ export async function getPosts(locale: string) {
                 title: post.title,
                 subtitle: post.subtitle,
                 image: { src: post.imageSrc, alt: post.imageAlt },
-                videoUrl: post.videoUrl ?? undefined,
-                tags: post.tags ?? [],
+                videoUrl: post.videoUrl,
+                tags: post.tags,
             };
         });
 }

@@ -1,6 +1,4 @@
-"use client";
-
-import React, { type FC, useCallback, useState } from "react";
+import React, { type FC } from "react";
 import style from "./Tags.module.scss";
 import { classNames } from "@/shared/lib/classNames";
 import Tag from "@/shared/ui/Tag";
@@ -17,33 +15,7 @@ export interface TagsProps {
     onChange?: (tags: string[]) => void;
 }
 
-export const Tags: FC<TagsProps> = ({
-    tags,
-    className = "",
-    as: Wrapper = "ul",
-    tagAs,
-    value,
-    defaultValue = [],
-    onChange,
-}) => {
-    const [internalTags, setInternalTags] = useState<string[]>(defaultValue);
-
-    const isControlled = value !== undefined;
-    const activeTags = isControlled ? value! : internalTags;
-    const toggleTag = useCallback(
-        (tag: string) => {
-            const exists = activeTags.includes(tag);
-
-            const newTags = exists ? activeTags.filter((t) => t !== tag) : [...activeTags, tag];
-
-            if (!isControlled) {
-                setInternalTags(newTags);
-            }
-
-            onChange?.(newTags);
-        },
-        [activeTags, isControlled, onChange]
-    );
+export const Tags: FC<TagsProps> = ({ tags, className = "", as: Wrapper = "ul", tagAs }) => {
     if (tags.length === 0) {
         return null;
     }
@@ -51,15 +23,8 @@ export const Tags: FC<TagsProps> = ({
     return (
         <Wrapper className={classNames(style["tags"], className)}>
             {tags.map((tag, index) => {
-                const active = activeTags.includes(tag);
-
                 return (
-                    <Tag
-                        tagAs={tagAs}
-                        key={index}
-                        data-active={active}
-                        onClick={() => toggleTag(tag)}
-                    >
+                    <Tag tagAs={tagAs} key={index}>
                         {tag}
                     </Tag>
                 );

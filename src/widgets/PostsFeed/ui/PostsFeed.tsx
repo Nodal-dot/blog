@@ -3,7 +3,7 @@
 import React, { useState, type FC } from "react";
 
 import { PostCard, type ViewMode } from "@/shared/ui/PostCard";
-import type { Post } from "@/entities/post";
+import type { Post } from "@/entities/post/model/types";
 import styles from "./PostsFeed.module.scss";
 import { classNames } from "@/shared/lib/classNames";
 import Search from "@/shared/ui/Search";
@@ -27,10 +27,6 @@ const PostsFeed: FC<PostsFeedProps> = ({ posts }) => {
         posts,
     });
     const [viewMode, setViewMode] = useState<ViewMode>("image");
-
-    const tagClickHandler = (tag: string): void => {
-        toggleTag(tag);
-    };
 
     return (
         <section className={classNames(styles["posts-feed"], "section")}>
@@ -57,7 +53,9 @@ const PostsFeed: FC<PostsFeedProps> = ({ posts }) => {
                             <Tag
                                 tagAs={"button"}
                                 data-active={active}
-                                onClick={() => tagClickHandler(tag)}
+                                onClick={() => {
+                                    toggleTag(tag);
+                                }}
                             >
                                 {tag}
                             </Tag>

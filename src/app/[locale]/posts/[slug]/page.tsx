@@ -24,7 +24,6 @@ export async function generateMetadata({
 
     return {
         title: data.title,
-        description: data.excerpt,
     };
 }
 
@@ -71,7 +70,6 @@ export default async function PostPage(props: PostPageProps) {
 
                 <div className={styles.heroContent}>
                     <h1 className={styles.title}>{data.title}</h1>
-                    {data.excerpt && <p className={styles.excerpt}>{data.excerpt}</p>}
 
                     {data.tags && (
                         <div className={styles.tags}>
