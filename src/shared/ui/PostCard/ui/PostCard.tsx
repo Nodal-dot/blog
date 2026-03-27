@@ -1,10 +1,12 @@
-import React, { useEffect, useRef, useState, type FC } from "react";
+"use client";
+
+import React, { useCallback, useEffect, useRef, useState, type FC } from "react";
 import Image from "next/image";
 import styles from "./PostCard.module.scss";
 import { Link } from "@/shared/i18n/navigation";
-import Modal from "@/shared/ui/Modal";
 import Tags from "@/shared/ui/Tags/index";
-import { Maximize2 } from "lucide-react";
+import { Maximize2, X } from "lucide-react";
+import { classNames } from "@/shared/lib/classNames";
 
 export type ViewMode = "compact" | "image" | "video";
 
@@ -18,6 +20,13 @@ export interface PostCardProps {
     viewMode: ViewMode;
 }
 
+type RectState = {
+    top: number;
+    left: number;
+    width: number;
+    height: number;
+} | null;
+
 export const PostCard: FC<PostCardProps> = ({
     id,
     title,
@@ -27,50 +36,113 @@ export const PostCard: FC<PostCardProps> = ({
     tags = [],
     viewMode,
 }) => {
-    const videoRef = useRef<HTMLVideoElement>(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const originalVideoRef = useRef<HTMLVideoElement | null>(null);
+    const overlayVideoRef = useRef<HTMLVideoElement | null>(null);
 
-    // 1. Управляем воспроизведением через эффект
+    const mediaRef = useRef<HTMLDivElement | null>(null);
+
+    const [isExpanded, setIsExpanded] = useState(false);
+    const [rect, setRect] = useState<RectState>(null);
+    const [animate, setAnimate] = useState(false);
+
     useEffect(() => {
-        const video = videoRef.current;
-        if (!video) return;
+        const v = originalVideoRef.current;
+        if (!v) return;
 
-        if (viewMode === "video" && !isModalOpen) {
-            video.muted = true;
-
-            const playPromise = video.play();
-            if (playPromise !== undefined) {
-                playPromise.catch((error) => {
-                    console.warn("Autoplay was prevented:", error);
-                });
-            }
+        if (isExpanded) {
+            try {
+                v.pause();
+            } catch {}
+            v.muted = true;
         } else {
-            video.pause();
+            if (viewMode === "video") {
+                v.muted = true;
+                void v.play().catch(() => {});
+            } else {
+                try {
+                    v.pause();
+                } catch {}
+            }
         }
-    }, [viewMode, isModalOpen]);
+    }, [isExpanded, viewMode]);
 
-    const renderVideo = (isInModal: boolean) => (
-        <video
-            ref={isInModal ? null : videoRef}
-            src={videoUrl}
-            muted={!isInModal}
-            controls={isInModal}
-            autoPlay={isInModal || viewMode === "video"}
-            loop
-            playsInline
-            className={styles["post-card__video"]}
-        />
-    );
+    const open = () => {
+        const el = mediaRef.current;
+        if (!el) return;
+
+        const r = el.getBoundingClientRect();
+        setRect(r);
+        setIsExpanded(true);
+
+        requestAnimationFrame(() => {
+            setAnimate(true);
+        });
+    };
+
+    const close = useCallback(() => {
+        if (overlayVideoRef.current) {
+            try {
+                overlayVideoRef.current.pause();
+            } catch {}
+        }
+
+        setAnimate(false);
+
+        setTimeout(() => {
+            setIsExpanded(false);
+            setRect(null);
+
+            const v = originalVideoRef.current;
+            if (!v) return;
+            if (viewMode === "video") {
+                v.muted = true;
+                void v.play().catch(() => {});
+            } else {
+                try {
+                    v.pause();
+                } catch {}
+            }
+        }, 320);
+    }, [viewMode]);
+
+    const onOverlayClick = (e: React.MouseEvent) => {
+        if (e.target === e.currentTarget) close();
+    };
+
+    useEffect(() => {
+        const onKey = (ev: KeyboardEvent) => {
+            if (ev.key === "Escape" && isExpanded) close();
+        };
+        window.addEventListener("keydown", onKey);
+        return () => window.removeEventListener("keydown", onKey);
+    }, [isExpanded, close]);
+
+    useEffect(() => {
+        if (isExpanded) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+        return () => {
+            document.body.style.overflow = "";
+        };
+    }, [isExpanded]);
 
     return (
-        <article className={`${styles["post-card"]} ${styles[`mode-${viewMode}`]}`}>
+        <article
+            data-id={id}
+            className={classNames(styles["post-card"], {
+                [styles[`mode-${viewMode}`]]: true,
+                [styles["post-card--expanded"]]: isExpanded,
+            })}
+        >
             <Link href={`/posts/${id}`} className={styles["post-card__link"]}>
                 <h3 className={styles["post-card__title"]}>{title}</h3>
             </Link>
 
             {subtitle && <p className={styles["post-card__subtitle"]}>{subtitle}</p>}
 
-            <div className={styles["post-card__media"]}>
+            <div className={styles["post-card__media"]} ref={mediaRef}>
                 <Image
                     src={image.src}
                     alt={image.alt}
@@ -79,23 +151,59 @@ export const PostCard: FC<PostCardProps> = ({
                     className={styles["post-card__image"]}
                 />
 
-                {renderVideo(false)}
+                <video
+                    ref={originalVideoRef}
+                    src={videoUrl}
+                    muted={viewMode !== "video"}
+                    autoPlay={viewMode === "video"}
+                    loop
+                    playsInline
+                    className={styles["post-card__video"]}
+                />
 
-                <button
-                    onClick={() => setIsModalOpen(true)}
-                    className={styles["post-card__trigger"]}
-                >
-                    <span aria-hidden className={styles["post-card__trigger-icon"]}>
+                <button onClick={open} className={styles["post-card__trigger"]}>
+                    <span className={styles["post-card__trigger-icon"]}>
                         <Maximize2 />
                     </span>
                 </button>
             </div>
 
-            <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                {isModalOpen && renderVideo(true)}
-            </Modal>
+            {isExpanded && rect && (
+                <div className={styles["post-card__overlay"]} onClick={onOverlayClick}>
+                    <div
+                        className={styles["post-card__overlay-media"]}
+                        style={{
+                            top: animate ? "50%" : rect.top + rect.height / 2,
+                            left: animate ? "50%" : rect.left + rect.width / 2,
+                            width: animate ? "90vw" : rect.width,
+                            height: animate ? "80vh" : rect.height,
+                            transform: "translate(-50%, -50%)",
+                        }}
+                    >
+                        <video
+                            ref={overlayVideoRef}
+                            src={videoUrl}
+                            autoPlay
+                            controls
+                            loop
+                            playsInline
+                            className={styles["post-card__video"]}
+                        />
+
+                        <button
+                            className={styles["post-card__close"]}
+                            onClick={close}
+                            aria-label="Close"
+                        >
+                            <X size={32} />
+                        </button>
+                    </div>
+                </div>
+            )}
 
             <Tags tags={tags} />
         </article>
     );
 };
+
+export default PostCard;
