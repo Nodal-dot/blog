@@ -3,11 +3,11 @@ import path from "path";
 import matter from "gray-matter";
 import type { Metadata } from "next";
 import type { Locale } from "@/shared/i18n/types";
-import Image from "next/image";
+// import Image from "next/image";
 import { notFound } from "next/navigation";
 import styles from "./post.module.scss";
 
-import { compileMDX } from "next-mdx-remote/rsc";
+// import { compileMDX } from "next-mdx-remote/rsc";
 
 export async function generateMetadata({
     params,
@@ -38,20 +38,20 @@ export default async function PostPage(props: PostPageProps) {
     const file = path.join(process.cwd(), "content/posts", locale, `${slug}.mdx`);
     if (!fs.existsSync(file)) return notFound();
 
-    const source = fs.readFileSync(file, "utf8");
+    // const source = fs.readFileSync(file, "utf8");
 
-    const { content, frontmatter } = await compileMDX({
-        source,
-        options: {
-            parseFrontmatter: true,
-        },
-    });
+    // const { content, frontmatter } = await compileMDX({
+    //     source,
+    //     options: {
+    //         parseFrontmatter: true,
+    //     },
+    // });
 
-    const data = frontmatter;
+    // const data = frontmatter;
 
     return (
         <main className={styles.page}>
-            <header className={styles.hero}>
+            {/* <header className={styles.hero}>
                 {data.imageSrc ? (
                     <div className={styles.heroMedia}>
                         <Image
@@ -83,7 +83,7 @@ export default async function PostPage(props: PostPageProps) {
                 </div>
             </header>
 
-            <article className={styles.content}>{content}</article>
+            <article className={styles.content}>{content}</article> */}
         </main>
     );
 }

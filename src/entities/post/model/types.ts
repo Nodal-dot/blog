@@ -3,7 +3,7 @@ export interface Post {
     title: string;
     subtitle: string;
     image: { src: string; alt: string };
-    videoUrl?: string;
+    videoUrl: string;
     tags?: string[];
     date?: string;
 }

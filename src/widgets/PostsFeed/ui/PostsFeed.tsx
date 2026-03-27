@@ -12,6 +12,7 @@ import { usePostsFilter } from "@/features/posts/posts-filter";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Tag from "@/shared/ui/Tag";
 import "swiper/css";
+
 interface PostsFeedProps {
     posts: Post[];
 }
@@ -22,7 +23,7 @@ const VIEW_MODES: SelectOption[] = [
     { value: "video", label: "Video" },
 ];
 
-const PostsFeed: FC<PostsFeedProps> = ({ posts }) => {
+export const PostsFeed: FC<PostsFeedProps> = ({ posts }) => {
     const { query, setQuery, selectedTags, toggleTag, allTags, visiblePosts } = usePostsFilter({
         posts,
     });
@@ -81,4 +82,3 @@ const PostsFeed: FC<PostsFeedProps> = ({ posts }) => {
         </section>
     );
 };
-export default PostsFeed;

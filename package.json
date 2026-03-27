@@ -17,7 +17,8 @@
         "lint:css:fix": "stylelint '**/*.{scss,css}' --fix",
         "fix:all": "pnpm run lint:fix && pnpm run format:fix && pnpm run lint:css:fix",
         "analyze": "cross-env ANALYZE=true next build",
-        "prepare": "husky"
+        "prepare": "husky",
+        "type-check": "tsc --noEmit"
     },
     "dependencies": {
         "@gsap/react": "^2.1.2",

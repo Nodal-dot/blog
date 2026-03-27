@@ -1,4 +1,4 @@
-import { NextIntlClientProvider, hasLocale } from "next-intl";
+import { NextIntlClientProvider, hasLocale, type Locale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/shared/i18n/routing";
 import Header from "@/widgets/Header";
@@ -17,7 +17,7 @@ export const viewport: Viewport = {
     themeColor: "#ffffff",
 };
 
-type LocaleParams = { locale: string };
+type LocaleParams = { locale: Locale };
 type LocaleLayoutProps = {
     children: ReactNode;
     params: LocaleParams | Promise<LocaleParams>;

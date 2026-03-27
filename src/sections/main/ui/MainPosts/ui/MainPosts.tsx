@@ -8,6 +8,7 @@ import { classNames } from "@/shared/lib/classNames";
 import Skeleton from "@/shared/ui/Skeleton";
 import { useTranslations } from "next-intl";
 import type { Post } from "@/entities/post";
+
 const PostsSwiper = dynamic(() => import("./PostsSwiper"), {
     ssr: false,
     loading: () => <Skeleton />,
