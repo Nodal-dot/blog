@@ -6,6 +6,15 @@
         display: block;
     }
 
+    &__line {
+        @include default-tr;
+
+        height: 0.3rem;
+        border-radius: 0.2rem;
+        background: var(--text-color);
+        transition-property: transform, opacity;
+    }
+
     &__trigger {
         @include default-tr;
 
@@ -21,12 +30,20 @@
         background: transparent;
 
         transition-property: transform;
-    }
 
-    &__line {
-        height: 0.3rem;
-        border-radius: 0.2rem;
-        background: var(--text-color);
+        &--active {
+            .mobile-menu__line:nth-child(1) {
+                transform: translateY(0.85rem) rotate(45deg);
+            }
+
+            .mobile-menu__line:nth-child(2) {
+                opacity: 0;
+            }
+
+            .mobile-menu__line:nth-child(3) {
+                transform: translateY(-0.85rem) rotate(-45deg);
+            }
+        }
     }
 
     &__nav {

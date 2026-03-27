@@ -1,6 +1,6 @@
 "use client";
 
-import React, { type FC } from "react";
+import React, { useEffect, type FC } from "react";
 import { createPortal } from "react-dom";
 import styles from "./Modal.module.scss";
 import { classNames } from "@/shared/lib/classNames";
@@ -18,22 +18,31 @@ const Modal: FC<ModalProps> = (props) => {
     const [mounted, setMounted] = React.useState(false);
     const modalRef = React.useRef<HTMLDivElement>(null);
 
-    React.useEffect(() => {
-        setMounted(true);
+    useEffect(() => {
+        const id = requestAnimationFrame(() => {
+            setMounted(true);
+        });
+        return () => cancelAnimationFrame(id);
     }, []);
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (open) {
+            const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+
             document.body.style.overflow = "hidden";
+            document.body.style.paddingRight = `${scrollBarWidth}px`;
         } else {
             document.body.style.overflow = "";
+            document.body.style.paddingRight = "";
         }
+
         return () => {
             document.body.style.overflow = "";
+            document.body.style.paddingRight = "";
         };
     }, [open]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         const onKeyDown = (e: KeyboardEvent) => {
             if (e.key === "Escape") onClose();
         };
@@ -41,7 +50,7 @@ const Modal: FC<ModalProps> = (props) => {
         return () => document.removeEventListener("keydown", onKeyDown);
     }, [open, onClose]);
 
-    if (!mounted) return null;
+    if (!mounted || !open) return null;
 
     const titleId = title ? "modal-title" : undefined;
     const descId = description ? "modal-description" : undefined;

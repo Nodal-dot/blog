@@ -6,6 +6,7 @@ import Link from "@/shared/ui/Link";
 import { usePathname } from "@/shared/i18n/navigation";
 import Modal, { useModal } from "@/shared/ui/Modal";
 import { usePageTransition } from "@/app/providers/transition";
+import { classNames } from "@/shared/lib/classNames";
 
 interface MobileMenuProps {
     links: { href: string; label: string }[];
@@ -23,7 +24,9 @@ export const MobileMenu: FC<MobileMenuProps> = (props) => {
                 onClick={toggleModal}
                 aria-expanded={open}
                 aria-label={"Открыть меню"}
-                className={`${styles["mobile-menu__trigger"]}`}
+                className={classNames(`${styles["mobile-menu__trigger"]}`, {
+                    [styles["mobile-menu__trigger--active"]]: open,
+                })}
             >
                 <span className={styles["mobile-menu__line"]} />
                 <span className={styles["mobile-menu__line"]} />
