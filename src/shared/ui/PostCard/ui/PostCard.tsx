@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useEffect, useRef,  type FC } from "react";
+import React, { useEffect, useRef, type FC } from "react";
 import Image from "next/image";
 import styles from "./PostCard.module.scss";
 import { Link } from "@/shared/i18n/navigation";
 import Tags from "@/shared/ui/Tags/index";
 import { classNames } from "@/shared/lib/classNames";
+import { usePageTransition } from "@/app/providers/transition";
 
 export type ViewMode = "compact" | "image" | "video";
 
@@ -19,7 +20,6 @@ export interface PostCardProps {
     viewMode: ViewMode;
 }
 
-
 export const PostCard: FC<PostCardProps> = ({
     id,
     title,
@@ -30,20 +30,17 @@ export const PostCard: FC<PostCardProps> = ({
     viewMode,
 }) => {
     const videoRef = useRef<HTMLVideoElement | null>(null);
-
+    const { startTransition } = usePageTransition();
     useEffect(() => {
-        
         const video = videoRef.current;
         if (!video) return;
- 
-    if (viewMode === "video") {
-        video.play()
-    } else {
-        video.pause()
-    }
-        
-    }, [viewMode]);
 
+        if (viewMode === "video") {
+            video.play().catch();
+        } else {
+            video.pause();
+        }
+    }, [viewMode]);
 
     return (
         <article
@@ -52,7 +49,13 @@ export const PostCard: FC<PostCardProps> = ({
                 [styles[`mode-${viewMode}`]]: true,
             })}
         >
-            <Link href={`/posts/${id}`} className={styles["post-card__link"]}>
+            <Link
+                href={`/posts/${id}`}
+                onClick={() => {
+                    startTransition(`/posts/${id}`);
+                }}
+                className={styles["post-card__link"]}
+            >
                 <h3 className={styles["post-card__title"]}>{title}</h3>
             </Link>
 

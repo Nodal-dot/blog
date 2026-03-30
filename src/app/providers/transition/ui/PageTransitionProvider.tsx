@@ -3,81 +3,75 @@
 import {
     createContext,
     useState,
-    useRef,
     useContext,
     useEffect,
-    useCallback,
+    useTransition,
+    useRef,
     type ReactNode,
 } from "react";
 import { createPortal } from "react-dom";
+import { useRouter, usePathname } from "@/shared/i18n/navigation";
 import styles from "./PageTransition.module.scss";
-import { useRouter } from "@/shared/i18n/navigation";
 
 interface IPageTransitionContextProps {
     startTransition: (to: string, locale?: string) => void;
-    isTransitioning: boolean;
+    isPending: boolean;
+    isAnimating: boolean;
 }
 
 const PageTransitionContext = createContext<IPageTransitionContextProps>({
     startTransition: () => {},
-    isTransitioning: false,
+    isPending: false,
+    isAnimating: false,
 });
 
 export const PageTransitionProvider = ({ children }: { children: ReactNode }) => {
     const router = useRouter();
-    const [isTransitioning, setIsTransitioning] = useState(false);
+    const pathname = usePathname();
+
+    const [isPending, startReactTransition] = useTransition();
+    const [isAnimating, setIsAnimating] = useState(false);
     const [mounted, setMounted] = useState(false);
-    const transitionData = useRef<{ url: string; locale?: string } | null>(null);
+
+    const savedPathname = useRef(pathname);
 
     useEffect(() => {
         const id = requestAnimationFrame(() => setMounted(true));
         return () => cancelAnimationFrame(id);
     }, []);
 
-    const startTransition = useCallback(
-        (to: string, locale?: string) => {
-            if (isTransitioning) return;
-            transitionData.current = { url: to, locale };
-            setIsTransitioning(true);
-        },
-        [isTransitioning]
-    );
-
     useEffect(() => {
-        if (!isTransitioning || !transitionData.current) return;
+        if (savedPathname.current !== pathname) {
+            savedPathname.current = pathname;
+            setTimeout(() => setIsAnimating(false), 100);
+        }
+    }, [pathname]);
 
-        const data = transitionData.current;
+    const startTransition = (to: string, locale?: string) => {
+        if (isAnimating) return;
 
-        const handleTransitionEnd = () => {
-            if (!data) return;
+        setIsAnimating(true);
 
-            const { url, locale } = data;
-
-            if (locale) {
-                router.push(url, { locale });
-            } else {
-                router.push(url);
-            }
-
-            setTimeout(() => {
-                setIsTransitioning(false);
-                transitionData.current = null;
-            }, 600);
-        };
-
-        const timer = setTimeout(handleTransitionEnd, 600);
-        return () => clearTimeout(timer);
-    }, [isTransitioning, router]);
+        setTimeout(() => {
+            startReactTransition(() => {
+                if (locale) {
+                    router.push(to, { locale });
+                } else {
+                    router.push(to);
+                }
+            });
+        }, 400);
+    };
 
     const loaderPortal = mounted
         ? createPortal(
-              <div className={`${styles.loader} ${isTransitioning ? styles.active : ""}`} />,
+              <div className={`${styles.loader} ${isAnimating ? styles.active : ""}`} />,
               document.body
           )
         : null;
 
     return (
-        <PageTransitionContext.Provider value={{ startTransition, isTransitioning }}>
+        <PageTransitionContext.Provider value={{ startTransition, isPending, isAnimating }}>
             {children}
             {loaderPortal}
         </PageTransitionContext.Provider>
