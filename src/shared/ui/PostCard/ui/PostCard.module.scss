@@ -83,50 +83,6 @@
         }
     }
 
-    &__trigger {
-        @include default-tr;
-
-        position: absolute;
-        z-index: 2;
-        inset: 0;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        &-icon {
-            @include default-tr;
-
-            padding: 1.2rem;
-            border-radius: 50%;
-
-            opacity: 0;
-            background-color: var(--background-color);
-
-            transition-property: opacity;
-
-            > svg {
-                @include box(3.2rem);
-                @include default-tr;
-
-                transition-property: transform;
-            }
-        }
-
-        &:hover {
-            background-color: var(--overlay-color);
-
-            .post-card__trigger-icon {
-                opacity: 1;
-            }
-        }
-
-        &:active {
-            .post-card__trigger-icon > svg {
-                transform: scale(1.1);
-            }
-        }
-    }
 
     &__title {
         @include default-tr;
@@ -195,28 +151,4 @@
         }
     }
 
-    &__overlay {
-        position: fixed;
-        z-index: 9999;
-        inset: 0;
-
-        overflow: hidden;
-
-        background: var(--overlay-color);
-    }
-
-    &__overlay-media {
-        position: fixed;
-        transform-origin: center;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        transition: all 300ms ease;
-
-        .post-card__video {
-            border-radius: 3.2rem;
-        }
-    }
 }
