@@ -22,6 +22,7 @@ const VIEW_MODES: SelectOption[] = [
     { value: "image", label: "Image" },
     { value: "video", label: "Video" },
 ];
+// TOOD display none for videos hat i cant see
 
 export const PostsFeed: FC<PostsFeedProps> = ({ posts }) => {
     const { query, setQuery, selectedTags, toggleTag, allTags, visiblePosts } = usePostsFilter({

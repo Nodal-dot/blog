@@ -4,7 +4,6 @@ import React, { useRef, useState, type FC } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import Prism from "prismjs";
-import "prismjs/themes/prism-tomorrow.css";
 
 import styles from "./Workspace.module.scss";
 import { classNames } from "@/shared/lib/classNames";

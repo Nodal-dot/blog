@@ -1,0 +1,112 @@
+.post-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 6.4rem;
+    margin-top: var(--header-height);
+
+    &__hero {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 3.2rem;
+        align-items: center;
+    }
+
+    &__hero-media-wrapper {
+        position: relative;
+        overflow: hidden;
+        border-radius: 3.2rem;
+        background: var(--background-contrast-color);
+    }
+
+    &__hero-media {
+        @include default-tr;
+
+        aspect-ratio: 16 / 9;
+        width: 100%;
+        height: auto;
+
+        object-fit: cover;
+
+        transition-property: transform, opacity, filter;
+        animation: hero-image-reveal 900ms ease-out forwards;
+    }
+
+    &__hero-content {
+        display: flex;
+        flex-direction: column;
+        gap: 2.4rem;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        gap: 1.6rem;
+
+        max-width: 72rem;
+        margin: 0 auto;
+
+        letter-spacing: -0.01em;
+
+        ul {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+
+            padding-left: 2.4rem;
+
+            list-style: none;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: 1.6rem;
+        }
+
+        ul li::before {
+            content: "";
+
+            position: absolute;
+            top: 0.9em;
+            left: 0;
+            transform: translateY(-50%);
+
+            width: 0.6rem;
+            height: 0.6rem;
+            border-radius: 50%;
+
+            opacity: 0.7;
+            background: currentcolor;
+        }
+
+        pre {
+            overflow-x: auto;
+
+            width: 100%;
+            padding: 2rem;
+            border-radius: 1.6rem;
+
+            color: var(--text-contrast-color);
+            tab-size: 4;
+
+            background: var(--background-contrast-color);
+        }
+
+        code {
+            font-family:
+                ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+                "Courier New", monospace;
+        }
+    }
+
+    @keyframes hero-image-reveal {
+        0% {
+            opacity: 0;
+            filter: blur(12px);
+        }
+
+        100% {
+            opacity: 1;
+            filter: blur(0);
+        }
+    }
+}

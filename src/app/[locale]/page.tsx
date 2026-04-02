@@ -4,8 +4,8 @@ import type { Locale } from "@/shared/i18n/types";
 import { getTranslations } from "next-intl/server";
 import { getPosts } from "@/entities/post/api/getPosts";
 import type { FC } from "react";
-import MainHero from "@/sections/main/ui/MainHero";
-import MainPosts from "@/sections/main/ui/MainPosts";
+import MainHero from "@/sections/main/MainHero";
+import MainPosts from "@/sections/main/MainPosts";
 
 interface MainPageProps {
     params: Promise<{ locale: Locale }>;

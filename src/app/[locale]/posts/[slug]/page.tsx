@@ -3,11 +3,11 @@ import path from "path";
 import matter from "gray-matter";
 import type { Metadata } from "next";
 import type { Locale } from "@/shared/i18n/types";
-// import Image from "next/image";
 import { notFound } from "next/navigation";
-import styles from "./post.module.scss";
 
-// import { compileMDX } from "next-mdx-remote/rsc";
+import { compileMDX } from "next-mdx-remote/rsc";
+import { PostDetail } from "@/sections/post/PostDetail/ui/PostDetail";
+import type { Post } from "@/entities/post";
 
 export async function generateMetadata({
     params,
@@ -31,6 +31,11 @@ export interface PostPageProps {
     params: Promise<{ locale: Locale; slug: string }>;
 }
 
+type PostFrontmatter = Omit<Post, "image"> & {
+    imageSrc: string;
+    imageAlt: string;
+};
+
 export default async function PostPage(props: PostPageProps) {
     const { params } = props;
     const { locale, slug } = await params;
@@ -38,52 +43,20 @@ export default async function PostPage(props: PostPageProps) {
     const file = path.join(process.cwd(), "content/posts", locale, `${slug}.mdx`);
     if (!fs.existsSync(file)) return notFound();
 
-    // const source = fs.readFileSync(file, "utf8");
+    const source = fs.readFileSync(file, "utf8");
 
-    // const { content, frontmatter } = await compileMDX({
-    //     source,
-    //     options: {
-    //         parseFrontmatter: true,
-    //     },
-    // });
-
-    // const data = frontmatter;
-
-    return (
-        <main className={styles.page}>
-            {/* <header className={styles.hero}>
-                {data.imageSrc ? (
-                    <div className={styles.heroMedia}>
-                        <Image
-                            src={data.imageSrc}
-                            alt={data.imageAlt ?? data.title}
-                            fill
-                            sizes="(max-width: 768px) 100vw, 1200px"
-                            style={{ objectFit: "cover" }}
-                        />
-                    </div>
-                ) : data.videoUrl ? (
-                    <div className={styles.heroMedia}>
-                        <video src={data.videoUrl} controls className={styles.video} />
-                    </div>
-                ) : null}
-
-                <div className={styles.heroContent}>
-                    <h1 className={styles.title}>{data.title}</h1>
-
-                    {data.tags && (
-                        <div className={styles.tags}>
-                            {data.tags.map((t: string) => (
-                                <span key={t} className={styles.tag}>
-                                    {t}
-                                </span>
-                            ))}
-                        </div>
-                    )}
-                </div>
-            </header>
-
-            <article className={styles.content}>{content}</article> */}
-        </main>
-    );
+    const { content, frontmatter } = await compileMDX<PostFrontmatter>({
+        source,
+        options: {
+            parseFrontmatter: true,
+        },
+    });
+    const post: Post = {
+        ...frontmatter,
+        image: {
+            src: frontmatter.imageSrc,
+            alt: frontmatter.imageAlt,
+        },
+    };
+    return <PostDetail post={post} content={content} />;
 }
