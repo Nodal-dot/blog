@@ -63,6 +63,10 @@
                 transform: scaleX(1);
             }
         }
+
+        @include mobile {
+            padding: 1rem 1.2rem;
+        }
     }
 
     &__value {
@@ -70,17 +74,29 @@
 
         display: block;
         flex: 1;
-        font-weight: 400;
         text-align: left;
     }
 
     &__icon {
         @include default-tr;
+        @include box(2.4rem);
 
         flex-shrink: 0;
         color: var(--text-color);
         opacity: 0.6;
         transition-property: transform, opacity;
+
+        @include tablet {
+            @include box(2rem);
+        }
+
+        @include mobile {
+            @include box(1.6rem);
+        }
+
+        > svg {
+            @include box(100%);
+        }
 
         &-opened {
             transform: rotate(-180deg);

@@ -19,6 +19,10 @@
 
             color: var(--text-color);
         }
+
+        @include mobile {
+            padding: 1rem 1.2rem;
+        }
     }
 
     &__wrapper {
@@ -51,6 +55,7 @@
 
     &__icon {
         @include default-tr;
+        @include box(2.4rem);
 
         display: flex;
         align-items: center;
@@ -61,6 +66,18 @@
         opacity: 0.6;
 
         transition-property: opacity, transform;
+
+        @include tablet {
+            @include box(2rem);
+        }
+
+        @include mobile {
+            @include box(1.6rem);
+        }
+
+        > svg {
+            @include box(100%);
+        }
     }
 
     &:hover,

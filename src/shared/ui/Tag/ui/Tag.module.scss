@@ -1,5 +1,6 @@
 .tag {
     @include default-tr;
+    @include font-size(body-bold);
 
     padding: 0.4rem 0.8rem;
     border: 1px solid var(--background-contrast-color);

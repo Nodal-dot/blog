@@ -90,6 +90,10 @@
         @include mobile {
             @include box(1.6rem);
         }
+
+        > svg {
+            @include box(100%);
+        }
     }
 
     &__text {

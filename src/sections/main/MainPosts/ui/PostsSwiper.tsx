@@ -2,10 +2,9 @@
 
 import React, { type FC } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectCoverflow, Pagination } from "swiper/modules";
+import { Pagination } from "swiper/modules";
 
 import "swiper/css";
-import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 
 import styles from "./MainPosts.module.scss";
@@ -31,14 +30,8 @@ const PostsSwiper: FC<PostsSwiperProps> = (props) => {
             initialSlide={1}
             slidesPerView={3}
             spaceBetween={24}
-            modules={[EffectCoverflow, Pagination]}
+            modules={[Pagination]}
             className={styles["main-posts__slider"]}
-            coverflowEffect={{
-                rotate: 20,
-                stretch: 0,
-                depth: 0,
-                slideShadows: false,
-            }}
             pagination={{
                 clickable: true,
                 el: `.${paginationClassName}`,

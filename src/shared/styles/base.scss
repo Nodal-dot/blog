@@ -10,7 +10,7 @@ html {
 }
 
 body {
-    --header-height: 8rem;
+    --header-height: 9rem;
 
     overflow-x: hidden;
 
@@ -26,9 +26,11 @@ body {
     margin-inline: auto;
 }
 
-// .container > main {
-//     min-height: calc(100dvh - var(--header-height));
-// }
+.container > main {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100dvh - var(--header-height));
+}
 
 h1 {
     font-weight: 700;

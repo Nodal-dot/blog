@@ -4,7 +4,7 @@ import React, { useEffect, type FC } from "react";
 import { createPortal } from "react-dom";
 import styles from "./Modal.module.scss";
 import { classNames } from "@/shared/lib/classNames";
-
+import { X } from "lucide-react";
 interface ModalProps {
     open: boolean;
     onClose: () => void;
@@ -80,9 +80,9 @@ const Modal: FC<ModalProps> = (props) => {
                     type="button"
                     className={styles.modal__close}
                     onClick={onClose}
-                    aria-label="Закрыть"
+                    aria-label="Close"
                 >
-                    ✕
+                    <X />
                 </button>
                 {children}
             </div>

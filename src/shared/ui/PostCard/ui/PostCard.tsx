@@ -16,7 +16,7 @@ export interface PostCardProps {
     subtitle: string;
     image: { src: string; alt: string };
     videoUrl: string;
-    tags?: string[];
+    tags: string[];
     viewMode: ViewMode;
 }
 
@@ -28,6 +28,7 @@ export const PostCard: FC<PostCardProps> = ({
     videoUrl,
     tags = [],
     viewMode,
+    ...otherProps
 }) => {
     const videoRef = useRef<HTMLVideoElement | null>(null);
     const { startTransition } = usePageTransition();
@@ -48,6 +49,7 @@ export const PostCard: FC<PostCardProps> = ({
             className={classNames(styles["post-card"], {
                 [styles[`mode-${viewMode}`]]: true,
             })}
+            {...otherProps}
         >
             <Link
                 href={`/posts/${id}`}

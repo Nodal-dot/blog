@@ -91,7 +91,7 @@ export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkill
             0.1,
             1000
         );
-        camera.position.z = 18;
+        camera.position.z = 8;
 
         const renderer = new THREE.WebGLRenderer({
             canvas: canvasRef.current!,

@@ -1,9 +1,8 @@
 .link {
+    @include font-size(body-bold);
+
     position: relative;
-
     display: inline-block;
-
-    font-weight: 500;
     color: inherit;
     text-decoration: none;
 

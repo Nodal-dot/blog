@@ -54,8 +54,9 @@
         top: 1rem;
         right: 1rem;
 
-        width: 2.4rem;
-        height: 2.4rem;
+        display: flex;
+
+        padding: 0.8rem;
         border-radius: 50%;
 
         color: var(--text-color);
@@ -63,6 +64,10 @@
         background-color: transparent;
 
         transition-property: background;
+
+        > svg {
+            @include box(2.4rem);
+        }
 
         &:hover,
         &:focus {

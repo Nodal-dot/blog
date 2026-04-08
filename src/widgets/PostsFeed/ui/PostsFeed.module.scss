@@ -17,10 +17,12 @@
         align-items: flex-end;
         justify-content: space-between;
 
+        @include tablet {
+            gap: 1.6rem;
+        }
+
         @include mobile {
-            flex-direction: column-reverse;
-            gap: 2.4rem;
-            align-items: flex-start;
+            gap: 0.8rem;
         }
     }
 
@@ -37,6 +39,10 @@
         @include mobile {
             grid-template-columns: repeat(1, 1fr);
             gap: 1.2rem;
+        }
+
+        > [data-visible="false"] {
+            display: none;
         }
     }
 

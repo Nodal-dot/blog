@@ -22,7 +22,6 @@ const VIEW_MODES: SelectOption[] = [
     { value: "image", label: "Image" },
     { value: "video", label: "Video" },
 ];
-// TOOD display none for videos hat i cant see
 
 export const PostsFeed: FC<PostsFeedProps> = ({ posts }) => {
     const { query, setQuery, selectedTags, toggleTag, allTags, visiblePosts } = usePostsFilter({
@@ -67,7 +66,7 @@ export const PostsFeed: FC<PostsFeedProps> = ({ posts }) => {
             </Swiper>
 
             <div className={styles["posts-feed__grid"]}>
-                {visiblePosts.map((post) => (
+                {posts.map((post) => (
                     <PostCard
                         key={post.id}
                         id={post.id}
@@ -77,6 +76,7 @@ export const PostsFeed: FC<PostsFeedProps> = ({ posts }) => {
                         videoUrl={post.videoUrl}
                         tags={post.tags}
                         viewMode={viewMode}
+                        data-visible={visiblePosts.includes(post)}
                     />
                 ))}
             </div>

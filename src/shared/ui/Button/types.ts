@@ -1,4 +1,4 @@
-import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ElementType, ReactNode } from "react";
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 
 interface BaseButtonProps {
     children?: ReactNode;
@@ -6,19 +6,18 @@ interface BaseButtonProps {
     rightIcon?: ReactNode;
     className?: string;
     hovered?: boolean;
-    as?: ElementType;
     ariaLabel?: string;
     href?: string;
     disabled?: boolean;
 }
 
-export type ButtonAsButton = {
+export type ButtonAsButton = BaseButtonProps & {
     as?: "button";
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
-export type ButtonAsLink = {
+export type ButtonAsLink = BaseButtonProps & {
     as: "a";
     href: string;
 } & AnchorHTMLAttributes<HTMLAnchorElement>;
 
-export type ButtonProps = BaseButtonProps & (ButtonAsButton | ButtonAsLink);
+export type ButtonProps = ButtonAsButton | ButtonAsLink;
