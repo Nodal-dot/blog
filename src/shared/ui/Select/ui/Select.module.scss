@@ -169,6 +169,7 @@
 
         &-selected {
             @include font-size(body-bold);
+
             pointer-events: none;
             opacity: 0.5;
         }

@@ -55,7 +55,14 @@ export const PostsFeed: FC<PostsFeedProps> = ({ posts }) => {
                                 tagAs={"button"}
                                 data-active={active}
                                 onClick={() => {
-                                    toggleTag(tag);
+                                    if (!document.startViewTransition) {
+                                        toggleTag(tag);
+                                        return;
+                                    }
+
+                                    document.startViewTransition(() => {
+                                        toggleTag(tag);
+                                    });
                                 }}
                             >
                                 {tag}
@@ -77,6 +84,9 @@ export const PostsFeed: FC<PostsFeedProps> = ({ posts }) => {
                         tags={post.tags}
                         viewMode={viewMode}
                         data-visible={visiblePosts.includes(post)}
+                        style={{
+                            viewTransitionName: `post-${post.id}`,
+                        }}
                     />
                 ))}
             </div>

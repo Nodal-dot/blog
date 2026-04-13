@@ -1,5 +1,3 @@
-// TODO Remove this
-
 export const BASE_SEO = {
     en: {
         siteName: "Your Name Portfolio",

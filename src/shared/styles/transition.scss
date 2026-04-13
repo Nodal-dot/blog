@@ -1,0 +1,31 @@
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation: none;
+}
+
+::view-transition-old(*) {
+    animation: card-out 200ms ease forwards;
+}
+
+::view-transition-new(*) {
+    animation: card-in 300ms ease forwards;
+}
+
+@keyframes card-out {
+    to {
+        transform: scale(0.9) translateY(1rem);
+        opacity: 0;
+    }
+}
+
+@keyframes card-in {
+    from {
+        transform: scale(0.95) translateY(2rem);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}

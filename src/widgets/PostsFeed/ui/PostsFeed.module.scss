@@ -1,4 +1,5 @@
 .posts-feed {
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     gap: 3.2rem;
@@ -27,6 +28,7 @@
     }
 
     &__grid {
+        position: relative;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 2rem;
@@ -42,7 +44,10 @@
         }
 
         > [data-visible="false"] {
-            display: none;
+            pointer-events: none;
+            position: absolute;
+            transform: scale(0.95);
+            opacity: 0;
         }
     }
 

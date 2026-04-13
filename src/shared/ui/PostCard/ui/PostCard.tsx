@@ -18,6 +18,7 @@ export interface PostCardProps {
     videoUrl: string;
     tags: string[];
     viewMode: ViewMode;
+    style?: React.CSSProperties;
 }
 
 export const PostCard: FC<PostCardProps> = ({
