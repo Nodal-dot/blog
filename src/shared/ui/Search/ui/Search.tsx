@@ -15,7 +15,8 @@ export const Search: FC<SearchProps> = ({ value, onChange }) => {
                 icon={<SearchIcon />}
                 type="text"
                 name="search"
-                placeholder="Search posts..."
+                label="Search posts"
+                placeholder="Type something..."
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 autoComplete="off"
