@@ -49,7 +49,7 @@ export const PageTransitionProvider = ({ children }: { children: ReactNode }) =>
 
     const startTransition = (to: string, locale?: string) => {
         if (isAnimating) return;
-
+        if (to === pathname) return;
         setIsAnimating(true);
 
         setTimeout(() => {

@@ -27,7 +27,11 @@
         width: 100%;
     }
 
-    &.active::after {
-        width: 100%;
+    &.active {
+        pointer-events: none;
+        user-select: none;
+        &::after {
+            width: 100%;
+        }
     }
 }
