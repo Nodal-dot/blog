@@ -29,7 +29,6 @@
 
         position: relative;
 
-        font-weight: 900;
         color: var(--text-contrast-color);
         text-shadow:
             0.05em 0 var(--skill-line-active-color),
@@ -96,43 +95,43 @@
         width: 100%;
         height: 100%;
         background: transparent;
-        transition-property: background;
+        transition-property: background-color;
 
         &.active {
             background: var(--text-contrast-color);
         }
     }
-}
 
-@keyframes glitch {
-    0%,
-    15% {
-        text-shadow:
-            0.05em 0 var(--skill-line-active-color),
-            -0.03em -0.04em var(--hover-text-color),
-            0.025em 0.04em var(--text-2-color);
-    }
+    @keyframes glitch {
+        0%,
+        15% {
+            text-shadow:
+                0.05em 0 var(--skill-line-active-color),
+                -0.03em -0.04em var(--hover-text-color),
+                0.025em 0.04em var(--text-2-color);
+        }
 
-    16%,
-    49% {
-        text-shadow:
-            -0.05em -0.025em var(--skill-line-active-color),
-            0.025em 0.035em var(--hover-text-color),
-            -0.05em -0.05em var(--text-2-color);
-    }
+        16%,
+        49% {
+            text-shadow:
+                -0.05em -0.025em var(--skill-line-active-color),
+                0.025em 0.035em var(--hover-text-color),
+                -0.05em -0.05em var(--text-2-color);
+        }
 
-    50%,
-    99% {
-        text-shadow:
-            0.05em 0.035em var(--skill-line-active-color),
-            0.03em 0 var(--hover-text-color),
-            0 -0.04em var(--text-2-color);
-    }
+        50%,
+        99% {
+            text-shadow:
+                0.05em 0.035em var(--skill-line-active-color),
+                0.03em 0 var(--hover-text-color),
+                0 -0.04em var(--text-2-color);
+        }
 
-    100% {
-        text-shadow:
-            -0.05em 0 var(--skill-line-active-color),
-            -0.025em -0.04em var(--hover-text-color),
-            -0.04em -0.025em var(--text-2-color);
+        100% {
+            text-shadow:
+                -0.05em 0 var(--skill-line-active-color),
+                -0.025em -0.04em var(--hover-text-color),
+                -0.04em -0.025em var(--text-2-color);
+        }
     }
 }

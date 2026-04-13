@@ -33,8 +33,6 @@ body {
 }
 
 h1 {
-    font-weight: 700;
-
     @include font-size(h1);
 }
 
@@ -53,8 +51,6 @@ p {
 }
 
 button {
-    font-weight: 500;
-
     @include font-size(button);
 }
 

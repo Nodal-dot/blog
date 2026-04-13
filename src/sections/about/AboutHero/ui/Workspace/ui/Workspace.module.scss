@@ -251,15 +251,14 @@
         background: var(--mug-color);
 
         &::after {
+            @include font-size(body-bold);
+
             content: "JS";
 
             padding: 0.4rem 0.6rem;
             border-radius: 0.4rem;
 
-            font-size: 1.4rem;
-            font-weight: 700;
             color: #f7df1e;
-            letter-spacing: 0.05em;
 
             background: #323330;
         }

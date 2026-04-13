@@ -156,7 +156,7 @@
 
         background-color: transparent;
 
-        transition-property: background-color;
+        transition-property: background-color, opacity;
 
         &:focus {
             background-color: transparent;
@@ -168,8 +168,9 @@
         }
 
         &-selected {
+            @include font-size(body-bold);
             pointer-events: none;
-            font-weight: 600;
+            opacity: 0.5;
         }
     }
 }
