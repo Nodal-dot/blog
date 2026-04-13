@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, type FC } from "react";
+import React, { useEffect, useState, type FC } from "react";
 
 import { PostCard, type ViewMode } from "@/shared/ui/PostCard";
 import type { Post } from "@/entities/post/model/types";
@@ -28,11 +28,27 @@ export const PostsFeed: FC<PostsFeedProps> = ({ posts }) => {
         posts,
     });
     const [viewMode, setViewMode] = useState<ViewMode>("image");
+    const [inputValue, setInputValue] = useState(query);
+
+    useEffect(() => {
+        const id = setTimeout(() => {
+            if (!document.startViewTransition) {
+                setQuery(inputValue);
+                return;
+            }
+
+            document.startViewTransition(() => {
+                setQuery(inputValue);
+            });
+        }, 200);
+
+        return () => clearTimeout(id);
+    }, [inputValue, setQuery]);
 
     return (
         <section className={classNames(styles["posts-feed"], "section")}>
             <div className={styles["posts-feed__header"]}>
-                <Search value={query} onChange={setQuery} />
+                <Search value={inputValue} onChange={setInputValue} />
                 <Select
                     value={viewMode}
                     onChange={(value) => setViewMode(value as ViewMode)}
