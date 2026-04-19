@@ -4,8 +4,14 @@ import { useState, useRef, useEffect, useMemo } from "react";
 import styles from "./NotFound.module.scss";
 import Button from "@/shared/ui/Button";
 import { classNames } from "@/shared/lib/classNames";
+import { useTranslations } from "next-intl";
+import { useRouter } from "@/shared/i18n/navigation";
 
 export const NotFound = () => {
+    const t = useTranslations("NotFound");
+    
+    const router = useRouter();
+
     const [animate, setAnimate] = useState(false);
     const [navigate, setNavigate] = useState(false);
     const buttonRef = useRef<HTMLButtonElement>(null);
@@ -51,17 +57,17 @@ export const NotFound = () => {
     const handleClick = () => setAnimate(true);
 
     useEffect(() => {
-        if (navigate) window.location.href = "/";
-    }, [navigate]);
+        if (navigate) router.push("/");
+    }, [navigate, router]);
 
     return (
         <section className={styles["not-found"]} role="alert">
-            <h1 className={styles["not-found__glitch"]} aria-label="404">
+            <h1 className={styles["not-found__glitch"]} aria-label={t("heading")}>
                 404
                 <span aria-hidden="true">404</span>
                 <span aria-hidden="true">404</span>
             </h1>
-            <p className={styles["not-found__message"]}>Page not found</p>
+            <p className={styles["not-found__message"]}>{t("message")}</p>
             <Button
                 ref={buttonRef}
                 className={classNames(styles["not-found__button"], {
@@ -69,7 +75,7 @@ export const NotFound = () => {
                 })}
                 onClick={handleClick}
             >
-                Back to home
+                {t("button")}
             </Button>
 
             <div className={styles["not-found__grid"]}>
@@ -80,7 +86,7 @@ export const NotFound = () => {
                             [styles.active]: animate,
                         })}
                         style={{ transitionDelay: `${delays[i] || 0}s` }}
-                    ></div>
+                    />
                 ))}
             </div>
         </section>
