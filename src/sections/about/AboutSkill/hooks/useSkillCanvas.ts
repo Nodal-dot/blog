@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
+import { debounce } from "@/shared/lib/debounce";
 import {
     generateGoldenSphereCube,
     createSkillPoints,
@@ -81,7 +82,6 @@ export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkill
         const canvasElement = canvasRef.current;
         const particles = stateRef.current.particles;
         const lines = stateRef.current.lines;
-        let resizeTimeoutId: number | null = null;
         let animationIdLocal: number | null = null;
 
         const scene = new THREE.Scene();
@@ -286,13 +286,7 @@ export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkill
             stateRef.current.renderer!.setPixelRatio(window.devicePixelRatio);
         };
 
-        const debouncedResize = () => {
-            if (resizeTimeoutId) window.clearTimeout(resizeTimeoutId);
-            resizeTimeoutId = window.setTimeout(() => {
-                handleResizeImmediate();
-                resizeTimeoutId = null;
-            }, 150) as unknown as number;
-        };
+        const debouncedResize = debounce(handleResizeImmediate, 150);
 
         handleResizeImmediate();
         window.addEventListener("resize", debouncedResize);
@@ -570,7 +564,7 @@ export function useSkillCanvas({ canvasRef, tooltipRef, containerRef }: UseSkill
             window.removeEventListener("mousemove", handleMouseMove);
             canvasElement?.removeEventListener("click", handleClick);
             window.removeEventListener("resize", debouncedResize);
-            if (resizeTimeoutId) window.clearTimeout(resizeTimeoutId);
+            debouncedResize.cancel();
             observer.disconnect();
             stopAnimation();
 

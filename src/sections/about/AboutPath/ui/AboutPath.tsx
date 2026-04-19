@@ -9,6 +9,7 @@ import { Code2, Layers, GraduationCap } from "lucide-react";
 
 import Tags from "@/shared/ui/Tags";
 import { classNames } from "@/shared/lib/classNames";
+import { debounce } from "@/shared/lib/debounce";
 import styles from "./AboutPath.module.scss";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -60,8 +61,8 @@ export const AboutPath: FC = () => {
 
             calculatePositions();
 
-            const resizeHandler = () => calculatePositions();
-            window.addEventListener("resize", resizeHandler);
+            const debouncedResizeHandler = debounce(calculatePositions, 300);
+            window.addEventListener("resize", debouncedResizeHandler);
 
             const trigger = ScrollTrigger.create({
                 trigger: items[0],
@@ -91,7 +92,8 @@ export const AboutPath: FC = () => {
 
             return () => {
                 trigger.kill();
-                window.removeEventListener("resize", resizeHandler);
+                window.removeEventListener("resize", debouncedResizeHandler);
+                debouncedResizeHandler.cancel();
             };
         },
         { scope: containerRef }

@@ -4,10 +4,10 @@ import matter from "gray-matter";
 import type { Metadata } from "next";
 import type { Locale } from "@/shared/i18n/types";
 import { notFound } from "next/navigation";
-
 import { compileMDX } from "next-mdx-remote/rsc";
 import { PostDetail } from "@/sections/post/PostDetail/ui/PostDetail";
 import type { Post } from "@/entities/post";
+import { createPageMetadata } from "../../metadata";
 
 export async function generateMetadata({
     params,
@@ -17,14 +17,22 @@ export async function generateMetadata({
     const { locale, slug } = await params;
 
     const file = path.join(process.cwd(), "content/posts", locale, `${slug}.mdx`);
-    if (!fs.existsSync(file)) return { title: "Post" };
+    if (!fs.existsSync(file)) return { title: "Post not found" };
 
     const source = fs.readFileSync(file, "utf8");
     const { data } = matter(source);
 
-    return {
+    const tags: string[] = Array.isArray(data.tags) ? data.tags : [];
+
+    return createPageMetadata({
         title: data.title,
-    };
+        description: data.subtitle || data.title,
+        keywords: tags.join(","),
+        openGraphTitle: data.title,
+        openGraphDescription: data.subtitle || data.title,
+        path: `/${locale}/posts/${slug}`,
+        locale,
+    });
 }
 
 export interface PostPageProps {
@@ -36,8 +44,7 @@ type PostFrontmatter = Omit<Post, "image"> & {
     imageAlt: string;
 };
 
-export default async function PostPage(props: PostPageProps) {
-    const { params } = props;
+export default async function PostPage({ params }: PostPageProps) {
     const { locale, slug } = await params;
 
     const file = path.join(process.cwd(), "content/posts", locale, `${slug}.mdx`);
@@ -47,10 +54,9 @@ export default async function PostPage(props: PostPageProps) {
 
     const { content, frontmatter } = await compileMDX<PostFrontmatter>({
         source,
-        options: {
-            parseFrontmatter: true,
-        },
+        options: { parseFrontmatter: true },
     });
+
     const post: Post = {
         ...frontmatter,
         image: {
@@ -58,5 +64,6 @@ export default async function PostPage(props: PostPageProps) {
             alt: frontmatter.imageAlt,
         },
     };
+
     return <PostDetail post={post} content={content} />;
 }
