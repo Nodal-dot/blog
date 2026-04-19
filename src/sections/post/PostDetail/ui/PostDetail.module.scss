@@ -43,6 +43,13 @@
         gap: 2.4rem;
     }
 
+    &__hero-tags {
+        @include default-tr;
+
+        height: auto;
+        transition-property: height;
+    }
+
     &__content {
         display: flex;
         flex-direction: column;
@@ -101,6 +108,42 @@
             font-family:
                 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
                 "Courier New", monospace;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: transparent;
+        }
+
+        table thead {
+            border-bottom: 1px solid var(--divider-color);
+        }
+
+        table th {
+            padding: 1.2rem 1.6rem;
+            color: var(--text-color);
+            text-align: left;
+        }
+
+        table td {
+            padding: 1.2rem 1.6rem;
+            color: var(--text-color);
+        }
+
+        table tbody tr {
+            @include default-tr;
+
+            border-bottom: 1px solid var(--divider-color);
+            transition-property: background-color;
+        }
+
+        table tbody tr:hover {
+            background-color: var(--hover-background-color);
+        }
+
+        table tbody tr:last-child {
+            border-bottom: none;
         }
     }
 

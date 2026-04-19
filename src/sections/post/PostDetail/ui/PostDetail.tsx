@@ -29,7 +29,9 @@ export const PostDetail: React.FC<PostDetailProps> = ({ post, content }) => {
                 <div className={styles["post-detail__hero-content"]}>
                     <h1 className={styles["post-detail__title"]}>{post.title}</h1>
 
-                    <Tags tags={post.tags} />
+                    <div className={styles["post-detail__hero-tags"]}>
+                        <Tags tags={post.tags} />
+                    </div>
                 </div>
             </header>
 

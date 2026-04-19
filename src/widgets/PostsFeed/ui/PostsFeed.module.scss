@@ -29,10 +29,12 @@
 
     &__grid {
         position: relative;
+
+        contain: layout;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 2rem;
-        contain: layout;
+
         @include tablet {
             grid-template-columns: repeat(2, 1fr);
             gap: 1.6rem;
