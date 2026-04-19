@@ -10,7 +10,6 @@
             "title": "Посты"
         }
     },
-
     "AboutPage": {
         "interactiveText": {
             "title": "Обо мне",
@@ -49,17 +48,67 @@
     "Nav": {
         "home": "Главная",
         "about": "Обо мне",
-        "posts": "Посты"
+        "posts": "Посты",
+        "ariaLabel": "Основная навигация"
     },
     "Theme": {
         "toggle": "Переключить тему"
     },
     "Social": {
-        "github": "Гитхаб"
+        "github": "GitHub",
+        "githubAria": "Открыть профиль GitHub (откроется в новой вкладке)"
+    },
+    "Modal": {
+        "close": "Закрыть диалог"
+    },
+    "Select": {
+        "placeholder": "Выбрать..."
+    },
+    "PostCard": {
+        "videoAria": "Видео-превью поста"
+    },
+    "NotFound": {
+        "heading": "Ошибка 404",
+        "message": "Страница не найдена",
+        "button": "На главную"
+    },
+    "Footer": {
+        "author": "Владимир · Фронтенд разработчик",
+        "scrollToTop": "Наверх"
+    },
+    "PostsFeed": {
+        "viewMode": "Вид",
+        "viewModeAria": "Выбрать вид отображения постов",
+        "modes": {
+            "compact": "Компактный",
+            "image": "С изображением",
+            "video": "С видео"
+        }
+    },
+    "MobileMenu": {
+        "openMenu": "Открыть меню",
+        "closeMenu": "Закрыть меню"
+    },
+    "LanguageSwitcher": {
+        "ariaLabel": "Сменить язык"
+    },
+    "Search": {
+        "label": "Поиск постов",
+        "placeholder": "Введите что-нибудь..."
     },
     "Metadata": {
-        "title": "Фронтенд разработчик — Nodal-dot",
-        "description": "Портфолио фронтенд разработчика.",
-        "keywords": "Фронтенд разработчик,React,Next.js,TypeScript,Портфолио"
+        "title": "Владимир — Фронтенд разработчик",
+        "description": "Портфолио и блог Владимира, фронтенд разработчика. React, Next.js, TypeScript, производительность и современные веб-интерфейсы.",
+        "keywords": "Фронтенд разработчик,React,Next.js,TypeScript,Портфолио,Веб-разработка,UI,Производительность",
+        "About": {
+            "title": "Обо мне — Владимир, Фронтенд разработчик",
+            "description": "Фронтенд разработчик, специализирующийся на создании производительных и доступных интерфейсов. React, Next.js, TypeScript.",
+            "keywords": "Обо мне,Фронтенд разработчик,React,Next.js,TypeScript,Производительность,Доступность,Портфолио"
+        },
+        "Posts": {
+            "title": "Посты — Статьи о фронтенд разработке",
+            "description": "Статьи о React, Next.js, TypeScript, архитектуре UI и современной фронтенд разработке.",
+            "keywords": "Блог,Посты,React,Next.js,TypeScript,Фронтенд,Статьи,Веб-разработка,UI"
+        }
     }
 }

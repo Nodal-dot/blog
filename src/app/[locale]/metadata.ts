@@ -22,10 +22,16 @@ export async function createPageMetadata({
     locale,
 }: PageSEOParams): Promise<Metadata> {
     const base = BASE_SEO[locale];
+    const ogTitle = openGraphTitle || title;
+    const ogDescription = openGraphDescription || description;
+    const ogImageUrl = base.defaultImage.startsWith("http")
+        ? base.defaultImage
+        : `${base.url}${base.defaultImage}`;
+
     return {
         title: {
             default: title,
-            template: "%s | Your Name",
+            template: `%s | Nodal-dot`,
         },
         manifest: `/api/manifest?locale=${locale}`,
         description,
@@ -45,25 +51,36 @@ export async function createPageMetadata({
                 return acc;
             }, {}),
         },
-        keywords: keywords.split(","),
-        robots: { index: true, follow: true },
+        keywords: keywords
+            .split(",")
+            .map((k) => k.trim())
+            .filter(Boolean),
+        robots: {
+            index: true,
+            follow: true,
+            googleBot: { index: true, follow: true, "max-snippet": -1 },
+        },
         openGraph: {
             type: "website",
             url: `${base.url}${path}`,
             siteName: base.siteName,
             locale: base.locale,
-            title: openGraphTitle || title,
-            description: openGraphDescription || description,
+            title: ogTitle,
+            description: ogDescription,
             images: [
                 {
-                    url: base.defaultImage.startsWith("http")
-                        ? base.defaultImage
-                        : `${base.url}${base.defaultImage}`,
+                    url: ogImageUrl,
                     width: 1200,
                     height: 630,
-                    alt: openGraphTitle || title,
+                    alt: ogTitle,
                 },
             ],
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: ogTitle,
+            description: ogDescription,
+            images: [ogImageUrl],
         },
         other: {
             "msapplication-config": "/browserconfig.xml",

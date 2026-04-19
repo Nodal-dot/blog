@@ -1,14 +1,14 @@
 export const BASE_SEO = {
     en: {
-        siteName: "Your Name Portfolio",
+        siteName: "Nodal-dot — ",
         locale: "en_US",
-        url: "https://your-domain.com",
+        url: "https://nodal-dot.dev",
         defaultImage: "/og-image.png",
     },
     ru: {
-        siteName: "Your Name Portfolio",
+        siteName: "Nodal-dot — Разработчик интерфейсов",
         locale: "ru_RU",
-        url: "https://your-domain.com",
+        url: "https://nodal-dot.dev",
         defaultImage: "/og-image.png",
     },
 } as const;

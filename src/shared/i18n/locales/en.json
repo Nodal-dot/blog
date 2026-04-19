@@ -21,7 +21,6 @@
         "AboutSkill": {
             "title": "My skills"
         },
-
         "AboutPath": {
             "title": "My Journey",
             "items": {
@@ -49,17 +48,67 @@
     "Nav": {
         "home": "Home",
         "about": "About Me",
-        "posts": "Posts"
+        "posts": "Posts",
+        "ariaLabel": "Main navigation"
     },
     "Theme": {
         "toggle": "Toggle theme"
     },
     "Social": {
-        "github": "GitHub"
+        "github": "GitHub",
+        "githubAria": "Open GitHub profile (opens in new tab)"
+    },
+    "Modal": {
+        "close": "Close dialog"
+    },
+    "Select": {
+        "placeholder": "Select..."
+    },
+    "PostCard": {
+        "videoAria": "Video preview for post"
+    },
+    "NotFound": {
+        "heading": "Error 404",
+        "message": "Page not found",
+        "button": "Back to home"
+    },
+    "Footer": {
+        "author": "Vladimir · Frontend Developer",
+        "scrollToTop": "Scroll to top"
+    },
+    "PostsFeed": {
+        "viewMode": "View",
+        "viewModeAria": "Select view mode for posts",
+        "modes": {
+            "compact": "Compact",
+            "image": "Image",
+            "video": "Video"
+        }
+    },
+    "MobileMenu": {
+        "openMenu": "Open menu",
+        "closeMenu": "Close menu"
+    },
+    "LanguageSwitcher": {
+        "ariaLabel": "Change language"
+    },
+    "Search": {
+        "label": "Search posts",
+        "placeholder": "Type something..."
     },
     "Metadata": {
-        "title": "Frontend Developer — Nodal-dot",
-        "description": "Frontend developer portfolio.",
-        "keywords": "Frontend Developer,React,Next.js,TypeScript,Portfolio"
+        "title": "Vladimir — Frontend Developer",
+        "description": "Portfolio and blog of Vladimir, a frontend developer. React, Next.js, TypeScript, performance, and modern web interfaces.",
+        "keywords": "Frontend Developer,React,Next.js,TypeScript,Portfolio,Web Development,UI,Performance",
+        "About": {
+            "title": "About — Vladimir, Frontend Developer",
+            "description": "Frontend developer specializing in high-performance, accessible interfaces built with React, Next.js and TypeScript.",
+            "keywords": "About,Frontend Developer,React,Next.js,TypeScript,Performance,Accessibility,Portfolio"
+        },
+        "Posts": {
+            "title": "Posts — Frontend Development Articles",
+            "description": "Articles about React, Next.js, TypeScript, UI architecture, and modern frontend engineering.",
+            "keywords": "Blog,Posts,React,Next.js,TypeScript,Frontend,Articles,Web Development,UI"
+        }
     }
 }
