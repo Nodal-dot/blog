@@ -9,14 +9,15 @@ import { usePageTransition } from "@/app/providers/transition";
 
 interface NavigationProps {
     links: Array<{ href: string; label: string }>;
+    ariaLabel?: string;
 }
 
 export const Navigation: FC<NavigationProps> = (props) => {
-    const { links } = props;
+    const { links, ariaLabel } = props;
     const pathname = usePathname();
     const { startTransition } = usePageTransition();
     return (
-        <nav className={classNames(styles.navigation)} aria-label="Main navigation">
+        <nav className={classNames(styles.navigation)} aria-label={ariaLabel}>
             <ul className={classNames(styles["navigation__list"])}>
                 {links.map(({ href, label }) => (
                     <li key={href}>

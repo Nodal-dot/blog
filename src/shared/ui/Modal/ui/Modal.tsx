@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import styles from "./Modal.module.scss";
 import { classNames } from "@/shared/lib/classNames";
 import { X } from "lucide-react";
+import { useTranslations } from "next-intl";
 interface ModalProps {
     open: boolean;
     onClose: () => void;
@@ -15,6 +16,7 @@ interface ModalProps {
 
 const Modal: FC<ModalProps> = (props) => {
     const { open, onClose, children, title, description } = props;
+    const t = useTranslations("Modal");
     const [mounted, setMounted] = React.useState(false);
     const modalRef = React.useRef<HTMLDivElement>(null);
 
@@ -80,7 +82,7 @@ const Modal: FC<ModalProps> = (props) => {
                     type="button"
                     className={styles.modal__close}
                     onClick={onClose}
-                    aria-label="Close"
+                    aria-label={t("close")}
                 >
                     <X />
                 </button>

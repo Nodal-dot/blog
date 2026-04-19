@@ -9,7 +9,7 @@ import { useRouter } from "@/shared/i18n/navigation";
 
 export const NotFound = () => {
     const t = useTranslations("NotFound");
-    
+
     const router = useRouter();
 
     const [animate, setAnimate] = useState(false);

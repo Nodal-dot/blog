@@ -7,6 +7,7 @@ import { usePathname } from "@/shared/i18n/navigation";
 import Modal, { useModal } from "@/shared/ui/Modal";
 import { usePageTransition } from "@/app/providers/transition";
 import { classNames } from "@/shared/lib/classNames";
+import { useTranslations } from "next-intl";
 
 interface MobileMenuProps {
     links: { href: string; label: string }[];
@@ -17,13 +18,14 @@ export const MobileMenu: FC<MobileMenuProps> = (props) => {
     const { open, toggleModal, closeModal } = useModal();
     const pathname = usePathname();
     const { startTransition } = usePageTransition();
+    const t = useTranslations("MobileMenu");
 
     return (
         <div className={styles["mobile-menu"]}>
             <button
                 onClick={toggleModal}
                 aria-expanded={open}
-                aria-label={"Открыть меню"}
+                aria-label={open ? t("closeMenu") : t("openMenu")}
                 className={classNames(`${styles["mobile-menu__trigger"]}`, {
                     [styles["mobile-menu__trigger--active"]]: open,
                 })}

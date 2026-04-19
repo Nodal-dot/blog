@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useEffect, useState, type FC } from "react";
+import React, { useState, type FC } from "react";
 
 import { PostCard, type ViewMode } from "@/shared/ui/PostCard";
-import type { Post } from "@/entities/post/model/types";
+import type { Post } from "@/entities/post";
 import styles from "./PostsFeed.module.scss";
 import { classNames } from "@/shared/lib/classNames";
 import Search from "@/shared/ui/Search";
@@ -11,50 +11,40 @@ import { Select, type SelectOption } from "@/shared/ui/Select";
 import { usePostsFilter } from "@/features/posts/posts-filter";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Tag from "@/shared/ui/Tag";
+import { useTranslations } from "next-intl";
 import "swiper/css";
 
 interface PostsFeedProps {
     posts: Post[];
 }
 
-const VIEW_MODES: SelectOption[] = [
-    { value: "compact", label: "Compact" },
-    { value: "image", label: "Image" },
-    { value: "video", label: "Video" },
-];
-
-export const PostsFeed: FC<PostsFeedProps> = ({ posts }) => {
+const PostsFeed: FC<PostsFeedProps> = ({ posts }) => {
+    const t = useTranslations("PostsFeed");
     const { query, setQuery, selectedTags, toggleTag, allTags, visiblePosts } = usePostsFilter({
         posts,
     });
     const [viewMode, setViewMode] = useState<ViewMode>("image");
-    const [inputValue, setInputValue] = useState(query);
 
-    useEffect(() => {
-        const id = setTimeout(() => {
-            if (!document.startViewTransition) {
-                setQuery(inputValue);
-                return;
-            }
+    const VIEW_MODES: SelectOption[] = [
+        { value: "compact", label: t("modes.compact") },
+        { value: "image", label: t("modes.image") },
+        { value: "video", label: t("modes.video") },
+    ];
 
-            document.startViewTransition(() => {
-                setQuery(inputValue);
-            });
-        }, 200);
-
-        return () => clearTimeout(id);
-    }, [inputValue, setQuery]);
+    const tagClickHandler = (tag: string): void => {
+        toggleTag(tag);
+    };
 
     return (
         <section className={classNames(styles["posts-feed"], "section")}>
             <div className={styles["posts-feed__header"]}>
-                <Search value={inputValue} onChange={setInputValue} />
+                <Search value={query} onChange={setQuery} />
                 <Select
                     value={viewMode}
                     onChange={(value) => setViewMode(value as ViewMode)}
                     options={VIEW_MODES}
-                    label="View Mode"
-                    ariaLabel="Select view mode for posts"
+                    label={t("viewMode")}
+                    ariaLabel={t("viewModeAria")}
                 />
             </div>
 
@@ -70,16 +60,7 @@ export const PostsFeed: FC<PostsFeedProps> = ({ posts }) => {
                             <Tag
                                 tagAs={"button"}
                                 data-active={active}
-                                onClick={() => {
-                                    if (!document.startViewTransition) {
-                                        toggleTag(tag);
-                                        return;
-                                    }
-
-                                    document.startViewTransition(() => {
-                                        toggleTag(tag);
-                                    });
-                                }}
+                                onClick={() => tagClickHandler(tag)}
                             >
                                 {tag}
                             </Tag>
@@ -89,7 +70,7 @@ export const PostsFeed: FC<PostsFeedProps> = ({ posts }) => {
             </Swiper>
 
             <div className={styles["posts-feed__grid"]}>
-                {posts.map((post) => (
+                {visiblePosts.map((post) => (
                     <PostCard
                         key={post.id}
                         id={post.id}
@@ -99,13 +80,11 @@ export const PostsFeed: FC<PostsFeedProps> = ({ posts }) => {
                         videoUrl={post.videoUrl}
                         tags={post.tags}
                         viewMode={viewMode}
-                        data-visible={visiblePosts.includes(post)}
-                        style={{
-                            viewTransitionName: `post-${post.id}`,
-                        }}
                     />
                 ))}
             </div>
         </section>
     );
 };
+
+export default PostsFeed;

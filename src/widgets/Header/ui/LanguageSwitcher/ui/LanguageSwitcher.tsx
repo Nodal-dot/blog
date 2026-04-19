@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect, type FC } from "react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "@/shared/i18n/navigation";
 import { Languages } from "lucide-react";
 import styles from "./LanguageSwitcher.module.scss";
@@ -15,6 +15,7 @@ export const LanguageSwitcher: FC = () => {
     const locale = useLocale();
     const router = useRouter();
     const closeTimeout = useRef<NodeJS.Timeout | null>(null);
+    const t = useTranslations("LanguageSwitcher");
 
     const { isDesktop } = useResponsive();
 
@@ -61,7 +62,7 @@ export const LanguageSwitcher: FC = () => {
                 onClick={() => setLangOpen((prev) => !prev)}
                 aria-haspopup="true"
                 aria-expanded={langOpen}
-                aria-label="Change language"
+                aria-label={t("ariaLabel")}
                 className={styles["language-switcher__trigger"]}
             >
                 <Languages size={24} />

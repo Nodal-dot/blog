@@ -40,7 +40,7 @@ export const Header: FC = () => {
     return (
         <header ref={headerRef} className={styles["header"]}>
             <div className={styles["header__nav-desktop"]}>
-                <Navigation links={links} />
+                <Navigation links={links} ariaLabel={t("Nav.ariaLabel")} />
             </div>
 
             <MobileMenu links={links} />
@@ -48,7 +48,7 @@ export const Header: FC = () => {
             <div className={styles["header__socials"]}>
                 <IconLink
                     href={GITHUB_URL}
-                    ariaLabel="GitHub"
+                    ariaLabel={t("Social.githubAria")}
                     iconLight="/assets/sprites/github-mark.svg"
                     iconDark="/assets/sprites/github-mark-white.svg"
                     width={48}
