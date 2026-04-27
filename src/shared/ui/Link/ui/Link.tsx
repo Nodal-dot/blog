@@ -23,7 +23,7 @@ const Link: React.FC<LinkProps> = (props) => {
             href={href}
             onClick={handleClick}
             aria-current={isActive ? "page" : undefined}
-            className={classNames(styles.link, isActive && styles.active)}
+            className={classNames(styles["link"], isActive && styles["active"])}
         >
             {label}
         </NextLink>

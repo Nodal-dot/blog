@@ -4,7 +4,7 @@ import React, { useEffect, type FC } from "react";
 import { createPortal } from "react-dom";
 import styles from "./Modal.module.scss";
 import { classNames } from "@/shared/lib/classNames";
-import { X } from "lucide-react";
+import { Icon } from "@/shared/ui/Icon";
 import { useTranslations } from "next-intl";
 interface ModalProps {
     open: boolean;
@@ -59,14 +59,14 @@ const Modal: FC<ModalProps> = (props) => {
 
     return createPortal(
         <div
-            className={classNames(styles.modal__backdrop, {
+            className={classNames(styles["modal__backdrop"], {
                 [styles["modal__backdrop--visible"]]: open,
             })}
             onClick={onClose}
         >
             <div
                 ref={modalRef}
-                className={classNames(styles.modal__content, {
+                className={classNames(styles["modal__content"], {
                     [styles["modal__content--open"]]: open,
                 })}
                 role="dialog"
@@ -80,11 +80,11 @@ const Modal: FC<ModalProps> = (props) => {
 
                 <button
                     type="button"
-                    className={styles.modal__close}
+                    className={styles["modal__close"]}
                     onClick={onClose}
                     aria-label={t("close")}
                 >
-                    <X />
+                    <Icon name="x" />
                 </button>
                 {children}
             </div>

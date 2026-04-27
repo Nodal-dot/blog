@@ -3,7 +3,7 @@
 import React, { type FC } from "react";
 import { Input } from "@/shared/ui/Input";
 import styles from "./Search.module.scss";
-import { Search as SearchIcon } from "lucide-react";
+import { Icon } from "@/shared/ui/Icon";
 import { useTranslations } from "next-intl";
 
 interface SearchProps {
@@ -15,9 +15,9 @@ export const Search: FC<SearchProps> = React.memo(({ value, onChange }) => {
     const t = useTranslations("Search");
 
     return (
-        <div className={styles.search}>
+        <div className={styles["search"]}>
             <Input
-                icon={<SearchIcon />}
+                icon={<Icon name="search" />}
                 type="text"
                 name="search"
                 label={t("label")}

@@ -13,6 +13,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { useRouter, usePathname } from "@/shared/i18n/navigation";
+import { classNames } from "@/shared/lib/classNames";
 import styles from "./PageTransition.module.scss";
 
 interface IPageTransitionContextProps {
@@ -80,7 +81,11 @@ export const PageTransitionProvider = ({ children }: { children: ReactNode }) =>
 
     const loaderPortal = mounted
         ? createPortal(
-              <div className={`${styles.loader} ${isAnimating ? styles.active : ""}`} />,
+              <div
+                  className={classNames(styles["loader"], {
+                      [styles["loader--active"]]: isAnimating,
+                  })}
+              />,
               document.body
           )
         : null;

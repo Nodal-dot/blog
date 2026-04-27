@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect, useCallback, type FC } from "react";
 import styles from "./Select.module.scss";
-import { ChevronDown } from "lucide-react";
+import { Icon } from "@/shared/ui/Icon";
 import { classNames } from "@/shared/lib/classNames";
 import { useResponsive } from "@/app/providers/responsive";
 import { useTranslations } from "next-intl";
@@ -96,7 +96,7 @@ export const Select: FC<SelectProps> = React.memo(
             options.find((opt) => opt.value === value)?.label || placeholder || t("placeholder");
 
         return (
-            <div className={styles.select}>
+            <div className={styles["select"]}>
                 {label && <span className={styles["select__label"]}>{label}</span>}
                 <div
                     ref={selectRef}
@@ -114,7 +114,8 @@ export const Select: FC<SelectProps> = React.memo(
                         className={styles["select__trigger"]}
                     >
                         <span className={styles["select__value"]}>{selectedLabel}</span>
-                        <ChevronDown
+                        <Icon
+                            name="chevron-down"
                             size={20}
                             className={classNames(styles["select__icon"], {
                                 [styles["select__icon-opened"]]: isOpen,

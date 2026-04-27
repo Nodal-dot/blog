@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect, type FC } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "@/shared/i18n/navigation";
-import { Languages } from "lucide-react";
+import { Icon } from "@/shared/ui/Icon";
 import styles from "./LanguageSwitcher.module.scss";
 import { classNames } from "@/shared/lib/classNames";
 import { useResponsive } from "@/app/providers/responsive";
@@ -65,7 +65,7 @@ export const LanguageSwitcher: FC = () => {
                 aria-label={t("ariaLabel")}
                 className={styles["language-switcher__trigger"]}
             >
-                <Languages size={24} />
+                <Icon name="languages" size={24} />
             </button>
 
             <ul
@@ -81,7 +81,7 @@ export const LanguageSwitcher: FC = () => {
                             onClick={() => handleLangChange(lang)}
                             role="menuitemradio"
                             aria-checked={locale === lang}
-                            className={classNames(locale === lang && styles.selected)}
+                            className={classNames(locale === lang && styles["selected"])}
                             disabled={locale === lang}
                         >
                             {lang.toUpperCase()}

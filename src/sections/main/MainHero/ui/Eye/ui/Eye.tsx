@@ -97,27 +97,27 @@ const Eye: FC = () => {
     const blockPositions = ["top-left", "top-right", "bottom-left", "bottom-right"];
 
     return (
-        <div className={style.eye} ref={containerRef}>
+        <div className={style["eye"]} ref={containerRef}>
             {blockPositions.map((pos, index) => (
                 <div
                     key={pos}
                     ref={(el) => {
                         if (el) blocksRefs.current[index] = el;
                     }}
-                    className={`${style.eye__block} ${style[`eye__block--${pos}`]}`}
+                    className={`${style["eye__block"]} ${style[`eye__block--${pos}`]}`}
                 />
             ))}
 
-            <div className={style.eye__wrapper}>
+            <div className={style["eye__wrapper"]}>
                 {eyelashTypes.map((type) => (
                     <div
                         key={type}
-                        className={`${style.eye__eyelash} ${style[`eye__eyelash--${type}`]}`}
+                        className={`${style["eye__eyelash"]} ${style[`eye__eyelash--${type}`]}`}
                     />
                 ))}
 
-                <div className={style.eye__sclera} ref={scleraRef}>
-                    <div className={style.eye__pupil} ref={pupilRef} />
+                <div className={style["eye__sclera"]} ref={scleraRef}>
+                    <div className={style["eye__pupil"]} ref={pupilRef} />
                 </div>
             </div>
         </div>

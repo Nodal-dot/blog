@@ -17,7 +17,7 @@ const NavigationComponent: FC<NavigationProps> = (props) => {
     const pathname = usePathname();
     const { startTransition } = usePageTransition();
     return (
-        <nav className={classNames(styles.navigation)} aria-label={ariaLabel}>
+        <nav className={classNames(styles["navigation"])} aria-label={ariaLabel}>
             <ul className={classNames(styles["navigation__list"])}>
                 {links.map(({ href, label }) => (
                     <li key={href}>

@@ -83,7 +83,7 @@ export const NotFound = () => {
                     <div
                         key={i}
                         className={classNames(styles["not-found__tile"], {
-                            [styles.active]: animate,
+                            [styles["active"]]: animate,
                         })}
                         style={{ transitionDelay: `${delays[i] || 0}s` }}
                     />

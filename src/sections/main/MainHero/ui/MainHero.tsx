@@ -1,5 +1,4 @@
 "use client";
-import { ArrowDown } from "lucide-react";
 
 import React from "react";
 import styles from "./MainHero.module.scss";
@@ -9,6 +8,7 @@ import { useTranslations } from "next-intl";
 import ScrollButton from "@/shared/ui/ScrollButton";
 import dynamic from "next/dynamic";
 import Skeleton from "@/shared/ui/Skeleton";
+import { Icon } from "@/shared/ui/Icon";
 
 const Eye = dynamic(() => import("./Eye"), {
     ssr: false,
@@ -27,7 +27,10 @@ export const MainHero: React.FC = () => {
                 </div>
                 <p>{t("description")}</p>
                 <ScrollButton target="#main-posts">
-                    <Button rightIcon={<ArrowDown />} className={styles["main-hero__button"]}>
+                    <Button
+                        rightIcon={<Icon name="arrow-down" />}
+                        className={styles["main-hero__button"]}
+                    >
                         {t("button")}
                     </Button>
                 </ScrollButton>

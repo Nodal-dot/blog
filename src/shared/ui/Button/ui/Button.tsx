@@ -20,9 +20,9 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>((p
 
     const content = (
         <>
-            {leftIcon && <span className={style.button__icon}>{leftIcon}</span>}
-            {children && <span className={style.button__text}>{children}</span>}
-            {rightIcon && <span className={style.button__icon}>{rightIcon}</span>}
+            {leftIcon && <span className={style["button__icon"]}>{leftIcon}</span>}
+            {children && <span className={style["button__text"]}>{children}</span>}
+            {rightIcon && <span className={style["button__icon"]}>{rightIcon}</span>}
         </>
     );
 
@@ -36,7 +36,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>((p
                 onClick={onClick}
                 aria-label={ariaLabel}
                 className={classNames(
-                    style.button,
+                    style["button"],
                     { [style["button--hovered"]]: hovered },
                     className
                 )}
@@ -56,7 +56,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>((p
             disabled={disabled}
             aria-label={ariaLabel}
             className={classNames(
-                style.button,
+                style["button"],
                 {
                     [style["button--disabled"]]: disabled,
                     [style["button--hovered"]]: hovered,

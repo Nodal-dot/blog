@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Sun, Moon } from "lucide-react";
+import { Icon } from "@/shared/ui/Icon";
 import { useTranslations } from "next-intl";
 import styles from "./ThemeToggle.module.scss";
 import { useTheme } from "@/app/providers/theme";
@@ -19,8 +19,8 @@ const ThemeToggle: React.FC = () => {
         >
             <span className={styles["theme-toggle__container"]}>
                 <span className={styles["theme-toggle__icons"]} aria-hidden>
-                    <Sun size={18} className={styles["theme-toggle__icon"]} />
-                    <Moon size={18} className={styles["theme-toggle__icon"]} />
+                    <Icon name="sun" size={18} className={styles["theme-toggle__icon"]} />
+                    <Icon name="moon" size={18} className={styles["theme-toggle__icon"]} />
                 </span>
                 <span className={styles["theme-toggle__thumb"]} aria-hidden />
             </span>

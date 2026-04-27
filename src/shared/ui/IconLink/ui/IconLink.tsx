@@ -36,7 +36,7 @@ const IconLink: FC<IconLinkProps> = (props) => {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={ariaLabel}
-            className={classNames(styles.link, styles[`size-${size}`], className)}
+            className={classNames(styles["link"], styles[`size-${size}`], className)}
         >
             <Image
                 src={theme === "dark" ? iconDark : iconLight}

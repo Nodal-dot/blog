@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { useTranslations } from "next-intl";
-import { Code2, Layers, GraduationCap } from "lucide-react";
+import { Icon } from "@/shared/ui/Icon";
 
 import Tags from "@/shared/ui/Tags";
 import { classNames } from "@/shared/lib/classNames";
@@ -15,9 +15,9 @@ import styles from "./AboutPath.module.scss";
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const ICON_MAP = {
-    freelance: <Code2 size={64} />,
-    company_xyz: <Layers size={64} />,
-    university: <GraduationCap size={64} />,
+    freelance: <Icon name="code-2" size={64} />,
+    company_xyz: <Icon name="layers" size={64} />,
+    university: <Icon name="graduation-cap" size={64} />,
 } as const;
 
 type PathItemKey = keyof typeof ICON_MAP;
@@ -42,8 +42,12 @@ export const AboutPath: FC = () => {
 
             const ballOffset = ball.offsetHeight / 2;
 
+            gsap.set(ball, { force3D: true });
+            gsap.set(progress, { force3D: true });
+
             const ballSetY = gsap.quickSetter(ball, "y", "px");
-            const progressSetH = gsap.quickSetter(progress, "height", "px");
+            const progressSetY = gsap.quickSetter(progress, "y", "px");
+            const progressSetScaleY = gsap.quickSetter(progress, "scaleY");
 
             let startY = 0;
             let endY = 0;
@@ -56,7 +60,7 @@ export const AboutPath: FC = () => {
                 endY = getItemCenter(items[items.length - 1]);
                 distance = endY - startY;
 
-                gsap.set(progress, { y: startY });
+                gsap.set(progress, { y: startY, height: distance, scaleY: 0 });
             };
 
             calculatePositions();
@@ -64,29 +68,42 @@ export const AboutPath: FC = () => {
             const debouncedResizeHandler = debounce(calculatePositions, 300);
             window.addEventListener("resize", debouncedResizeHandler);
 
+            let lastVisible: boolean | null = null;
+            let lastActiveIndex = -1;
+
             const trigger = ScrollTrigger.create({
                 trigger: items[0],
                 start: "top center",
                 endTrigger: items[items.length - 1],
                 end: "center center",
-                scrub: 1,
+                scrub: 0.5,
 
                 onUpdate: (self) => {
                     const p = self.progress;
 
                     const isVisible = p > 0 && p < 1;
 
-                    ball.classList.toggle(styles["is-visible"], isVisible);
-                    progress.classList.toggle(styles["is-visible"], isVisible);
+                    if (isVisible !== lastVisible) {
+                        ball.classList.toggle(styles["is-visible"], isVisible);
+                        progress.classList.toggle(styles["is-visible"], isVisible);
+                        lastVisible = isVisible;
+                    }
 
                     ballSetY(startY + distance * p - ballOffset);
-                    progressSetH(distance * p);
+                    progressSetY(startY);
+                    progressSetScaleY(p);
 
                     const activeIndex = Math.round(p * (items.length - 1));
 
-                    items.forEach((item, i) => {
-                        item.classList.toggle(styles["is-active"], i === activeIndex);
-                    });
+                    if (activeIndex !== lastActiveIndex) {
+                        if (lastActiveIndex >= 0 && items[lastActiveIndex]) {
+                            items[lastActiveIndex].classList.remove(styles["is-active"]);
+                        }
+                        if (items[activeIndex]) {
+                            items[activeIndex].classList.add(styles["is-active"]);
+                        }
+                        lastActiveIndex = activeIndex;
+                    }
                 },
             });
 

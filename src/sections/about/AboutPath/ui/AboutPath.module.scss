@@ -27,12 +27,15 @@
 
     &__progress {
         pointer-events: none;
+        will-change: transform;
 
         position: absolute;
         top: 0;
         left: 0.85rem;
+        transform-origin: top center;
 
         width: 2px;
+        height: 100%;
 
         background: var(--background-contrast-color);
     }
@@ -40,14 +43,17 @@
     &__ball {
         @include box(1.6rem);
 
+        will-change: transform;
+
         position: absolute;
         z-index: 3;
         top: 0;
         left: 0.95rem;
-        transform: translateX(-50%);
+        transform: translate3d(-50%, 0, 0);
 
         border-radius: 50%;
 
+        backface-visibility: hidden;
         background: var(--background-contrast-color);
     }
 

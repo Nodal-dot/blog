@@ -155,7 +155,7 @@ export const Workspace: FC = () => {
     return (
         <div
             ref={wrapperRef}
-            className={classNames(styles.workspace, {
+            className={classNames(styles["workspace"], {
                 [styles["workspace--light-on"]]: lightOn,
             })}
             aria-hidden
