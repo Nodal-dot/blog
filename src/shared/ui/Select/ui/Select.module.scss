@@ -57,11 +57,8 @@
             transition-property: transform;
         }
 
-        &:hover,
-        &[aria-expanded="true"] {
-            &::before {
-                transform: scaleX(1);
-            }
+        &:hover::before {
+            transform: scaleX(1);
         }
 
         @include mobile {
@@ -97,11 +94,6 @@
         > svg {
             @include box(100%);
         }
-
-        &-opened {
-            transform: rotate(-180deg);
-            opacity: 1;
-        }
     }
 
     &__options {
@@ -111,7 +103,7 @@
 
         position: absolute;
         z-index: 10;
-        top: 110%;
+        top: calc(100% + 0.8rem);
         right: 0;
         left: 0;
 
@@ -131,9 +123,15 @@
 
         transition-property: opacity, border-color;
 
-        &-opened {
-            pointer-events: auto;
-            opacity: 1;
+        &::before {
+            content: "";
+
+            position: absolute;
+            top: -0.8rem;
+            right: 0;
+            left: 0;
+
+            height: 0.8rem;
         }
     }
 
@@ -172,6 +170,41 @@
 
             pointer-events: none;
             opacity: 0.5;
+        }
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        &__container:hover &__options,
+        &__container:focus-within &__options {
+            pointer-events: auto;
+            opacity: 1;
+        }
+
+        &__container:hover &__icon,
+        &__container:focus-within &__icon {
+            transform: rotate(-180deg);
+            opacity: 1;
+        }
+
+        &__container:hover &__trigger::before,
+        &__container:focus-within &__trigger::before {
+            transform: scaleX(1);
+        }
+    }
+
+    @media (hover: none), (pointer: coarse) {
+        &__container:focus-within &__options {
+            pointer-events: auto;
+            opacity: 1;
+        }
+
+        &__container:focus-within &__icon {
+            transform: rotate(-180deg);
+            opacity: 1;
+        }
+
+        &__container:focus-within &__trigger::before {
+            transform: scaleX(1);
         }
     }
 }

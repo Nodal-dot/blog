@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useState, useRef, useEffect, useCallback, type FC } from "react";
+import React, { useRef, useEffect, useCallback, type FC } from "react";
 import styles from "./Select.module.scss";
 import { Icon } from "@/shared/ui/Icon";
 import { classNames } from "@/shared/lib/classNames";
-import { useResponsive } from "@/app/providers/responsive";
 import { useTranslations } from "next-intl";
 
 export interface SelectOption {
@@ -24,17 +23,9 @@ interface SelectProps {
 export const Select: FC<SelectProps> = React.memo(
     ({ value, onChange, options, label, placeholder, ariaLabel }) => {
         const t = useTranslations("Select");
-        const [isOpen, setIsOpen] = useState(false);
         const selectRef = useRef<HTMLDivElement>(null);
         const selectTriggerRef = useRef<HTMLButtonElement>(null);
         const listRef = useRef<HTMLUListElement>(null);
-        const closeTimeout = useRef<NodeJS.Timeout | null>(null);
-
-        const { isDesktop } = useResponsive();
-        const isDesktopRef = useRef(isDesktop);
-        useEffect(() => {
-            isDesktopRef.current = isDesktop;
-        }, [isDesktop]);
 
         const updateSelectMinWidth = () => {
             if (listRef.current && selectRef.current && selectTriggerRef.current) {
@@ -53,41 +44,17 @@ export const Select: FC<SelectProps> = React.memo(
                 selectRef.current.style.width = `${maxWidth + totalPadding + gap}px`;
             }
         };
+
         useEffect(() => {
-            const handleClickOutside = (e: MouseEvent) => {
-                if (selectRef.current && !selectRef.current.contains(e.target as Node)) {
-                    setIsOpen(false);
-                }
-            };
-            document.addEventListener("mousedown", handleClickOutside);
-
             updateSelectMinWidth();
-            return () => document.removeEventListener("mousedown", handleClickOutside);
-        }, []);
-        const handleMouseEnter = useCallback(() => {
-            if (!isDesktopRef.current) return;
-            if (closeTimeout.current) {
-                clearTimeout(closeTimeout.current);
-                closeTimeout.current = null;
-            }
-            setIsOpen(true);
-        }, []);
-
-        const handleMouseLeave = useCallback(() => {
-            if (!isDesktopRef.current) return;
-            closeTimeout.current = setTimeout(() => {
-                setIsOpen(false);
-            }, 150);
-        }, []);
-
-        const handleToggle = useCallback(() => {
-            setIsOpen((prev) => !prev);
         }, []);
 
         const handleSelect = useCallback(
-            (selectedValue: string) => {
+            (selectedValue: string, event: React.MouseEvent<HTMLButtonElement>) => {
                 onChange(selectedValue);
-                setIsOpen(false);
+
+                event.currentTarget.blur();
+                selectTriggerRef.current?.blur();
             },
             [onChange]
         );
@@ -98,43 +65,24 @@ export const Select: FC<SelectProps> = React.memo(
         return (
             <div className={styles["select"]}>
                 {label && <span className={styles["select__label"]}>{label}</span>}
-                <div
-                    ref={selectRef}
-                    className={styles["select__container"]}
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
-                >
+                <div ref={selectRef} className={styles["select__container"]}>
                     <button
                         type="button"
                         ref={selectTriggerRef}
-                        onClick={handleToggle}
                         aria-haspopup="listbox"
-                        aria-expanded={isOpen}
                         aria-label={ariaLabel || label}
                         className={styles["select__trigger"]}
                     >
                         <span className={styles["select__value"]}>{selectedLabel}</span>
-                        <Icon
-                            name="chevron-down"
-                            size={20}
-                            className={classNames(styles["select__icon"], {
-                                [styles["select__icon-opened"]]: isOpen,
-                            })}
-                        />
+                        <Icon name="chevron-down" size={20} className={styles["select__icon"]} />
                     </button>
 
-                    <ul
-                        role="listbox"
-                        className={classNames(styles["select__options"], {
-                            [styles["select__options-opened"]]: isOpen,
-                        })}
-                        ref={listRef}
-                    >
+                    <ul role="listbox" className={styles["select__options"]} ref={listRef}>
                         {options.map((option) => (
                             <li role="none" key={option.value}>
                                 <button
                                     type="button"
-                                    onClick={() => handleSelect(option.value)}
+                                    onClick={(e) => handleSelect(option.value, e)}
                                     role="option"
                                     aria-selected={value === option.value}
                                     className={classNames(
