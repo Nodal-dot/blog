@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, type FC } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState, type FC } from "react";
 
 import { PostCard, type ViewMode } from "@/shared/ui/PostCard";
 import type { Post } from "@/entities/post";
@@ -24,16 +24,40 @@ const PostsFeed: FC<PostsFeedProps> = ({ posts }) => {
         posts,
     });
     const [viewMode, setViewMode] = useState<ViewMode>("image");
+    const gridRef = useRef<HTMLDivElement | null>(null);
 
-    const VIEW_MODES: SelectOption[] = [
-        { value: "compact", label: t("modes.compact") },
-        { value: "image", label: t("modes.image") },
-        { value: "video", label: t("modes.video") },
-    ];
+    const VIEW_MODES: SelectOption[] = useMemo(
+        () => [
+            { value: "compact", label: t("modes.compact") },
+            { value: "image", label: t("modes.image") },
+            { value: "video", label: t("modes.video") },
+        ],
+        [t]
+    );
 
-    const tagClickHandler = (tag: string): void => {
-        toggleTag(tag);
-    };
+    const handleViewModeChange = useCallback((value: string) => {
+        setViewMode(value as ViewMode);
+    }, []);
+
+    const tagClickHandler = useCallback(
+        (tag: string) => {
+            toggleTag(tag);
+        },
+        [toggleTag]
+    );
+
+    useEffect(() => {
+        const grid = gridRef.current;
+        if (!grid) return;
+        const videos = grid.querySelectorAll<HTMLVideoElement>("video");
+        videos.forEach((v) => {
+            if (viewMode === "video") {
+                v.play().catch(() => {});
+            } else {
+                v.pause();
+            }
+        });
+    }, [viewMode, visiblePosts]);
 
     return (
         <section className={classNames(styles["posts-feed"], "section")}>
@@ -41,7 +65,7 @@ const PostsFeed: FC<PostsFeedProps> = ({ posts }) => {
                 <Search value={query} onChange={setQuery} />
                 <Select
                     value={viewMode}
-                    onChange={(value) => setViewMode(value as ViewMode)}
+                    onChange={handleViewModeChange}
                     options={VIEW_MODES}
                     label={t("viewMode")}
                     ariaLabel={t("viewModeAria")}
@@ -69,7 +93,11 @@ const PostsFeed: FC<PostsFeedProps> = ({ posts }) => {
                 })}
             </Swiper>
 
-            <div className={styles["posts-feed__grid"]}>
+            <div
+                ref={gridRef}
+                className={classNames(styles["posts-feed__grid"], styles[`mode-${viewMode}`])}
+                data-view-mode={viewMode}
+            >
                 {visiblePosts.map((post) => (
                     <PostCard
                         key={post.id}
@@ -79,7 +107,6 @@ const PostsFeed: FC<PostsFeedProps> = ({ posts }) => {
                         image={post.image}
                         videoUrl={post.videoUrl}
                         tags={post.tags}
-                        viewMode={viewMode}
                     />
                 ))}
             </div>

@@ -61,7 +61,6 @@ const PostsSwiper: FC<PostsSwiperProps> = (props) => {
                             image={post.image}
                             videoUrl={post.videoUrl}
                             tags={post.tags}
-                            viewMode="image"
                         />
                     </SwiperSlide>
                 );

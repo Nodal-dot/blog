@@ -12,7 +12,7 @@ interface NavigationProps {
     ariaLabel?: string;
 }
 
-export const Navigation: FC<NavigationProps> = (props) => {
+const NavigationComponent: FC<NavigationProps> = (props) => {
     const { links, ariaLabel } = props;
     const pathname = usePathname();
     const { startTransition } = usePageTransition();
@@ -33,3 +33,5 @@ export const Navigation: FC<NavigationProps> = (props) => {
         </nav>
     );
 };
+
+export const Navigation = React.memo(NavigationComponent);

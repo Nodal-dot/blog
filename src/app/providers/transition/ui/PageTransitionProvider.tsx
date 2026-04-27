@@ -7,6 +7,8 @@ import {
     useEffect,
     useTransition,
     useRef,
+    useCallback,
+    useMemo,
     type ReactNode,
 } from "react";
 import { createPortal } from "react-dom";
@@ -47,21 +49,34 @@ export const PageTransitionProvider = ({ children }: { children: ReactNode }) =>
         }
     }, [pathname]);
 
-    const startTransition = (to: string, locale?: string) => {
-        if (isAnimating) return;
-        if (to === pathname) return;
-        setIsAnimating(true);
+    const isAnimatingRef = useRef(isAnimating);
+    useEffect(() => {
+        isAnimatingRef.current = isAnimating;
+    }, [isAnimating]);
 
-        setTimeout(() => {
-            startReactTransition(() => {
-                if (locale) {
-                    router.push(to, { locale });
-                } else {
-                    router.push(to);
-                }
-            });
-        }, 400);
-    };
+    const startTransition = useCallback(
+        (to: string, locale?: string) => {
+            if (isAnimatingRef.current) return;
+            if (to === pathname) return;
+            setIsAnimating(true);
+
+            setTimeout(() => {
+                startReactTransition(() => {
+                    if (locale) {
+                        router.push(to, { locale });
+                    } else {
+                        router.push(to);
+                    }
+                });
+            }, 400);
+        },
+        [pathname, router, startReactTransition]
+    );
+
+    const contextValue = useMemo(
+        () => ({ startTransition, isPending, isAnimating }),
+        [startTransition, isPending, isAnimating]
+    );
 
     const loaderPortal = mounted
         ? createPortal(
@@ -71,7 +86,7 @@ export const PageTransitionProvider = ({ children }: { children: ReactNode }) =>
         : null;
 
     return (
-        <PageTransitionContext.Provider value={{ startTransition, isPending, isAnimating }}>
+        <PageTransitionContext.Provider value={contextValue}>
             {children}
             {loaderPortal}
         </PageTransitionContext.Provider>

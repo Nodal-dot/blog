@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, type FC } from "react";
+import React, { useEffect, useMemo, useRef, type FC } from "react";
 import { useTranslations } from "next-intl";
 import styles from "./Header.module.scss";
 
@@ -35,12 +35,22 @@ export const Header: FC = () => {
         };
     }, []);
 
-    const navigationItems = getNavigationsLinks();
-    const links = navigationItems.map((link) => ({ href: link.href, label: t(link.labelKey) }));
+    const links = useMemo(
+        () =>
+            getNavigationsLinks().map((link) => ({
+                href: link.href,
+                label: t(link.labelKey),
+            })),
+        [t]
+    );
+
+    const navAriaLabel = useMemo(() => t("Nav.ariaLabel"), [t]);
+    const githubAria = useMemo(() => t("Social.githubAria"), [t]);
+
     return (
         <header ref={headerRef} className={styles["header"]}>
             <div className={styles["header__nav-desktop"]}>
-                <Navigation links={links} ariaLabel={t("Nav.ariaLabel")} />
+                <Navigation links={links} ariaLabel={navAriaLabel} />
             </div>
 
             <MobileMenu links={links} />
@@ -48,7 +58,7 @@ export const Header: FC = () => {
             <div className={styles["header__socials"]}>
                 <IconLink
                     href={GITHUB_URL}
-                    ariaLabel={t("Social.githubAria")}
+                    ariaLabel={githubAria}
                     iconLight="/assets/sprites/github-mark.svg"
                     iconDark="/assets/sprites/github-mark-white.svg"
                     width={48}

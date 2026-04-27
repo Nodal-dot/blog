@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, type FC } from "react";
+import React, { type FC } from "react";
 import Image from "next/image";
 import styles from "./PostCard.module.scss";
 import { Link } from "@/shared/i18n/navigation";
@@ -17,41 +17,22 @@ export interface PostCardProps {
     image: { src: string; alt: string };
     videoUrl: string;
     tags: string[];
-    viewMode: ViewMode;
     style?: React.CSSProperties;
 }
 
-export const PostCard: FC<PostCardProps> = ({
+const PostCard: FC<PostCardProps> = ({
     id,
     title,
     subtitle,
     image,
     videoUrl,
     tags = [],
-    viewMode,
     ...otherProps
 }) => {
-    const videoRef = useRef<HTMLVideoElement | null>(null);
     const { startTransition } = usePageTransition();
-    useEffect(() => {
-        const video = videoRef.current;
-        if (!video) return;
-
-        if (viewMode === "video") {
-            video.play().catch();
-        } else {
-            video.pause();
-        }
-    }, [viewMode]);
 
     return (
-        <article
-            data-id={id}
-            className={classNames(styles["post-card"], {
-                [styles[`mode-${viewMode}`]]: true,
-            })}
-            {...otherProps}
-        >
+        <article data-id={id} className={classNames(styles["post-card"])} {...otherProps}>
             <Link
                 href={`/posts/${id}`}
                 onClick={() => {
@@ -74,12 +55,11 @@ export const PostCard: FC<PostCardProps> = ({
                 />
 
                 <video
-                    ref={videoRef}
                     src={videoUrl}
                     muted
-                    autoPlay={viewMode === "video"}
                     loop
                     playsInline
+                    preload="metadata"
                     className={styles["post-card__video"]}
                     aria-hidden="true"
                     tabIndex={-1}
@@ -90,4 +70,6 @@ export const PostCard: FC<PostCardProps> = ({
     );
 };
 
-export default PostCard;
+export const MemoizedPostCard = React.memo(PostCard);
+export { PostCard };
+export default MemoizedPostCard;

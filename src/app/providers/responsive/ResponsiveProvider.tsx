@@ -1,7 +1,14 @@
 "use client";
 
 import { MEDIA } from "@/shared/config/breakpoints";
-import React, { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import React, {
+    createContext,
+    useContext,
+    useEffect,
+    useMemo,
+    useState,
+    type ReactNode,
+} from "react";
 
 type Device = "mobile" | "tablet" | "desktop";
 
@@ -48,12 +55,15 @@ export function ResponsiveProvider({ children }: { children: ReactNode }) {
         };
     }, []);
 
-    const value: ResponsiveState = {
-        device,
-        isMobile: device === "mobile",
-        isTablet: device === "tablet",
-        isDesktop: device === "desktop",
-    };
+    const value = useMemo<ResponsiveState>(
+        () => ({
+            device,
+            isMobile: device === "mobile",
+            isTablet: device === "tablet",
+            isDesktop: device === "desktop",
+        }),
+        [device]
+    );
 
     return <ResponsiveContext.Provider value={value}>{children}</ResponsiveContext.Provider>;
 }
