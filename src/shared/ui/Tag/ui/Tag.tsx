@@ -11,7 +11,7 @@ export interface TagProps {
     onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-export const Tag: FC<TagProps> = ({
+const TagComponent: FC<TagProps> = ({
     tagAs: Tag = "li",
     children,
     className,
@@ -24,3 +24,5 @@ export const Tag: FC<TagProps> = ({
         </Tag>
     );
 };
+
+export const Tag = React.memo(TagComponent) as FC<TagProps>;

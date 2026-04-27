@@ -11,7 +11,7 @@ interface SearchProps {
     onChange: (v: string) => void;
 }
 
-export const Search: FC<SearchProps> = ({ value, onChange }) => {
+export const Search: FC<SearchProps> = React.memo(({ value, onChange }) => {
     const t = useTranslations("Search");
 
     return (
@@ -28,4 +28,6 @@ export const Search: FC<SearchProps> = ({ value, onChange }) => {
             />
         </div>
     );
-};
+});
+
+Search.displayName = "Search";
