@@ -10,15 +10,18 @@ export type { IconName } from "./paths";
 export interface IconProps {
     name: IconName;
     size?: number;
+    color?: string;
     className?: string;
     ariaLabel?: string;
     style?: CSSProperties;
 }
 
-const IconComponent: FC<IconProps> = ({ name, size = 24, className, ariaLabel, style }) => {
+const IconComponent: FC<IconProps> = ({ name, size = 24, color, className, ariaLabel, style }) => {
     const accessibleProps = ariaLabel
         ? { role: "img" as const, "aria-label": ariaLabel }
         : { "aria-hidden": true };
+
+    const mergedStyle: CSSProperties | undefined = color ? { color, ...style } : style;
 
     return (
         <svg
@@ -32,7 +35,7 @@ const IconComponent: FC<IconProps> = ({ name, size = 24, className, ariaLabel, s
             strokeLinecap="round"
             strokeLinejoin="round"
             className={classNames(styles["icon"], className)}
-            style={style}
+            style={mergedStyle}
             {...accessibleProps}
         >
             {ICON_PATHS[name]}

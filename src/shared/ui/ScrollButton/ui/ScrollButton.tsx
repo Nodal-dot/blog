@@ -30,9 +30,7 @@ export const ScrollButton: FC<ScrollButtonProps> = (props) => {
         });
     };
 
-    const child = Array.isArray(children)
-        ? children.find((c) => isValidElement(c))
-        : children;
+    const child = Array.isArray(children) ? children.find((c) => isValidElement(c)) : children;
 
     if (!isValidElement<ButtonProps>(child)) {
         return <>{children}</>;

@@ -12,10 +12,9 @@ export const LanguageSwitcher: FC = () => {
     const pathname = usePathname();
     const locale = useLocale();
     const t = useTranslations("LanguageSwitcher");
-const router = useRouter();
+    const router = useRouter();
     const handleLangChange = (newLocale: string) => {
         router.push(pathname, { locale: newLocale });
-
     };
 
     return (
