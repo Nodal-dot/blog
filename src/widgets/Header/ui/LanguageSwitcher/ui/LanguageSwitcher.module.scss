@@ -34,7 +34,7 @@
 
         position: absolute;
         z-index: 10;
-        top: 110%;
+        top: calc(100% + 0.8rem);
         right: 0;
         left: 50%;
         transform: translateX(-50%);
@@ -43,6 +43,7 @@
         flex-direction: column;
 
         width: fit-content;
+        margin: 0;
         padding: 0.6rem 0;
         border: 1px solid var(--text-color);
         border-radius: 1.2rem;
@@ -52,6 +53,18 @@
         box-shadow: 0 8px 20px rgb(0 0 0 / 15%);
 
         transition-property: opacity, border-color;
+
+
+        &::before {
+            content: "";
+
+            position: absolute;
+            top: -0.8rem;
+            right: 0;
+            left: 0;
+
+            height: 0.8rem;
+        }
 
         li {
             list-style: none;
@@ -80,8 +93,18 @@
                 }
             }
         }
+    }
 
-        &-opened {
+    @media (hover: hover) and (pointer: fine) {
+        &:hover &__options,
+        &:focus-within &__options {
+            pointer-events: auto;
+            opacity: 1;
+        }
+    }
+
+    @media (hover: none), (pointer: coarse) {
+        &:focus-within &__options {
             pointer-events: auto;
             opacity: 1;
         }

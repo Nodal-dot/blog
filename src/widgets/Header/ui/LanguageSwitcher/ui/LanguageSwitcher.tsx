@@ -1,80 +1,36 @@
 "use client";
 
-import React, { useState, useRef, useEffect, type FC } from "react";
+import { type FC } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "@/shared/i18n/navigation";
+import { routing } from "@/shared/i18n/routing";
 import { Icon } from "@/shared/ui/Icon";
 import styles from "./LanguageSwitcher.module.scss";
 import { classNames } from "@/shared/lib/classNames";
-import { useResponsive } from "@/app/providers/responsive";
 
 export const LanguageSwitcher: FC = () => {
-    const [langOpen, setLangOpen] = useState(false);
-    const langRef = useRef<HTMLDivElement>(null);
     const pathname = usePathname();
     const locale = useLocale();
-    const router = useRouter();
-    const closeTimeout = useRef<NodeJS.Timeout | null>(null);
     const t = useTranslations("LanguageSwitcher");
-
-    const { isDesktop } = useResponsive();
-
-    useEffect(() => {
-        const handleClickOutside = (e: MouseEvent) => {
-            if (langRef.current && !langRef.current.contains(e.target as Node)) {
-                setLangOpen(false);
-            }
-        };
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
-
-    const handleMouseEnter = () => {
-        if (!isDesktop) return;
-        if (closeTimeout.current) {
-            clearTimeout(closeTimeout.current);
-            closeTimeout.current = null;
-        }
-        setLangOpen(true);
-    };
-
-    const handleMouseLeave = () => {
-        if (!isDesktop) return;
-        closeTimeout.current = setTimeout(() => {
-            setLangOpen(false);
-        }, 150);
-    };
-
+const router = useRouter();
     const handleLangChange = (newLocale: string) => {
         router.push(pathname, { locale: newLocale });
-        setLangOpen(false);
+
     };
 
     return (
-        <div
-            ref={langRef}
-            className={styles["language-switcher"]}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-        >
+        <div className={styles["language-switcher"]}>
             <button
                 type="button"
-                onClick={() => setLangOpen((prev) => !prev)}
-                aria-haspopup="true"
-                aria-expanded={langOpen}
+                aria-haspopup="menu"
                 aria-label={t("ariaLabel")}
                 className={styles["language-switcher__trigger"]}
             >
                 <Icon name="languages" size={24} />
             </button>
 
-            <ul
-                role="menu"
-                className={classNames(styles["language-switcher__options"], {
-                    [styles["language-switcher__options-opened"]]: langOpen,
-                })}
-            >
-                {["en", "ru"].map((lang) => (
+            <ul role="menu" className={styles["language-switcher__options"]}>
+                {routing.locales.map((lang) => (
                     <li role="none" key={lang}>
                         <button
                             type="button"
