@@ -1,1 +1,1 @@
-export { PostsFeed as default } from "./ui/PostsFeed";
+export { default } from "./ui/PostsFeed";

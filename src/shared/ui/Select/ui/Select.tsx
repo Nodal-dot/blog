@@ -5,6 +5,7 @@ import styles from "./Select.module.scss";
 import { ChevronDown } from "lucide-react";
 import { classNames } from "@/shared/lib/classNames";
 import { useResponsive } from "@/app/providers/responsive";
+import { useTranslations } from "next-intl";
 
 export interface SelectOption {
     value: string;
@@ -28,6 +29,7 @@ export const Select: FC<SelectProps> = ({
     placeholder,
     ariaLabel,
 }) => {
+    const t = useTranslations("Select");
     const [isOpen, setIsOpen] = useState(false);
     const selectRef = useRef<HTMLDivElement>(null);
     const selectTriggerRef = useRef<HTMLButtonElement>(null);
@@ -85,7 +87,7 @@ export const Select: FC<SelectProps> = ({
     };
 
     const selectedLabel =
-        options.find((opt) => opt.value === value)?.label || placeholder || "Select...";
+        options.find((opt) => opt.value === value)?.label || placeholder || t("placeholder");
 
     return (
         <div className={styles.select}>

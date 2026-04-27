@@ -81,6 +81,8 @@ export const PostCard: FC<PostCardProps> = ({
                     loop
                     playsInline
                     className={styles["post-card__video"]}
+                    aria-hidden="true"
+                    tabIndex={-1}
                 />
             </div>
             <Tags tags={tags} />

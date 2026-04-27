@@ -5,9 +5,10 @@ import type { Metadata } from "next";
 import type { Locale } from "@/shared/i18n/types";
 import { notFound } from "next/navigation";
 import { compileMDX } from "next-mdx-remote/rsc";
-import { PostDetail } from "@/sections/post/PostDetail/ui/PostDetail";
+import PostDetail from "@/sections/post/PostDetail";
 import type { Post } from "@/entities/post";
 import { createPageMetadata } from "../../metadata";
+import remarkGfm from "remark-gfm";
 
 export async function generateMetadata({
     params,
@@ -54,7 +55,12 @@ export default async function PostPage({ params }: PostPageProps) {
 
     const { content, frontmatter } = await compileMDX<PostFrontmatter>({
         source,
-        options: { parseFrontmatter: true },
+        options: {
+            parseFrontmatter: true,
+            mdxOptions: {
+                remarkPlugins: [remarkGfm],
+            },
+        },
     });
 
     const post: Post = {

@@ -1,40 +1,93 @@
 ---
-title: "Project Blog — First Project"
-subtitle: "My personal blog and portfolio"
+title: "Nodal-dot Blog - My First Public Project"
+subtitle: "A modern Next.js 15 blog with FSD architecture, a Three.js skills globe and GSAP animations"
 imageSrc: "/posts/images/1.jpg"
+imageAlt: "Nodal-dot blog preview"
 videoUrl: "/posts/videos/1.mp4"
-imageAlt: "Blog header"
-buttonText: "Read more"
 tags:
-    - Blog
     - Next.js
     - TypeScript
+    - Three.js
+    - GSAP
+    - FSD
     - MDX
 ---
 
-Welcome to my blog — this is my first public project, built as a place to publish articles, showcase projects and experiment with frontend techniques.
+## How It Started
 
-What's inside
+I decided to build this project with one rule: no ready-made UI kits, no templates - everything from scratch.
 
-- Stack: Next.js (app router), React 19, TypeScript.
-- Content: MDX + `gray-matter` for frontmatter — project entries live in `content/projects/{locale}` and are read via `getProjects`.
-- Localization: `next-intl` and the `src/app/[locale]` routing structure for English and Russian content.
-- Styling: Sass with CSS Modules for component‑scoped styles.
-- UI: modular components (`Header`, `Footer`, `ProjectCard`, `ProjectSection`, `ThemeToggle`).
+## Stack
 
-Highlights
+The choice of technologies was simple - lately I've been getting into the Next.js documentation, which is what pushed me to build my own site on it.
 
-- `ThemeProvider` implements theme switching by writing `data-theme` on `document.documentElement` and persisting the choice to `localStorage` — a lightweight, effective approach.
-- `PageTransitionProvider` renders a portal loader and coordinates navigation so transitions feel smooth and intentional.
-- The projects section combines MDX content with React components and a `ProjectSwiper` (powered by `swiper`) for an interactive showcase.
+| Layer      | Technology               |
+| ---------- | ------------------------ |
+| Framework  | Next.js 15 (App Router)  |
+| UI         | React 19                 |
+| Language   | TypeScript 5             |
+| Styles     | Sass + CSS Modules (BEM) |
+| i18n       | next-intl - EN + RU      |
+| Content    | MDX + gray-matter        |
+| 3D         | Three.js                 |
+| Animations | GSAP                     |
+| Carousel   | Swiper                   |
+| Icons      | Lucide React             |
 
-Developer tooling
+## Architecture: Feature-Sliced Design (almost)
 
-- Scripts: `dev`, `build`, `lint`, `storybook`, `test` are included to support development and quality checks.
-- Tooling: ESLint, Prettier, Stylelint, Jest/Vitest and Storybook for component development and testing.
+At first I thought FSD was a magic wand that would solve all of my problems around where components should live. As it turned out later, the project doesn't have all that many business entities, and that ended up being more of a burden than any real DX win. Looking back, I think FSD isn't the methodology you should reach for in a small blog app.
 
-Architecture & running locally
-The codebase is componentized under `src/components`, providers under `src/providers`, and utilities under `src/utils`. To run locally:
+Here's how it's laid out:
+
+```
+app/       → routing, providers, global SEO metadata
+widgets/   → Header, Footer, PostsFeed - autonomous UI blocks
+sections/  → page sections
+features/  → interactive logic (posts filter with debounce)
+entities/  → Post model and API (reads MDX from the filesystem)
+shared/    → UI kit, utilities, i18n config
+```
+
+
+## What Makes the Project Interesting
+
+### 3D Skills Globe (Three.js)
+
+The skills section on the About page is a fully custom Three.js scene: a sphere of technology icons built from SVG textures mapped onto sprites.
+
+Interaction: hovering a node highlights its connections to the nearest neighbors via arc geometry. A click smoothly rotates the globe toward the target node with an animation.
+
+Performance is managed explicitly:
+
+- `prefers-reduced-motion` disables animation on accessibility request
+- Battery API pauses animation when charge drops below 20%
+- Low `hardwareConcurrency` or `deviceMemory` also reduces load
+
+### Animated Career Timeline
+
+The "My Journey" section on the About page uses a scrubbed GSAP `ScrollTrigger` animation to drive a progress bar and a floating ball between career milestones as the user scrolls. Resize recalculates positions through a shared debounce utility.
+
+### Page Transitions
+
+`PageTransitionProvider` renders a full-screen loader via a React portal. Navigation calls `startTransition(href)` instead of a direct link - the loader has time to appear before the new route renders.
+
+### Posts with Live Search and Tag Filtering
+
+The Posts page has real-time search and tag filtering. Search input is debounced (300 ms) via the `useDebounce` hook - filtering only runs after a pause in typing, with no unnecessary re-renders on every keystroke.
+
+## i18n
+
+Every visible string lives in `src/shared/i18n/locales/en.json` and `ru.json`. Nothing is hardcoded in components - not labels, not aria attributes, not placeholders. `next-intl` handles locale detection, routing (`/en/...` and `/ru/...`) and message loading.
+
+## SEO
+
+Each page generates its own `Metadata` object through a shared `createPageMetadata` utility: canonical URLs, `hreflang` alternates for both locales, Open Graph tags, Twitter cards, and a full set of favicons.
+
+## Tooling
+
+
+## Run Locally
 
 ```bash
 pnpm install
