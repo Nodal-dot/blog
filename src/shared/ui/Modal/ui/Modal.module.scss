@@ -1,3 +1,5 @@
+@use "@/shared/styles/utils/index" as *;
+
 .modal {
     @include default-tr;
 

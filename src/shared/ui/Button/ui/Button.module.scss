@@ -1,3 +1,5 @@
+@use "@/shared/styles/utils/index" as *;
+
 .button {
     --btn-padding: 1.2rem 1.6rem;
     --btn-border: 1px solid var(--divider-color);

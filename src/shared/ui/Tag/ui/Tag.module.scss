@@ -1,3 +1,5 @@
+@use "@/shared/styles/utils/index" as *;
+
 .tag {
     @include default-tr;
     @include font-size(body-bold);

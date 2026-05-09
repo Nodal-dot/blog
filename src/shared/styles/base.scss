@@ -1,5 +1,4 @@
-@use "utils/typography" as *;
-@use "utils/scroll" as *;
+@use "@/shared/styles/utils/index" as *;
 
 $mobile: 786px;
 $tablet: 1024px;
