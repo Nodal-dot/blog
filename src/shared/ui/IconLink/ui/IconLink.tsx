@@ -4,7 +4,6 @@ import React, { type FC } from "react";
 import Image from "next/image";
 import styles from "./IconLink.module.scss";
 import { classNames } from "@/shared/lib/classNames";
-import { useTheme } from "@/app/providers/theme";
 
 interface IconLinkProps {
     href: string;
@@ -28,7 +27,6 @@ const IconLink: FC<IconLinkProps> = (props) => {
         size = "md",
         className,
     } = props;
-    const { theme } = useTheme();
 
     return (
         <a
@@ -38,12 +36,12 @@ const IconLink: FC<IconLinkProps> = (props) => {
             aria-label={ariaLabel}
             className={classNames(styles["link"], styles[`size-${size}`], className)}
         >
-            <Image
-                src={theme === "dark" ? iconDark : iconLight}
-                alt={ariaLabel}
-                width={width}
-                height={height}
-            />
+            <span className={classNames(styles["link__icon"], styles["link__icon--light"])}>
+                <Image src={iconLight} alt="" width={width} height={height} aria-hidden="true" />
+            </span>
+            <span className={classNames(styles["link__icon"], styles["link__icon--dark"])}>
+                <Image src={iconDark} alt="" width={width} height={height} aria-hidden="true" />
+            </span>
         </a>
     );
 };

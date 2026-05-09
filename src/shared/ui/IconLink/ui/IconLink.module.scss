@@ -3,8 +3,11 @@
 .link {
     @include default-tr;
 
+    position: relative;
+
     display: flex;
     align-items: center;
+    justify-content: center;
     color: inherit;
     transition-property: transform;
 
@@ -12,9 +15,40 @@
         transform: translateY(-3px);
     }
 
-    img {
-        width: 100%;
-        height: 100%;
+    &__icon {
+        @include default-tr;
+
+        position: absolute;
+        inset: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        transition-property: opacity;
+
+        img {
+            width: 100%;
+            height: 100%;
+        }
+
+        &--light {
+            opacity: 1;
+        }
+
+        &--dark {
+            opacity: 0;
+        }
+    }
+
+    :global([data-theme="dark"]) & {
+        .link__icon--light {
+            opacity: 0;
+        }
+
+        .link__icon--dark {
+            opacity: 1;
+        }
     }
 
     &.size-sm {
