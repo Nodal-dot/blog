@@ -24,23 +24,23 @@
         "AboutPath": {
             "title": "My Journey",
             "items": {
-                "freelance": {
-                    "date": "2023 — Present",
-                    "title": "Frontend Developer",
-                    "place": "Freelance",
-                    "tags": "React, Next.js, TypeScript, A11y, Performance"
-                },
-                "company_xyz": {
-                    "date": "2021 — 2023",
-                    "title": "Frontend Engineer",
-                    "place": "Company XYZ",
-                    "tags": "TypeScript, Design System, SCSS"
+                "nda_company": {
+                    "date": "2025 — Present",
+                    "title": "Frontend Junior",
+                    "place": "NDA Company",
+                    "tags": "1 year of work, React, Next.js, TypeScript, SCSS"
                 },
                 "university": {
-                    "date": "2018 — 2021",
-                    "title": "BSc in Computer Science",
-                    "place": "University ABC",
-                    "tags": "Algorithms, Data Structures, OOP"
+                    "date": "Current",
+                    "title": "University Studies",
+                    "place": "LTU, 3rd year",
+                    "tags": "Still studying, combining university and work"
+                },
+                "self_study": {
+                    "date": "2022 — Present",
+                    "title": "Self-study",
+                    "place": "Frontend Development",
+                    "tags": "4 years already, React, TypeScript, Architecture, Performance"
                 }
             }
         }
