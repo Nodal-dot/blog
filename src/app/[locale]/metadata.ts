@@ -76,12 +76,8 @@ export async function createPageMetadata({
                 },
             ],
         },
-        
-        twitter: {
-            card: "summary_large_image",
-            title: ogTitle,
-            description: ogDescription,
-            images: [ogImageUrl],
+        verification: {
+            google: "E1fyhFt-L0uYLatxqh9wi2RRKwvjcEZRHZh2Nwpzs7c",
         },
         other: {
             "msapplication-config": "/browserconfig.xml",
