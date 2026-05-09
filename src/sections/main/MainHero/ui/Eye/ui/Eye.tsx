@@ -2,12 +2,14 @@
 
 import React, { useRef, type FC } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+import { initGsap } from "@/shared/lib/gsap/init";
 
 import style from "./Eye.module.scss";
 
-gsap.registerPlugin(ScrollTrigger, useGSAP);
+initGsap();
 
 const Eye: FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);

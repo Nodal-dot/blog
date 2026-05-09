@@ -5,10 +5,11 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import Prism from "prismjs";
 
-import styles from "./Workspace.module.scss";
 import { classNames } from "@/shared/lib/classNames";
+import { initGsap } from "@/shared/lib/gsap/init";
+import styles from "./Workspace.module.scss";
 
-gsap.registerPlugin(useGSAP);
+initGsap();
 
 const SOURCE_CODE = [
     "const developer = {",
@@ -25,6 +26,8 @@ const SOURCE_CODE = [
     "// Success!",
 ];
 
+const FULL_SOURCE_CODE = SOURCE_CODE.join("\n");
+
 export const Workspace: FC = () => {
     const [lightOn, setLightOn] = useState(false);
 
@@ -35,17 +38,26 @@ export const Workspace: FC = () => {
     const codeContainerRef = useRef<HTMLDivElement>(null);
 
     const rafRef = useRef<number | null>(null);
+    const layoutRafRef = useRef<number | null>(null);
+    const blinkTweenRef = useRef<gsap.core.Tween | null>(null);
+    const blinkDelayRef = useRef<gsap.core.Tween | null>(null);
+    const pupilTweenRef = useRef<gsap.core.Tween | null>(null);
 
     const typeWriter = () => {
         if (!codeRef.current) return;
 
-        const fullText = SOURCE_CODE.join("\n");
         let index = 0;
+
+        if (rafRef.current) {
+            cancelAnimationFrame(rafRef.current);
+        }
+
+        codeRef.current.innerHTML = "";
 
         const addChar = () => {
             if (!codeRef.current) return;
 
-            const currentText = fullText.slice(0, index + 1);
+            const currentText = FULL_SOURCE_CODE.slice(0, index + 1);
 
             codeRef.current.innerHTML = Prism.highlight(
                 currentText,
@@ -55,8 +67,10 @@ export const Workspace: FC = () => {
 
             index++;
 
-            if (index < fullText.length) {
+            if (index < FULL_SOURCE_CODE.length) {
                 rafRef.current = requestAnimationFrame(addChar);
+            } else {
+                rafRef.current = null;
             }
         };
 
@@ -66,21 +80,20 @@ export const Workspace: FC = () => {
     const prepareCodeLayout = () => {
         if (!codeRef.current || !codeContainerRef.current) return;
 
-        const fullText = SOURCE_CODE.join("\n");
-
         codeRef.current.innerHTML = Prism.highlight(
-            fullText,
+            FULL_SOURCE_CODE,
             Prism.languages.javascript,
             "javascript"
         );
 
-        requestAnimationFrame(() => {
+        layoutRafRef.current = requestAnimationFrame(() => {
             if (!codeContainerRef.current) return;
 
             const height = codeContainerRef.current.scrollHeight;
             codeContainerRef.current.style.height = `${height}px`;
 
             codeRef.current!.innerHTML = "";
+            layoutRafRef.current = null;
         });
     };
 
@@ -88,6 +101,8 @@ export const Workspace: FC = () => {
         typeWriter();
 
         if (lidRef.current) {
+            gsap.killTweensOf(lidRef.current);
+
             gsap.fromTo(
                 lidRef.current,
                 { height: 0 },
@@ -113,7 +128,7 @@ export const Workspace: FC = () => {
             if (!lidRef.current || !pupilRef.current) return;
 
             const blinkCycle = () => {
-                gsap.fromTo(
+                blinkTweenRef.current = gsap.fromTo(
                     lidRef.current,
                     { height: 0 },
                     {
@@ -123,7 +138,10 @@ export const Workspace: FC = () => {
                         yoyo: true,
                         repeat: 1,
                         onComplete: () => {
-                            gsap.delayedCall(gsap.utils.random(2, 4), blinkCycle);
+                            blinkDelayRef.current = gsap.delayedCall(
+                                gsap.utils.random(2, 4),
+                                blinkCycle
+                            );
                         },
                     }
                 );
@@ -132,7 +150,7 @@ export const Workspace: FC = () => {
             blinkCycle();
 
             const movePupil = () => {
-                gsap.to(pupilRef.current, {
+                pupilTweenRef.current = gsap.to(pupilRef.current, {
                     x: gsap.utils.random(-10, 10),
                     y: gsap.utils.random(-10, 10),
                     duration: gsap.utils.random(1, 2),
@@ -147,6 +165,16 @@ export const Workspace: FC = () => {
                 if (rafRef.current) {
                     cancelAnimationFrame(rafRef.current);
                 }
+
+                if (layoutRafRef.current) {
+                    cancelAnimationFrame(layoutRafRef.current);
+                }
+
+                blinkTweenRef.current?.kill();
+                blinkDelayRef.current?.kill();
+                pupilTweenRef.current?.kill();
+                gsap.killTweensOf(lidRef.current);
+                gsap.killTweensOf(pupilRef.current);
             };
         },
         { scope: wrapperRef }

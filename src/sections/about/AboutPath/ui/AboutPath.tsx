@@ -6,18 +6,18 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { useTranslations } from "next-intl";
 import { Icon } from "@/shared/ui/Icon";
-
 import Tags from "@/shared/ui/Tags";
 import { classNames } from "@/shared/lib/classNames";
 import { debounce } from "@/shared/lib/debounce";
+import { initGsap } from "@/shared/lib/gsap/init";
 import styles from "./AboutPath.module.scss";
 
-gsap.registerPlugin(ScrollTrigger, useGSAP);
+initGsap();
 
 const ICON_MAP = {
-    freelance: <Icon name="code-2" size={64} />,
-    company_xyz: <Icon name="layers" size={64} />,
+    nda_company: <Icon name="layers" size={64} />,
     university: <Icon name="graduation-cap" size={64} />,
+    self_study: <Icon name="code-2" size={64} />,
 } as const;
 
 type PathItemKey = keyof typeof ICON_MAP;
@@ -30,7 +30,7 @@ export const AboutPath: FC = () => {
     const ballRef = useRef<HTMLDivElement>(null);
     const progressRef = useRef<HTMLDivElement>(null);
 
-    const itemKeys: PathItemKey[] = ["freelance", "company_xyz", "university"];
+    const itemKeys: PathItemKey[] = ["nda_company", "university", "self_study"];
 
     useGSAP(
         () => {
@@ -65,7 +65,10 @@ export const AboutPath: FC = () => {
 
             calculatePositions();
 
-            const debouncedResizeHandler = debounce(calculatePositions, 300);
+            const debouncedResizeHandler = debounce(() => {
+                calculatePositions();
+                ScrollTrigger.refresh();
+            }, 300);
             window.addEventListener("resize", debouncedResizeHandler);
 
             let lastVisible: boolean | null = null;
