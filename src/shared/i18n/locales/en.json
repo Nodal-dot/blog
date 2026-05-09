@@ -67,6 +67,9 @@
     "PostCard": {
         "videoAria": "Video preview for post"
     },
+    "PostDetail": {
+        "backToPosts": "Back to posts"
+    },
     "NotFound": {
         "heading": "Error 404",
         "message": "Page not found",

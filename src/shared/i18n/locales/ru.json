@@ -67,6 +67,9 @@
     "PostCard": {
         "videoAria": "Видео-превью поста"
     },
+    "PostDetail": {
+        "backToPosts": "Ко всем постам"
+    },
     "NotFound": {
         "heading": "Ошибка 404",
         "message": "Страница не найдена",

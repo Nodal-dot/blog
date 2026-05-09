@@ -76,6 +76,7 @@ export async function createPageMetadata({
                 },
             ],
         },
+        
         twitter: {
             card: "summary_large_image",
             title: ogTitle,

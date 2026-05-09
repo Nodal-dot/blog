@@ -9,6 +9,7 @@ import PostDetail from "@/sections/post/PostDetail";
 import type { Post } from "@/entities/post";
 import { createPageMetadata } from "../../metadata";
 import remarkGfm from "remark-gfm";
+import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata({
     params,
@@ -47,6 +48,7 @@ type PostFrontmatter = Omit<Post, "image"> & {
 
 export default async function PostPage({ params }: PostPageProps) {
     const { locale, slug } = await params;
+    const t = await getTranslations({ locale, namespace: "PostDetail" });
 
     const file = path.join(process.cwd(), "content/posts", locale, `${slug}.mdx`);
     if (!fs.existsSync(file)) return notFound();
@@ -71,5 +73,5 @@ export default async function PostPage({ params }: PostPageProps) {
         },
     };
 
-    return <PostDetail post={post} content={content} />;
+    return <PostDetail post={post} content={content} backLabel={t("backToPosts")} />;
 }
