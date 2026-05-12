@@ -78,6 +78,7 @@ export async function createPageMetadata({
         },
         verification: {
             google: "E1fyhFt-L0uYLatxqh9wi2RRKwvjcEZRHZh2Nwpzs7c",
+            yandex: "7450db46c3f77c36",
         },
         other: {
             "msapplication-config": "/browserconfig.xml",
