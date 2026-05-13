@@ -123,7 +123,7 @@ export const AboutPath: FC = () => {
         <section ref={containerRef} className={classNames(styles["about-path"], "section")}>
             <h2 className={styles["about-path__title"]}>{t("title")}</h2>
 
-            <ol className={styles["about-path__list"]} role="list">
+            <ol className={styles["about-path__list"]}>
                 <div ref={progressRef} className={styles["about-path__progress"]} />
 
                 <div ref={ballRef} className={styles["about-path__ball"]} />

@@ -12,7 +12,7 @@ interface LinkProps {
 
 const Link: React.FC<LinkProps> = (props) => {
     const { href, label, isActive, onClick } = props;
-    const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const triggerNavigationCallback = (e: React.MouseEvent<HTMLAnchorElement>) => {
         if (!onClick) return;
 
         e.preventDefault();
@@ -21,7 +21,7 @@ const Link: React.FC<LinkProps> = (props) => {
     return (
         <NextLink
             href={href}
-            onClick={handleClick}
+            onClick={triggerNavigationCallback}
             aria-current={isActive ? "page" : undefined}
             className={classNames(styles["link"], isActive && styles["active"])}
         >

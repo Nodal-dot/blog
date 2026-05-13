@@ -221,9 +221,7 @@ export function useSkillCanvas({ canvasRef, tooltipRef }: UseSkillCanvasProps) {
             if (tooltipRef.current) {
                 if (hovered) {
                     tooltipRef.current.textContent = hovered.userData.skillPoint.name;
-                    tooltipRef.current.style.display = "block";
-                    tooltipRef.current.style.left = e.clientX + 12 + "px";
-                    tooltipRef.current.style.top = e.clientY + 12 + "px";
+                    tooltipRef.current.style.cssText = `display:block;left:${e.clientX + 12}px;top:${e.clientY + 12}px;`;
                 } else {
                     tooltipRef.current.style.display = "none";
                 }

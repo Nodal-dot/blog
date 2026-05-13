@@ -3,7 +3,7 @@
 import {
     createContext,
     useState,
-    useContext,
+    use,
     useEffect,
     useTransition,
     useRef,
@@ -29,7 +29,7 @@ const PageTransitionContext = createContext<IPageTransitionContextProps>({
 });
 
 export const PageTransitionProvider = ({ children }: { children: ReactNode }) => {
-    const router = useRouter();
+    const { push } = useRouter();
     const pathname = usePathname();
 
     const [isPending, startReactTransition] = useTransition();
@@ -44,10 +44,18 @@ export const PageTransitionProvider = ({ children }: { children: ReactNode }) =>
     }, []);
 
     useEffect(() => {
+        let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
         if (savedPathname.current !== pathname) {
             savedPathname.current = pathname;
-            setTimeout(() => setIsAnimating(false), 100);
+            timeoutId = setTimeout(() => setIsAnimating(false), 100);
         }
+
+        return () => {
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+        };
     }, [pathname]);
 
     const isAnimatingRef = useRef(isAnimating);
@@ -64,14 +72,14 @@ export const PageTransitionProvider = ({ children }: { children: ReactNode }) =>
             setTimeout(() => {
                 startReactTransition(() => {
                     if (locale) {
-                        router.push(to, { locale });
+                        push(to, { locale });
                     } else {
-                        router.push(to);
+                        push(to);
                     }
                 });
             }, 400);
         },
-        [pathname, router, startReactTransition]
+        [pathname, push, startReactTransition]
     );
 
     const contextValue = useMemo(
@@ -98,4 +106,4 @@ export const PageTransitionProvider = ({ children }: { children: ReactNode }) =>
     );
 };
 
-export const usePageTransition = () => useContext(PageTransitionContext);
+export const usePageTransition = () => use(PageTransitionContext);

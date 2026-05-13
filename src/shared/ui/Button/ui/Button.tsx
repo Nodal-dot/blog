@@ -1,12 +1,15 @@
 "use client";
 
-import { forwardRef } from "react";
 import type { ButtonAsButton, ButtonAsLink, ButtonProps } from "../types";
 import style from "./Button.module.scss";
 import { classNames } from "@/shared/lib/classNames";
 import React from "react";
 
-const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>((props, ref) => {
+type ButtonComponentProps = ButtonProps & {
+    ref?: React.Ref<HTMLButtonElement | HTMLAnchorElement>;
+};
+
+const Button = (props: ButtonComponentProps) => {
     const {
         children,
         leftIcon,
@@ -15,6 +18,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>((p
         hovered = false,
         disabled = false,
         ariaLabel,
+        ref,
         ...rest
     } = props;
 
@@ -68,8 +72,6 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>((p
             {content}
         </button>
     );
-});
-
-Button.displayName = "Button";
+};
 
 export const MemoizedButton = React.memo(Button);

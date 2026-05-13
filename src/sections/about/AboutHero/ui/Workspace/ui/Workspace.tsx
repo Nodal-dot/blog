@@ -11,6 +11,16 @@ import styles from "./Workspace.module.scss";
 
 initGsap();
 
+const handleActionKeyDown = (
+    event: React.KeyboardEvent<HTMLDivElement>,
+    action: () => void
+) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+
+    event.preventDefault();
+    action();
+};
+
 const SOURCE_CODE = [
     "const developer = {",
     "  name: 'NodalDOT',",
@@ -196,11 +206,22 @@ export const Workspace: FC = () => {
 
                 <div
                     className={styles["workspace__screen-bar"]}
+                    role="button"
+                    tabIndex={0}
                     onClick={() => setLightOn((v) => !v)}
+                    onKeyDown={(event) =>
+                        handleActionKeyDown(event, () => setLightOn((value) => !value))
+                    }
                 />
 
                 <div className={styles["workspace__monitor-frame"]}>
-                    <div className={styles["workspace__screen"]} onClick={handleScreenClick}>
+                    <div
+                        className={styles["workspace__screen"]}
+                        role="button"
+                        tabIndex={0}
+                        onClick={handleScreenClick}
+                        onKeyDown={(event) => handleActionKeyDown(event, handleScreenClick)}
+                    >
                         <div ref={codeContainerRef} className={styles["workspace__code-container"]}>
                             <pre>
                                 <code ref={codeRef} className="language-javascript" />

@@ -3,10 +3,9 @@
 import { MEDIA } from "@/shared/config/breakpoints";
 import React, {
     createContext,
-    useContext,
-    useEffect,
+    use,
     useMemo,
-    useState,
+    useSyncExternalStore,
     type ReactNode,
 } from "react";
 
@@ -21,6 +20,26 @@ interface ResponsiveState {
 
 const ResponsiveContext = createContext<ResponsiveState | null>(null);
 
+function subscribe(onStoreChange: () => void) {
+    if (typeof window === "undefined") {
+        return () => {};
+    }
+
+    const mobileQuery = window.matchMedia(MEDIA.mobile);
+    const tabletQuery = window.matchMedia(MEDIA.tablet);
+    const desktopQuery = window.matchMedia(MEDIA.desktop);
+
+    mobileQuery.addEventListener("change", onStoreChange);
+    tabletQuery.addEventListener("change", onStoreChange);
+    desktopQuery.addEventListener("change", onStoreChange);
+
+    return () => {
+        mobileQuery.removeEventListener("change", onStoreChange);
+        tabletQuery.removeEventListener("change", onStoreChange);
+        desktopQuery.removeEventListener("change", onStoreChange);
+    };
+}
+
 function getDevice(): Device {
     if (typeof window === "undefined") return "desktop";
 
@@ -31,29 +50,7 @@ function getDevice(): Device {
 }
 
 export function ResponsiveProvider({ children }: { children: ReactNode }) {
-    const [device, setDevice] = useState<Device>(() => getDevice());
-
-    useEffect(() => {
-        const mobileQuery = window.matchMedia(MEDIA.mobile);
-        const tabletQuery = window.matchMedia(MEDIA.tablet);
-        const desktopQuery = window.matchMedia(MEDIA.desktop);
-
-        const updateDevice = () => {
-            if (mobileQuery.matches) return setDevice("mobile");
-            if (tabletQuery.matches) return setDevice("tablet");
-            setDevice("desktop");
-        };
-
-        mobileQuery.addEventListener("change", updateDevice);
-        tabletQuery.addEventListener("change", updateDevice);
-        desktopQuery.addEventListener("change", updateDevice);
-
-        return () => {
-            mobileQuery.removeEventListener("change", updateDevice);
-            tabletQuery.removeEventListener("change", updateDevice);
-            desktopQuery.removeEventListener("change", updateDevice);
-        };
-    }, []);
+    const device = useSyncExternalStore<Device>(subscribe, getDevice, () => "desktop");
 
     const value = useMemo<ResponsiveState>(
         () => ({
@@ -69,7 +66,7 @@ export function ResponsiveProvider({ children }: { children: ReactNode }) {
 }
 
 export function useResponsive() {
-    const context = useContext(ResponsiveContext);
+    const context = use(ResponsiveContext);
 
     if (!context) {
         throw new Error("useResponsive must be used inside ResponsiveProvider");

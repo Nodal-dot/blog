@@ -10,11 +10,11 @@ import { useRouter } from "@/shared/i18n/navigation";
 export const NotFound = () => {
     const t = useTranslations("NotFound");
 
-    const router = useRouter();
+    const { push } = useRouter();
 
     const [animate, setAnimate] = useState(false);
-    const [navigate, setNavigate] = useState(false);
     const buttonRef = useRef<HTMLButtonElement>(null);
+    const navigationTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const rows = 20;
     const cols = 40;
@@ -47,18 +47,23 @@ export const NotFound = () => {
     }, [tiles]);
 
     useEffect(() => {
-        if (animate) {
-            const maxDelay = Math.max(...delays);
-            const timeout = setTimeout(() => setNavigate(true), (maxDelay + 0.5) * 1000);
-            return () => clearTimeout(timeout);
-        }
-    }, [animate, delays]);
+        return () => {
+            if (navigationTimeoutRef.current) {
+                clearTimeout(navigationTimeoutRef.current);
+            }
+        };
+    }, []);
 
-    const handleClick = () => setAnimate(true);
+    const startHomeNavigation = () => {
+        if (animate) return;
 
-    useEffect(() => {
-        if (navigate) router.push("/");
-    }, [navigate, router]);
+        setAnimate(true);
+        const maxDelay = delays.length ? Math.max(...delays) : 0;
+
+        navigationTimeoutRef.current = setTimeout(() => {
+            push("/");
+        }, (maxDelay + 0.5) * 1000);
+    };
 
     return (
         <section className={styles["not-found"]} role="alert">
@@ -73,7 +78,7 @@ export const NotFound = () => {
                 className={classNames(styles["not-found__button"], {
                     [styles["not-found__button--ghost"]]: animate,
                 })}
-                onClick={handleClick}
+                onClick={startHomeNavigation}
             >
                 {t("button")}
             </Button>
@@ -81,7 +86,7 @@ export const NotFound = () => {
             <div className={styles["not-found__grid"]}>
                 {tiles.map((_, i) => (
                     <div
-                        key={i}
+                        key={`tile-${Math.floor(i / cols)}-${i % cols}`}
                         className={classNames(styles["not-found__tile"], {
                             [styles["active"]]: animate,
                         })}
