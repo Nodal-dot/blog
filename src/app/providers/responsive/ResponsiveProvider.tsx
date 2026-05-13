@@ -1,13 +1,7 @@
 "use client";
 
 import { MEDIA } from "@/shared/config/breakpoints";
-import React, {
-    createContext,
-    use,
-    useMemo,
-    useSyncExternalStore,
-    type ReactNode,
-} from "react";
+import React, { createContext, use, useMemo, useSyncExternalStore, type ReactNode } from "react";
 
 type Device = "mobile" | "tablet" | "desktop";
 

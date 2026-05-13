@@ -60,9 +60,12 @@ export const NotFound = () => {
         setAnimate(true);
         const maxDelay = delays.length ? Math.max(...delays) : 0;
 
-        navigationTimeoutRef.current = setTimeout(() => {
-            push("/");
-        }, (maxDelay + 0.5) * 1000);
+        navigationTimeoutRef.current = setTimeout(
+            () => {
+                push("/");
+            },
+            (maxDelay + 0.5) * 1000
+        );
     };
 
     return (

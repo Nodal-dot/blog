@@ -11,10 +11,7 @@ import styles from "./Workspace.module.scss";
 
 initGsap();
 
-const handleActionKeyDown = (
-    event: React.KeyboardEvent<HTMLDivElement>,
-    action: () => void
-) => {
+const handleActionKeyDown = (event: React.KeyboardEvent<HTMLDivElement>, action: () => void) => {
     if (event.key !== "Enter" && event.key !== " ") return;
 
     event.preventDefault();
