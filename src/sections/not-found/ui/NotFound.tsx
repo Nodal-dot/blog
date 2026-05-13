@@ -4,11 +4,12 @@ import { useState, useRef, useEffect, useMemo } from "react";
 import styles from "./NotFound.module.scss";
 import Button from "@/shared/ui/Button";
 import { classNames } from "@/shared/lib/classNames";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "@/shared/i18n/navigation";
 
 export const NotFound = () => {
     const t = useTranslations("NotFound");
+    const locale = useLocale();
 
     const { push } = useRouter();
 
@@ -62,7 +63,7 @@ export const NotFound = () => {
 
         navigationTimeoutRef.current = setTimeout(
             () => {
-                push("/");
+                push("/", { locale });
             },
             (maxDelay + 0.5) * 1000
         );

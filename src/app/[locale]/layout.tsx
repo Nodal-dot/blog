@@ -3,15 +3,11 @@ import { notFound } from "next/navigation";
 import { routing } from "@/shared/i18n/routing";
 import Header from "@/widgets/Header";
 import Footer from "@/widgets/Footer";
-import { Montserrat } from "next/font/google";
 import type { ReactNode } from "react";
 import type { Viewport } from "next";
-import "@/shared/styles/index.scss";
 import { ThemeProvider } from "../providers/theme";
 import { PageTransitionProvider } from "../providers/transition";
 import { ResponsiveProvider } from "../providers/responsive";
-
-const montserrat = Montserrat({ subsets: ["latin", "cyrillic"] });
 
 export const viewport: Viewport = {
     themeColor: "#ffffff",
@@ -29,22 +25,18 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
     if (!hasLocale(routing.locales, locale)) notFound();
 
     return (
-        <html lang={locale}>
-            <body className={montserrat.className}>
-                <NextIntlClientProvider locale={locale}>
-                    <ThemeProvider>
-                        <PageTransitionProvider>
-                            <ResponsiveProvider>
-                                <div className="container">
-                                    <Header />
-                                    <main>{children}</main>
-                                    <Footer />
-                                </div>
-                            </ResponsiveProvider>
-                        </PageTransitionProvider>
-                    </ThemeProvider>
-                </NextIntlClientProvider>
-            </body>
-        </html>
+        <NextIntlClientProvider locale={locale}>
+            <ThemeProvider>
+                <PageTransitionProvider>
+                    <ResponsiveProvider>
+                        <div className="container">
+                            <Header />
+                            <main>{children}</main>
+                            <Footer />
+                        </div>
+                    </ResponsiveProvider>
+                </PageTransitionProvider>
+            </ThemeProvider>
+        </NextIntlClientProvider>
     );
 }
