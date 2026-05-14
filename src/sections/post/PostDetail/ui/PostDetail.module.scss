@@ -133,13 +133,15 @@
         flex-direction: column;
         gap: 1.6rem;
 
+        width: min(100%, 72rem);
+        min-width: 0;
         max-width: 72rem;
         margin: 0 auto;
 
-        line-height: 1.75;
-        letter-spacing: -0.01em;
+        overflow-wrap: anywhere;
 
         > * {
+            min-width: 0;
             margin: 0;
         }
 
@@ -238,6 +240,7 @@
 
             font-size: 0.95em;
             color: var(--text-contrast-color);
+            overflow-wrap: anywhere;
 
             background: var(--background-contrast-color);
         }
