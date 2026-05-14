@@ -7,6 +7,15 @@ const ROOT = path.join(process.cwd(), "content/posts");
 const SITE_URL = BASE_SEO.en.url;
 const STATIC_PATHS = ["", "/about", "/posts"];
 
+type SitemapEntry = {
+    url: string;
+    lastModified?: string;
+};
+
+function formatLastModified(date: Date) {
+    return date.toISOString().split("T")[0];
+}
+
 function escapeXml(value: string) {
     return value
         .replaceAll("&", "&amp;")
@@ -20,8 +29,7 @@ function getStaticEntries() {
     return routing.locales.flatMap((locale) =>
         STATIC_PATHS.map((pagePath) => ({
             url: `${SITE_URL}/${locale}${pagePath}`,
-            lastModified: new Date().toISOString(),
-        }))
+        } satisfies SitemapEntry))
     );
 }
 
@@ -39,14 +47,14 @@ function getPostEntries() {
 
                 return {
                     url: `${SITE_URL}/${locale}/posts/${slug}`,
-                    lastModified: fs.statSync(filePath).mtime.toISOString(),
-                };
+                    lastModified: formatLastModified(fs.statSync(filePath).mtime),
+                } satisfies SitemapEntry;
             });
     });
 }
 
 export function GET() {
-    const entries = [...getStaticEntries(), ...getPostEntries()];
+    const entries: SitemapEntry[] = [...getStaticEntries(), ...getPostEntries()];
 
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -54,8 +62,8 @@ ${entries
     .map(
         ({ url, lastModified }) => `  <url>
     <loc>${escapeXml(url)}</loc>
-    <lastmod>${lastModified}</lastmod>
-  </url>`
+${lastModified ? `    <lastmod>${lastModified}</lastmod>
+` : ""}   </url>`
     )
     .join("\n")}
 </urlset>`;
