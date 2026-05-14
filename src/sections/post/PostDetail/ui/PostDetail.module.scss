@@ -130,6 +130,7 @@
 
     &__subtitle {
         @include font-size(h3);
+
         color: var(--text-2-color);
     }
 
