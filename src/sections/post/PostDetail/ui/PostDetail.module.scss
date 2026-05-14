@@ -43,9 +43,13 @@
         gap: 3.2rem;
         align-items: center;
 
-        @include mobile {
+        @include tablet {
             display: flex;
             flex-direction: column;
+            gap: 2.4rem;
+        }
+
+        @include mobile {
             gap: 1.6rem;
         }
     }
@@ -55,6 +59,11 @@
         overflow: hidden;
         border-radius: 3.2rem;
         background: var(--background-contrast-color);
+
+        @include tablet {
+            width: min(100%, 72rem);
+            margin: 0 auto;
+        }
 
         @include mobile {
             border-radius: 2rem;
@@ -80,6 +89,11 @@
         gap: 2.4rem;
         align-self: stretch;
         justify-content: center;
+
+        @include tablet {
+            width: min(100%, 72rem);
+            margin: 0 auto;
+        }
     }
 
     &__back-link {
@@ -115,10 +129,8 @@
     }
 
     &__subtitle {
-        max-width: 48rem;
-        color: var(--text-2-color);
-
         @include font-size(h3);
+        color: var(--text-2-color);
     }
 
     &__hero-tags {
