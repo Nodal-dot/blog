@@ -26,14 +26,6 @@ const Eye: FC = () => {
 
             if (!container || !pupil || !sclera) return;
 
-            gsap.set(pupil, {
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                xPercent: -50,
-                yPercent: -50,
-            });
-
             const scleraRect = sclera.getBoundingClientRect();
             const pupilRect = pupil.getBoundingClientRect();
 
