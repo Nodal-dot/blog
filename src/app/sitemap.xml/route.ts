@@ -27,9 +27,12 @@ function escapeXml(value: string) {
 
 function getStaticEntries() {
     return routing.locales.flatMap((locale) =>
-        STATIC_PATHS.map((pagePath) => ({
-            url: `${SITE_URL}/${locale}${pagePath}`,
-        } satisfies SitemapEntry))
+        STATIC_PATHS.map(
+            (pagePath) =>
+                ({
+                    url: `${SITE_URL}/${locale}${pagePath}`,
+                }) satisfies SitemapEntry
+        )
     );
 }
 
@@ -62,8 +65,12 @@ ${entries
     .map(
         ({ url, lastModified }) => `  <url>
     <loc>${escapeXml(url)}</loc>
-${lastModified ? `    <lastmod>${lastModified}</lastmod>
-` : ""}   </url>`
+${
+    lastModified
+        ? `    <lastmod>${lastModified}</lastmod>
+`
+        : ""
+}   </url>`
     )
     .join("\n")}
 </urlset>`;
