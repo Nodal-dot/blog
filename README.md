@@ -4,7 +4,7 @@ This is my personal website and portfolio blog. It has both English and Russian 
 
 ## Links
 
-- Site: `https://nodaldot.vercel.app/`
+- Site: `https://nodaldot.space/`
 - Repository: `https://github.com/Nodal-dot/blog`
 
 ## What this project includes

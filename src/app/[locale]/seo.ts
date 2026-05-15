@@ -2,13 +2,13 @@ export const BASE_SEO = {
     en: {
         siteName: "Nodal-dot — Frontend developer",
         locale: "en_US",
-        url: "https://nodaldot.vercel.app",
+        url: "https://nodaldot.space",
         defaultImage: "/og-image.png",
     },
     ru: {
         siteName: "Nodal-dot — Разработчик интерфейсов",
         locale: "ru_RU",
-        url: "https://nodaldot.vercel.app",
+        url: "https://nodaldot.space",
         defaultImage: "/og-image.png",
     },
 } as const;
