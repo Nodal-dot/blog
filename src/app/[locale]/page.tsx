@@ -6,6 +6,7 @@ import { getPosts } from "@/entities/post/api/getPosts";
 import type { FC } from "react";
 import MainHero from "@/sections/main/MainHero";
 import MainPosts from "@/sections/main/MainPosts";
+import { BASE_SEO } from "./seo";
 
 interface MainPageProps {
     params: Promise<{ locale: Locale }>;
@@ -15,9 +16,33 @@ const MainPage: FC<MainPageProps> = async ({ params }) => {
     const { locale } = await params;
 
     const posts = await getPosts(locale);
+    const profileUrl = `${BASE_SEO[locale].url}/${locale}`;
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Person",
+                name: "Vladimir",
+                url: profileUrl,
+                image: `${BASE_SEO[locale].url}/og-image.png`,
+                sameAs: ["https://github.com/Nodal-dot"],
+                jobTitle: "Frontend Developer",
+            },
+            {
+                "@type": "WebSite",
+                name: BASE_SEO[locale].siteName,
+                url: profileUrl,
+                inLanguage: locale,
+            },
+        ],
+    };
 
     return (
         <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             <MainHero />
             <MainPosts posts={posts} />
         </>

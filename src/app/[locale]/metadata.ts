@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { BASE_SEO } from "./seo";
 import type { Locale } from "@/shared/i18n/types";
+import { routing } from "@/shared/i18n/routing";
 
 interface PageSEOParams {
     title: string;
@@ -8,6 +9,8 @@ interface PageSEOParams {
     keywords?: string;
     openGraphTitle?: string;
     openGraphDescription?: string;
+    openGraphImage?: string;
+    openGraphType?: "website" | "article";
     path: string;
     locale: Locale;
 }
@@ -18,15 +21,32 @@ export async function createPageMetadata({
     keywords = "",
     openGraphTitle,
     openGraphDescription,
+    openGraphImage,
+    openGraphType = "website",
     path,
     locale,
 }: PageSEOParams): Promise<Metadata> {
     const base = BASE_SEO[locale];
     const ogTitle = openGraphTitle || title;
     const ogDescription = openGraphDescription || description;
-    const ogImageUrl = base.defaultImage.startsWith("http")
-        ? base.defaultImage
-        : `${base.url}${base.defaultImage}`;
+    const image = openGraphImage || base.defaultImage;
+    const ogImageUrl = image.startsWith("http") ? image : `${base.url}${image}`;
+    const localizedAlternates = Object.keys(BASE_SEO).reduce<Record<string, string>>((acc, l) => {
+        const lang = l as keyof typeof BASE_SEO;
+        let localizedPath = path;
+        const currentPrefix = `/${locale}`;
+
+        if (path.startsWith(currentPrefix)) {
+            localizedPath = path.replace(new RegExp(`^/${locale}`), `/${lang}`);
+        } else {
+            localizedPath = `/${lang}${path.startsWith("/") ? path : `/${path}`}`;
+        }
+
+        acc[lang] = localizedPath;
+        return acc;
+    }, {});
+
+    localizedAlternates["x-default"] = localizedAlternates[routing.defaultLocale];
 
     return {
         title: {
@@ -38,18 +58,7 @@ export async function createPageMetadata({
         metadataBase: new URL(base.url),
         alternates: {
             canonical: path,
-            languages: Object.keys(BASE_SEO).reduce<Record<string, string>>((acc, l) => {
-                const lang = l as keyof typeof BASE_SEO;
-                let localizedPath = path;
-                const currentPrefix = `/${locale}`;
-                if (path.startsWith(currentPrefix)) {
-                    localizedPath = path.replace(new RegExp(`^/${locale}`), `/${lang}`);
-                } else {
-                    localizedPath = `/${lang}${path.startsWith("/") ? path : `/${path}`}`;
-                }
-                acc[lang] = localizedPath;
-                return acc;
-            }, {}),
+            languages: localizedAlternates,
         },
         keywords: keywords
             .split(",")
@@ -61,7 +70,7 @@ export async function createPageMetadata({
             googleBot: { index: true, follow: true, "max-snippet": -1 },
         },
         openGraph: {
-            type: "website",
+            type: openGraphType,
             url: `${base.url}${path}`,
             siteName: base.siteName,
             locale: base.locale,
@@ -76,6 +85,7 @@ export async function createPageMetadata({
                 },
             ],
         },
+        twitter: null,
         other: {
             "msapplication-config": "/browserconfig.xml",
             "msapplication-TileColor": "#ffffff",

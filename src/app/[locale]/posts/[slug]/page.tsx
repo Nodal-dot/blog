@@ -10,6 +10,7 @@ import type { Post } from "@/entities/post";
 import { createPageMetadata } from "../../metadata";
 import remarkGfm from "remark-gfm";
 import { getTranslations } from "next-intl/server";
+import { BASE_SEO } from "../../seo";
 
 export async function generateMetadata({
     params,
@@ -32,6 +33,8 @@ export async function generateMetadata({
         keywords: tags.join(","),
         openGraphTitle: data.title,
         openGraphDescription: data.subtitle || data.title,
+        openGraphImage: data.imageSrc,
+        openGraphType: "article",
         path: `/${locale}/posts/${slug}`,
         locale,
     });
@@ -54,6 +57,7 @@ export default async function PostPage({ params }: PostPageProps) {
     if (!fs.existsSync(file)) return notFound();
 
     const source = fs.readFileSync(file, "utf8");
+    const { mtime } = fs.statSync(file);
 
     const { content, frontmatter } = await compileMDX<PostFrontmatter>({
         source,
@@ -73,5 +77,39 @@ export default async function PostPage({ params }: PostPageProps) {
         },
     };
 
-    return <PostDetail post={post} content={content} backLabel={t("backToPosts")} />;
+    const postUrl = `${BASE_SEO[locale].url}/${locale}/posts/${slug}`;
+    const imageUrl = post.image.src.startsWith("http")
+        ? post.image.src
+        : `${BASE_SEO[locale].url}${post.image.src}`;
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: post.title,
+        description: post.subtitle || post.title,
+        image: [imageUrl],
+        url: postUrl,
+        mainEntityOfPage: postUrl,
+        inLanguage: locale,
+        dateModified: mtime.toISOString(),
+        author: {
+            "@type": "Person",
+            name: "Vladimir",
+            url: `${BASE_SEO[locale].url}/${locale}`,
+        },
+        publisher: {
+            "@type": "Person",
+            name: "Vladimir",
+            url: `${BASE_SEO[locale].url}/${locale}`,
+        },
+    };
+
+    return (
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+            <PostDetail post={post} content={content} backLabel={t("backToPosts")} />
+        </>
+    );
 }
