@@ -26,6 +26,9 @@ export const Select: FC<SelectProps> = React.memo(
         const selectRef = useRef<HTMLDivElement>(null);
         const selectTriggerRef = useRef<HTMLButtonElement>(null);
         const listRef = useRef<HTMLUListElement>(null);
+        const selectId = React.useId();
+        const labelId = `${selectId}-label`;
+        const listboxId = `${selectId}-listbox`;
 
         const updateSelectMinWidth = () => {
             if (listRef.current && selectRef.current && selectTriggerRef.current) {
@@ -64,12 +67,18 @@ export const Select: FC<SelectProps> = React.memo(
 
         return (
             <div className={styles["select"]}>
-                {label && <span className={styles["select__label"]}>{label}</span>}
+                {label && (
+                    <span id={labelId} className={styles["select__label"]}>
+                        {label}
+                    </span>
+                )}
                 <div ref={selectRef} className={styles["select__container"]}>
                     <button
                         type="button"
                         ref={selectTriggerRef}
                         aria-haspopup="listbox"
+                        aria-controls={listboxId}
+                        aria-labelledby={label ? `${labelId} ${listboxId}` : undefined}
                         aria-label={ariaLabel || label}
                         className={styles["select__trigger"]}
                     >
@@ -77,7 +86,14 @@ export const Select: FC<SelectProps> = React.memo(
                         <Icon name="chevron-down" size={20} className={styles["select__icon"]} />
                     </button>
 
-                    <ul role="listbox" className={styles["select__options"]} ref={listRef}>
+                    <ul
+                        id={listboxId}
+                        role="listbox"
+                        aria-label={!label ? ariaLabel || selectedLabel : undefined}
+                        aria-labelledby={label ? labelId : undefined}
+                        className={styles["select__options"]}
+                        ref={listRef}
+                    >
                         {options.map((option) => (
                             <li role="none" key={option.value}>
                                 <button
