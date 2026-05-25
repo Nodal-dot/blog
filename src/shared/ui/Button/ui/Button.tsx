@@ -4,6 +4,7 @@ import type { ButtonAsButton, ButtonAsLink, ButtonProps } from "../types";
 import style from "./Button.module.scss";
 import { classNames } from "@/shared/lib/classNames";
 import React from "react";
+import { Link as LocaleLink } from "@/shared/i18n/navigation";
 
 type ButtonComponentProps = ButtonProps & {
     ref?: React.Ref<HTMLButtonElement | HTMLAnchorElement>;
@@ -31,10 +32,13 @@ const Button = (props: ButtonComponentProps) => {
     );
 
     if (props.as === "a") {
-        const { href, onClick, ...anchorProps } = rest as ButtonAsLink;
+        const anchorLinkProps = rest as ButtonAsLink;
+        const { as: asProp, href, onClick, ...anchorProps } = anchorLinkProps;
+
+        void asProp;
 
         return (
-            <a
+            <LocaleLink
                 ref={ref as React.Ref<HTMLAnchorElement>}
                 href={href}
                 onClick={onClick}
@@ -47,7 +51,7 @@ const Button = (props: ButtonComponentProps) => {
                 {...anchorProps}
             >
                 {content}
-            </a>
+            </LocaleLink>
         );
     }
 

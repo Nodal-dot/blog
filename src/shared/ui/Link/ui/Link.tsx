@@ -2,7 +2,7 @@
 import React from "react";
 import styles from "./Link.module.scss";
 import { classNames } from "@/shared/lib/classNames";
-import NextLink from "next/link";
+import { Link as LocaleLink } from "@/shared/i18n/navigation";
 interface LinkProps {
     href: string;
     label: string;
@@ -19,14 +19,14 @@ const Link: React.FC<LinkProps> = (props) => {
         onClick();
     };
     return (
-        <NextLink
+        <LocaleLink
             href={href}
             onClick={triggerNavigationCallback}
             aria-current={isActive ? "page" : undefined}
             className={classNames(styles["link"], isActive && styles["active"])}
         >
             {label}
-        </NextLink>
+        </LocaleLink>
     );
 };
 

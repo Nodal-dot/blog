@@ -9,6 +9,7 @@
     --btn-before-bg: var(--background-color);
     --btn-hover-color: var(--text-color);
     --btn-active-before-bg: var(--active-background-color);
+
     @include default-tr;
     @include font-size(button);
 
@@ -69,7 +70,9 @@
     &:focus-visible {
         outline: 2px solid var(--text-color);
         outline-offset: 2px;
-        box-shadow: 0 0 0 2px var(--background-color), 0 0 0 4px var(--text-color);
+        box-shadow:
+            0 0 0 2px var(--background-color),
+            0 0 0 4px var(--text-color);
     }
 
     &--disabled {
