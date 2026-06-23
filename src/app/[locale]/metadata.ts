@@ -85,7 +85,12 @@ export async function createPageMetadata({
                 },
             ],
         },
-        twitter: null,
+        twitter: {
+            card: "summary_large_image",
+            title: ogTitle,
+            description: ogDescription,
+            images: [ogImageUrl],
+        },
         other: {
             "msapplication-config": "/browserconfig.xml",
             "msapplication-TileColor": "#ffffff",
