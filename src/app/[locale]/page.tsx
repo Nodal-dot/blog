@@ -6,7 +6,7 @@ import { getPosts } from "@/entities/post/api/getPosts";
 import type { FC } from "react";
 import MainHero from "@/sections/main/MainHero";
 import MainPosts from "@/sections/main/MainPosts";
-import { BASE_SEO } from "./seo";
+import { BASE_SEO, resolveAbsoluteAssetUrl } from "./seo";
 
 interface MainPageProps {
     params: Promise<{ locale: Locale }>;
@@ -24,7 +24,7 @@ const MainPage: FC<MainPageProps> = async ({ params }) => {
                 "@type": "Person",
                 name: "Vladimir",
                 url: profileUrl,
-                image: `${BASE_SEO[locale].url}/og-image.png`,
+                image: resolveAbsoluteAssetUrl(BASE_SEO[locale].url, BASE_SEO[locale].defaultImage),
                 sameAs: ["https://github.com/Nodal-dot"],
                 jobTitle: "Frontend Developer",
             },

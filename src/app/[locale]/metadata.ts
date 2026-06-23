@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { BASE_SEO } from "./seo";
+import { BASE_SEO, resolveAbsoluteAssetUrl } from "./seo";
 import type { Locale } from "@/shared/i18n/types";
 import { routing } from "@/shared/i18n/routing";
 
@@ -30,7 +30,7 @@ export async function createPageMetadata({
     const ogTitle = openGraphTitle || title;
     const ogDescription = openGraphDescription || description;
     const image = openGraphImage || base.defaultImage;
-    const ogImageUrl = image.startsWith("http") ? image : `${base.url}${image}`;
+    const ogImageUrl = resolveAbsoluteAssetUrl(base.url, image);
     const localizedAlternates = Object.keys(BASE_SEO).reduce<Record<string, string>>((acc, l) => {
         const lang = l as keyof typeof BASE_SEO;
         let localizedPath = path;

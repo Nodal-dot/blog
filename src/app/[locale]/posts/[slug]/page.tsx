@@ -10,7 +10,7 @@ import type { Post } from "@/entities/post";
 import { createPageMetadata } from "../../metadata";
 import remarkGfm from "remark-gfm";
 import { getTranslations } from "next-intl/server";
-import { BASE_SEO } from "../../seo";
+import { BASE_SEO, resolveAbsoluteAssetUrl } from "../../seo";
 
 export async function generateMetadata({
     params,
@@ -78,9 +78,7 @@ export default async function PostPage({ params }: PostPageProps) {
     };
 
     const postUrl = `${BASE_SEO[locale].url}/${locale}/posts/${slug}`;
-    const imageUrl = post.image.src.startsWith("http")
-        ? post.image.src
-        : `${BASE_SEO[locale].url}${post.image.src}`;
+    const imageUrl = resolveAbsoluteAssetUrl(BASE_SEO[locale].url, post.image.src);
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
