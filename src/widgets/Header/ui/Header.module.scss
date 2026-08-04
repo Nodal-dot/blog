@@ -1,8 +1,6 @@
 @use "@/shared/styles/utils/index" as *;
 
 .header {
-    @include default-tr;
-
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;

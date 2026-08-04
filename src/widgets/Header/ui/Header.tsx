@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useRef, type FC } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import styles from "./Header.module.scss";
 
 import IconLink from "@/shared/ui/IconLink";
@@ -14,6 +14,7 @@ import MobileMenu from "./MobileMenu";
 import Navigation from "./Navigation";
 
 export const Header: FC = () => {
+    const locale = useLocale();
     const t = useTranslations();
     const headerRef = useRef<HTMLElement | null>(null);
     useEffect(() => {
@@ -46,6 +47,7 @@ export const Header: FC = () => {
 
     const navAriaLabel = useMemo(() => t("Nav.ariaLabel"), [t]);
     const githubAria = useMemo(() => t("Social.githubAria"), [t]);
+    const rssAria = useMemo(() => t("Social.rssAria"), [t]);
 
     return (
         <header ref={headerRef} className={styles["header"]}>
@@ -61,6 +63,15 @@ export const Header: FC = () => {
                     ariaLabel={githubAria}
                     iconLight="/assets/sprites/github-mark.svg"
                     iconDark="/assets/sprites/github-mark-white.svg"
+                    width={48}
+                    height={48}
+                    size="lg"
+                />
+                <IconLink
+                    href={`/${locale}/rss.xml`}
+                    ariaLabel={rssAria}
+                    iconLight="/assets/sprites/rss.svg"
+                    iconDark="/assets/sprites/rss-white.svg"
                     width={48}
                     height={48}
                     size="lg"

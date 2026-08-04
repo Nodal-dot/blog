@@ -56,7 +56,8 @@
     },
     "Social": {
         "github": "GitHub",
-        "githubAria": "Open GitHub profile (opens in new tab)"
+        "githubAria": "Open GitHub profile (opens in new tab)",
+        "rssAria": "Open RSS feed (opens in new tab)"
     },
     "Modal": {
         "close": "Close dialog"
