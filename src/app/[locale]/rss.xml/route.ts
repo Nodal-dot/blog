@@ -15,10 +15,7 @@ function escapeXml(value: string) {
         .replaceAll("'", "&apos;");
 }
 
-export async function GET(
-    _request: Request,
-    { params }: { params: Promise<{ locale: string }> }
-) {
+export async function GET(_request: Request, { params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
     if (!isSupportedLocale(locale)) {
         return new Response("Not found", { status: 404 });
