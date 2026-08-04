@@ -43,6 +43,11 @@ const PostsFeed: FC<PostsFeedProps> = ({ posts }) => {
 
     return (
         <section className={classNames(styles["posts-feed"], "section")}>
+            <div className={styles["posts-feed__intro"]}>
+                <h1 className={styles["posts-feed__title"]}>{t("title")}</h1>
+                <p className={styles["posts-feed__description"]}>{t("description")}</p>
+            </div>
+
             <div className={styles["posts-feed__header"]}>
                 <Search value={query} onChange={setQuery} />
                 <Select
@@ -56,7 +61,13 @@ const PostsFeed: FC<PostsFeedProps> = ({ posts }) => {
 
             <TagsBar allTags={allTags} selectedTags={selectedTags} onToggle={toggleTag} />
 
-            <PostsGrid posts={visiblePosts} viewMode={viewMode} />
+            {visiblePosts.length > 0 ? (
+                <PostsGrid posts={visiblePosts} viewMode={viewMode} />
+            ) : (
+                <p className={styles["posts-feed__empty"]} role="status">
+                    {t("empty")}
+                </p>
+            )}
         </section>
     );
 };

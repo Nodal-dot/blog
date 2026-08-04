@@ -80,8 +80,11 @@
         "scrollToTop": "Scroll to top"
     },
     "PostsFeed": {
+        "title": "Posts",
+        "description": "Articles about React, Next.js, TypeScript, UI architecture, and modern frontend engineering.",
         "viewMode": "View",
         "viewModeAria": "Select view mode for posts",
+        "empty": "No posts found for the current filters.",
         "modes": {
             "compact": "Compact",
             "image": "Image",
