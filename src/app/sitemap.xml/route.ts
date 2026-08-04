@@ -1,9 +1,7 @@
-import fs from "fs";
-import path from "path";
 import { routing } from "@/shared/i18n/routing";
 import { BASE_SEO } from "@/app/[locale]/seo";
+import { readPostFrontmatters } from "@/entities/post/api/readPostFrontmatters";
 
-const ROOT = path.join(process.cwd(), "content/posts");
 const SITE_URL = BASE_SEO.en.url;
 const STATIC_PATHS = ["", "/about", "/posts"];
 
@@ -38,21 +36,10 @@ function getStaticEntries() {
 
 function getPostEntries() {
     return routing.locales.flatMap((locale) => {
-        const dir = path.join(ROOT, locale);
-        if (!fs.existsSync(dir)) return [];
-
-        return fs
-            .readdirSync(dir)
-            .filter((file) => file.endsWith(".mdx"))
-            .map((file) => {
-                const slug = file.replace(/\.mdx$/, "");
-                const filePath = path.join(dir, file);
-
-                return {
-                    url: `${SITE_URL}/${locale}/posts/${slug}`,
-                    lastModified: formatLastModified(fs.statSync(filePath).mtime),
-                } satisfies SitemapEntry;
-            });
+        return readPostFrontmatters(locale).map((post) => ({
+            url: `${SITE_URL}/${locale}/posts/${post.id}`,
+            lastModified: formatLastModified(new Date(post.date)),
+        }));
     });
 }
 

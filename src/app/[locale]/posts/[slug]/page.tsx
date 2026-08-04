@@ -57,8 +57,6 @@ export default async function PostPage({ params }: PostPageProps) {
     if (!fs.existsSync(file)) return notFound();
 
     const source = fs.readFileSync(file, "utf8");
-    const { mtime } = fs.statSync(file);
-
     const { content, frontmatter } = await compileMDX<PostFrontmatter>({
         source,
         options: {
@@ -88,7 +86,8 @@ export default async function PostPage({ params }: PostPageProps) {
         url: postUrl,
         mainEntityOfPage: postUrl,
         inLanguage: locale,
-        dateModified: mtime.toISOString(),
+        datePublished: new Date(post.date).toISOString(),
+        dateModified: new Date(post.date).toISOString(),
         author: {
             "@type": "Person",
             name: "Vladimir",

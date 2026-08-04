@@ -5,4 +5,5 @@ export interface Post {
     image: { src: string; alt: string };
     videoUrl: string;
     tags: string[];
+    date: string;
 }
