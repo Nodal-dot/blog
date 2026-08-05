@@ -1,10 +1,10 @@
-import Image from "next/image";
 import type { Post } from "@/entities/post";
 import Tags from "@/shared/ui/Tags";
 import styles from "./PostDetail.module.scss";
 import { classNames } from "@/shared/lib/classNames";
 import { PostScrollProgress } from "./PostScrollProgress";
 import { PostBackLink } from "./PostBackLink";
+import { PostDetailMedia } from "./PostDetailMedia";
 
 interface PostDetailProps {
     post: Post;
@@ -18,17 +18,11 @@ export const PostDetail: React.FC<PostDetailProps> = ({ post, content, backLabel
             <PostScrollProgress />
 
             <header className={styles["post-detail__hero"]}>
-                <div className={styles["post-detail__hero-media-wrapper"]}>
-                    <Image
-                        className={styles["post-detail__hero-media"]}
-                        src={post.image.src}
-                        alt={post.image.alt}
-                        width={1600}
-                        height={800}
-                        priority
-                        sizes="(max-width: 786px) 100vw, (max-width: 1200px) 60vw, 800px"
-                    />
-                </div>
+                <PostDetailMedia
+                    imageSrc={post.image.src}
+                    imageAlt={post.image.alt}
+                    videoUrl={post.videoUrl}
+                />
 
                 <div className={styles["post-detail__hero-content"]}>
                     <PostBackLink label={backLabel} />

@@ -69,7 +69,8 @@
         "videoAria": "Video preview for post"
     },
     "PostDetail": {
-        "backToPosts": "Back to posts"
+        "backToPosts": "Back to posts",
+        "playVideo": "Play video"
     },
     "NotFound": {
         "heading": "Error 404",

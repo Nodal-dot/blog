@@ -8,6 +8,7 @@ export type IconName =
     | "layers"
     | "graduation-cap"
     | "x"
+    | "play"
     | "arrow-up"
     | "arrow-down"
     | "sun"
@@ -56,6 +57,13 @@ export const ICON_PATHS: Record<IconName, ReactNode> = {
             <path d="M18 6 6 18" />
             <path d="m6 6 12 12" />
         </>
+    ),
+    play: (
+        <path
+            d="M8 6.82v10.36a1 1 0 0 0 1.53.848l8.14-5.18a1 1 0 0 0 0-1.696l-8.14-5.18A1 1 0 0 0 8 6.82"
+            fill="currentColor"
+            stroke="none"
+        />
     ),
     "arrow-up": (
         <>

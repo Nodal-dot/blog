@@ -80,7 +80,93 @@
         object-fit: cover;
 
         transition-property: transform, opacity, filter;
-        animation: hero-image-reveal 900ms ease-out forwards;
+    }
+
+    &__play-button {
+        position: absolute;
+        z-index: 1;
+        inset: 0;
+
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        border: none;
+        border-radius: 0;
+
+        color: transparent;
+
+        background: transparent;
+
+        &::before {
+            display: none;
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--text-color);
+            outline-offset: -0.4rem;
+            box-shadow: none;
+        }
+    }
+
+    &__play-button-center {
+        position: absolute;
+        z-index: 2;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        width: 7.2rem;
+        height: 7.2rem;
+        padding: 0;
+        border-radius: 50%;
+
+        @include tablet {
+            width: 6.4rem;
+            height: 6.4rem;
+        }
+
+        @include mobile {
+            width: 5.6rem;
+            height: 5.6rem;
+        }
+
+        > span {
+            margin: 0;
+        }
+
+        svg {
+            @include box(4.8rem);
+
+            fill: currentcolor;
+            stroke: none;
+        }
+    }
+
+    &__video-modal {
+        width: min(96rem, calc(100vw - 3.2rem));
+        max-width: 96rem;
+        padding: 1.6rem;
+
+        @include mobile {
+            width: calc(100vw - 1.6rem);
+            padding: 0.8rem;
+        }
+    }
+
+    &__video-frame {
+        overflow: hidden;
+        border-radius: 1.6rem;
+        background: var(--background-contrast-color);
+    }
+
+    &__video {
+        display: block;
+
+        aspect-ratio: 16 / 9;
+        width: 100%;
+        height: auto;
+
+        background: var(--background-contrast-color);
     }
 
     &__hero-content {
@@ -316,18 +402,6 @@
             table td {
                 padding: 1rem 1.2rem;
             }
-        }
-    }
-
-    @keyframes hero-image-reveal {
-        0% {
-            opacity: 0;
-            filter: blur(12px);
-        }
-
-        100% {
-            opacity: 1;
-            filter: blur(0);
         }
     }
 }

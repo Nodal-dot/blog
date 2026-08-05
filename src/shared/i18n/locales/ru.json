@@ -69,7 +69,8 @@
         "videoAria": "Видео-превью поста"
     },
     "PostDetail": {
-        "backToPosts": "Ко всем постам"
+        "backToPosts": "Ко всем постам",
+        "playVideo": "Воспроизвести видео"
     },
     "NotFound": {
         "heading": "Ошибка 404",

@@ -12,10 +12,11 @@ interface ModalProps {
     children: React.ReactNode;
     title?: string;
     description?: string;
+    contentClassName?: string;
 }
 
 const Modal: FC<ModalProps> = (props) => {
-    const { open, onClose, children, title, description } = props;
+    const { open, onClose, children, title, description, contentClassName } = props;
     const t = useTranslations("Modal");
     const [mounted, setMounted] = React.useState(false);
     const modalRef = React.useRef<HTMLDivElement>(null);
@@ -52,7 +53,7 @@ const Modal: FC<ModalProps> = (props) => {
         return () => document.removeEventListener("keydown", onKeyDown);
     }, [open, onClose]);
 
-    if (!mounted || !open) return null;
+    if (!mounted) return null;
 
     const titleId = title ? "modal-title" : undefined;
     const descId = description ? "modal-description" : undefined;
@@ -63,12 +64,17 @@ const Modal: FC<ModalProps> = (props) => {
                 [styles["modal__backdrop--visible"]]: open,
             })}
             onClick={onClose}
+            aria-hidden={!open}
         >
             <div
                 ref={modalRef}
-                className={classNames(styles["modal__content"], {
-                    [styles["modal__content--open"]]: open,
-                })}
+                className={classNames(
+                    styles["modal__content"],
+                    {
+                        [styles["modal__content--open"]]: open,
+                    },
+                    contentClassName
+                )}
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby={titleId}
