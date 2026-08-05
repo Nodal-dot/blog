@@ -54,17 +54,18 @@
     }
 
     &.size-sm {
-        width: 2.4rem;
-        height: 2.4rem;
+        @include box(2.4rem);
     }
 
     &.size-md {
-        width: 3.2rem;
-        height: 3.2rem;
+        @include box(3.2rem);
     }
 
     &.size-lg {
-        width: 4.8rem;
-        height: 4.8rem;
+        @include box(4.8rem);
+
+        @include mobile {
+            @include box(4rem);
+        }
     }
 }
