@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { BASE_SEO, resolveAbsoluteAssetUrl } from "./seo";
 import type { Locale } from "@/shared/i18n/types";
 import { routing } from "@/shared/i18n/routing";
@@ -27,6 +28,9 @@ export async function createPageMetadata({
     locale,
 }: PageSEOParams): Promise<Metadata> {
     const base = BASE_SEO[locale];
+
+    if (!base) notFound();
+
     const ogTitle = openGraphTitle || title;
     const ogDescription = openGraphDescription || description;
     const image = openGraphImage || base.defaultImage;
