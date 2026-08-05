@@ -106,6 +106,17 @@
             outline-offset: -0.4rem;
             box-shadow: none;
         }
+
+        &:hover + .post-detail__play-button-center,
+        &:focus-visible + .post-detail__play-button-center {
+            color: var(--btn-hover-color);
+        }
+
+        &:hover + .post-detail__play-button-center::before,
+        &:focus-visible + .post-detail__play-button-center::before {
+            width: 200%;
+            height: 200%;
+        }
     }
 
     &__play-button-center {
