@@ -27,7 +27,8 @@ const getStoredTheme = (): Theme | null => {
     return stored === "light" || stored === "dark" ? stored : null;
 };
 
-const resolveTheme = (storedTheme: Theme | null, systemTheme: Theme): Theme => storedTheme ?? systemTheme;
+const resolveTheme = (storedTheme: Theme | null, systemTheme: Theme): Theme =>
+    storedTheme ?? systemTheme;
 
 const applyTheme = (theme: Theme) => {
     document.documentElement.setAttribute("data-theme", theme);

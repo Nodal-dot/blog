@@ -19,7 +19,9 @@ const ThemeToggle: React.FC = () => {
 
     const nextTheme = theme === "light" ? "dark" : "light";
     const returnsToSystem = preference !== "system" && nextTheme === systemTheme;
-    const actionLabel = returnsToSystem ? t(`Theme.backTo.${nextTheme}`) : t(`Theme.switchTo.${nextTheme}`);
+    const actionLabel = returnsToSystem
+        ? t(`Theme.backTo.${nextTheme}`)
+        : t(`Theme.switchTo.${nextTheme}`);
 
     return (
         <button
