@@ -52,7 +52,15 @@
         "ariaLabel": "Main navigation"
     },
     "Theme": {
-        "toggle": "Toggle theme"
+        "toggle": "Toggle theme",
+        "switchTo": {
+            "light": "Switch to light theme",
+            "dark": "Switch to dark theme"
+        },
+        "backTo": {
+            "light": "Switch back to light theme (system default)",
+            "dark": "Switch back to dark theme (system default)"
+        }
     },
     "Social": {
         "github": "GitHub",
