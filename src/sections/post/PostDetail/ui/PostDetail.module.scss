@@ -42,7 +42,7 @@
 
             position: absolute;
             inset: 0;
-            transform: translate3d(calc((var(--post-scroll-progress) - 1) * 100%), 0, 0);
+            transform: translate3d(calc((clamp(0, var(--post-scroll-progress), 1) - 1) * 100%), 0, 0);
 
             background: var(--text-color);
         }
@@ -538,7 +538,7 @@
         @media (prefers-reduced-motion: reduce) {
             h2,
             h3 {
-                transition: none;
+                transition: background-color 0.15s ease;
             }
 
             h2:target,

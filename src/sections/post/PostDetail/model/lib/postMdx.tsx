@@ -1,59 +1,75 @@
-import type { ComponentPropsWithoutRef, ReactNode } from "react";
-import { isValidElement } from "react";
+import type { ComponentPropsWithoutRef } from "react";
 import type { TocItem } from "../types";
 
-export function createPostHeadingComponent(tag: "h2" | "h3", slugCounts: Map<string, number>) {
-    return function Heading({ children, ...props }: ComponentPropsWithoutRef<typeof tag>) {
-        const id = createUniqueSlug(extractText(children), slugCounts);
-
-        if (tag === "h2") {
-            return (
-                <h2 id={id} {...props}>
-                    {children}
-                </h2>
-            );
-        }
-
-        return (
-            <h3 id={id} {...props}>
-                {children}
-            </h3>
-        );
+interface MdastNode {
+    type: string;
+    depth?: number;
+    value?: string;
+    alt?: string;
+    children?: MdastNode[];
+    data?: {
+        hProperties?: Record<string, string>;
     };
 }
 
-export function buildPostToc(markdown: string): TocItem[] {
-    const slugCounts = new Map<string, number>();
-    const toc: TocItem[] = [];
-    let currentSection: TocItem | null = null;
+export function createPostHeadingComponent(tag: "h2" | "h3") {
+    return function Heading(props: ComponentPropsWithoutRef<typeof tag>) {
+        if (tag === "h2") {
+            return <h2 {...props} />;
+        }
 
-    for (const match of markdown.matchAll(/^(#{2,3})\s+(.+?)\s*#*\s*$/gm)) {
-        const level = match[1].length;
-        const title = stripMarkdown(match[2]);
+        return <h3 {...props} />;
+    };
+}
 
-        if (!title) continue;
+export function createPostTocRemarkPlugin(toc: TocItem[]) {
+    return function postTocRemarkPlugin() {
+        return function transform(tree: MdastNode) {
+            const slugCounts = new Map<string, number>();
+            const nextToc: TocItem[] = [];
+            let currentSection: TocItem | null = null;
 
-        const item: TocItem = {
-            id: createUniqueSlug(title, slugCounts),
-            title,
-            children: [],
+            visitTree(tree, (node) => {
+                if (node.type !== "heading" || (node.depth !== 2 && node.depth !== 3)) {
+                    return;
+                }
+
+                const title = extractNodeText(node).trim();
+                const id = createUniqueSlug(title, slugCounts);
+
+                node.data ??= {};
+                node.data.hProperties = {
+                    ...node.data.hProperties,
+                    id,
+                };
+
+                if (!title) {
+                    return;
+                }
+
+                const item: TocItem = {
+                    id,
+                    title,
+                    children: [],
+                };
+
+                if (node.depth === 2) {
+                    nextToc.push(item);
+                    currentSection = item;
+                    return;
+                }
+
+                if (currentSection) {
+                    currentSection.children.push(item);
+                    return;
+                }
+
+                nextToc.push(item);
+            });
+
+            toc.splice(0, toc.length, ...nextToc);
         };
-
-        if (level === 2) {
-            toc.push(item);
-            currentSection = item;
-            continue;
-        }
-
-        if (currentSection) {
-            currentSection.children.push(item);
-            continue;
-        }
-
-        toc.push(item);
-    }
-
-    return toc;
+    };
 }
 
 function createUniqueSlug(value: string, slugCounts: Map<string, number>) {
@@ -76,28 +92,26 @@ function slugify(value: string) {
         .replace(/\s+/g, "-");
 }
 
-function stripMarkdown(value: string) {
-    return value
-        .replace(/`([^`]+)`/g, "$1")
-        .replace(/!\[([^\]]*)\]\([^)]*\)/g, "$1")
-        .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
-        .replace(/<[^>]+>/g, "")
-        .replace(/[~*_]/g, "")
-        .trim();
+function visitTree(node: MdastNode, visitor: (node: MdastNode) => void) {
+    visitor(node);
+
+    for (const child of node.children ?? []) {
+        visitTree(child, visitor);
+    }
 }
 
-function extractText(node: ReactNode): string {
-    if (typeof node === "string" || typeof node === "number") {
-        return String(node);
+function extractNodeText(node: MdastNode): string {
+    if (node.type === "text" || node.type === "inlineCode") {
+        return node.value ?? "";
     }
 
-    if (Array.isArray(node)) {
-        return node.map(extractText).join("");
+    if (node.type === "image") {
+        return node.alt ?? "";
     }
 
-    if (isValidElement<{ children?: ReactNode }>(node)) {
-        return extractText(node.props.children);
+    if (node.type === "break") {
+        return " ";
     }
 
-    return "";
+    return (node.children ?? []).map(extractNodeText).join("");
 }

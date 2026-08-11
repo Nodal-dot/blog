@@ -9,7 +9,7 @@ interface PostTocProps {
 export const PostToc: React.FC<PostTocProps> = ({ toc, label }) => {
     return (
         <aside id="toc" className={styles["post-toc"]}>
-            <h4 className={styles["post-toc__title"]}>{label}</h4>
+            <h2 className={styles["post-toc__title"]}>{label}</h2>
 
             <ul className={styles["post-toc__list"]}>
                 {toc.map((item) => (
