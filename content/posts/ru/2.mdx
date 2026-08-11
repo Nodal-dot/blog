@@ -36,7 +36,7 @@ tags:
 Вместо этого:
 
 ```tsx
-className="grid grid-cols-3 gap-6"
+className = "grid grid-cols-3 gap-6";
 ```
 
 И неважно, кто писал этот код — большинство разработчиков сразу понимают, что он делает.
@@ -57,13 +57,13 @@ className="grid grid-cols-3 gap-6"
 
 Стек:
 
-* React 19 + TypeScript + Vite
-* React Router с lazy loading страниц
-* Redux Toolkit + RTK Query
-* MSW + локальный mock API
-* Tailwind CSS v4
-* class-variance-authority + tailwind-merge
-* GSAP для возможных анимаций
+- React 19 + TypeScript + Vite
+- React Router с lazy loading страниц
+- Redux Toolkit + RTK Query
+- MSW + локальный mock API
+- Tailwind CSS v4
+- class-variance-authority + tailwind-merge
+- GSAP для возможных анимаций
 
 Архитектура разделена по слоям:
 
@@ -92,9 +92,9 @@ shared
 
 В связке с `cva` получилось удобно описывать разные состояния и варианты UI-элементов:
 
-* `Button`
-* `TaskColumn`
-* `Tabs`
+- `Button`
+- `TaskColumn`
+- `Tabs`
 
 Например, вместо большого количества условных классов можно централизовать варианты через `cva`.
 
@@ -112,16 +112,16 @@ Auth-страницу удалось собрать довольно быстр�
 
 Например:
 
-* `src/pages/auth/ui/Page.tsx`
-* `src/widgets/sidebar/ui/Sidebar.tsx`
-* `src/App.tsx`
+- `src/pages/auth/ui/Page.tsx`
+- `src/widgets/sidebar/ui/Sidebar.tsx`
+- `src/App.tsx`
 
 Когда `className` начинает содержать десятки utility-классов, структура JSX становится менее читаемой.
 
 Особенно это заметно, когда появляются многочисленные состояния и responsive-варианты:
 
 ```tsx
-className="... md:... lg:... hover:... focus:..."
+className = "... md:... lg:... hover:... focus:...";
 ```
 
 В какой-то момент приходится сначала разбирать классы, а уже потом понимать структуру самого блока.

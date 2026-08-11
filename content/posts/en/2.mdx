@@ -36,7 +36,7 @@ Grids, flex layouts, spacing, colors, and sizing no longer require your own help
 Instead, you write this:
 
 ```tsx
-className="grid grid-cols-3 gap-6"
+className = "grid grid-cols-3 gap-6";
 ```
 
 And it does not matter who wrote the code, most developers immediately understand what it does.
@@ -57,13 +57,13 @@ As an experiment, I built a frontend SPA for a todo app.
 
 Stack:
 
-* React 19 + TypeScript + Vite
-* React Router with lazy-loaded pages
-* Redux Toolkit + RTK Query
-* MSW + local mock API
-* Tailwind CSS v4
-* class-variance-authority + tailwind-merge
-* GSAP for potential animations
+- React 19 + TypeScript + Vite
+- React Router with lazy-loaded pages
+- Redux Toolkit + RTK Query
+- MSW + local mock API
+- Tailwind CSS v4
+- class-variance-authority + tailwind-merge
+- GSAP for potential animations
 
 The architecture is split into layers:
 
@@ -92,9 +92,9 @@ For simple UI blocks, this is genuinely convenient: there is no need to create a
 
 Together with `cva`, it became convenient to describe different states and UI variants:
 
-* `Button`
-* `TaskColumn`
-* `Tabs`
+- `Button`
+- `TaskColumn`
+- `Tabs`
 
 For example, instead of scattering a lot of conditional classes around the JSX, you can centralize variants through `cva`.
 
@@ -112,16 +112,16 @@ The main drawback showed up in large JSX blocks.
 
 For example:
 
-* `src/pages/auth/ui/Page.tsx`
-* `src/widgets/sidebar/ui/Sidebar.tsx`
-* `src/App.tsx`
+- `src/pages/auth/ui/Page.tsx`
+- `src/widgets/sidebar/ui/Sidebar.tsx`
+- `src/App.tsx`
 
 When `className` starts containing dozens of utility classes, the JSX structure becomes less readable.
 
 This becomes especially noticeable when you add many states and responsive variants:
 
 ```tsx
-className="... md:... lg:... hover:... focus:..."
+className = "... md:... lg:... hover:... focus:...";
 ```
 
 At some point you find yourself decoding the classes first and only then understanding the structure of the block itself.
