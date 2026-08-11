@@ -30,6 +30,8 @@ const PostCard: FC<PostCardProps> = ({
     ...otherProps
 }) => {
     const { startTransition } = usePageTransition();
+    const hasImage = image.src.trim().length > 0;
+    const hasVideo = videoUrl.trim().length > 0;
 
     return (
         <article data-id={id} className={classNames(styles["post-card"])} {...otherProps}>
@@ -46,24 +48,28 @@ const PostCard: FC<PostCardProps> = ({
             {subtitle && <p className={styles["post-card__subtitle"]}>{subtitle}</p>}
 
             <div className={styles["post-card__media"]}>
-                <Image
-                    src={image.src}
-                    alt={image.alt}
-                    width={1200}
-                    height={675}
-                    className={styles["post-card__image"]}
-                />
+                {hasImage && (
+                    <Image
+                        src={image.src}
+                        alt={image.alt}
+                        width={1200}
+                        height={675}
+                        className={styles["post-card__image"]}
+                    />
+                )}
 
-                <video
-                    src={videoUrl}
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                    className={styles["post-card__video"]}
-                    aria-hidden="true"
-                    tabIndex={-1}
-                />
+                {hasVideo && (
+                    <video
+                        src={videoUrl}
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                        className={styles["post-card__video"]}
+                        aria-hidden="true"
+                        tabIndex={-1}
+                    />
+                )}
             </div>
             <Tags tags={tags} />
         </article>
