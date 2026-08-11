@@ -1,6 +1,6 @@
 "use client";
 
-import React, { type FC } from "react";
+import type { FC } from "react";
 import styles from "./AboutHero.module.scss";
 import { classNames } from "@/shared/lib/classNames";
 import dynamic from "next/dynamic";

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import type { FC } from "react";
 import styles from "./MainHero.module.scss";
 import Button from "@/shared/ui/Button";
 import { classNames } from "@/shared/lib/classNames";
@@ -15,7 +15,7 @@ const Eye = dynamic(() => import("./Eye"), {
     loading: () => <Skeleton />,
 });
 
-export const MainHero: React.FC = () => {
+export const MainHero: FC = () => {
     const t = useTranslations("HomePage.MainHero");
 
     return (

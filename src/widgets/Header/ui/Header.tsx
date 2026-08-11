@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useRef, type FC } from "react";
+import { useEffect, useMemo, useRef, type FC } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import styles from "./Header.module.scss";
 

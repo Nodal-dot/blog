@@ -29,15 +29,15 @@ export function readPostFrontmatters(locale: string): PostFrontmatter[] {
 
             return {
                 id,
-                title: String(data.title ?? ""),
-                subtitle: String(data.subtitle ?? ""),
-                imageSrc: String(data.imageSrc ?? ""),
-                imageAlt: String(data.imageAlt ?? ""),
-                videoUrl: String(data.videoUrl ?? ""),
-                tags: Array.isArray(data.tags)
-                    ? data.tags.filter((tag): tag is string => typeof tag === "string")
+                title: String(data["title"] ?? ""),
+                subtitle: String(data["subtitle"] ?? ""),
+                imageSrc: String(data["imageSrc"] ?? ""),
+                imageAlt: String(data["imageAlt"] ?? ""),
+                videoUrl: String(data["videoUrl"] ?? ""),
+                tags: Array.isArray(data["tags"])
+                    ? data["tags"].filter((tag): tag is string => typeof tag === "string")
                     : [],
-                date: String(data.date ?? ""),
+                date: String(data["date"] ?? ""),
             } satisfies PostFrontmatter;
         });
 }

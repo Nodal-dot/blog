@@ -5,10 +5,10 @@ import style from "./Tag.module.scss";
 import { classNames } from "@/shared/lib/classNames";
 
 export interface TagProps {
-    tagAs?: React.ElementType;
-    children?: React.ReactNode;
-    className?: string;
-    onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+    tagAs?: React.ElementType | undefined;
+    children?: React.ReactNode | undefined;
+    className?: string | undefined;
+    onClick?: ((e: React.MouseEvent<HTMLButtonElement>) => void) | undefined;
 }
 
 const TagComponent: FC<TagProps> = ({

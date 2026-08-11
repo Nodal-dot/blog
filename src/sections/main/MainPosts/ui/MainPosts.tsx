@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, type FC } from "react";
+import { useState, type FC } from "react";
 import dynamic from "next/dynamic";
 
 import styles from "./MainPosts.module.scss";
@@ -29,9 +29,10 @@ export const MainPosts: FC<MainPostsProps> = (props) => {
 
             {!isSwiperReady && <Skeleton />}
             <div
-                className={classNames(styles["main-posts__content"], {
-                    [styles["main-posts__content--hidden"]]: !isSwiperReady,
-                })}
+                className={classNames(
+                    styles["main-posts__content"],
+                    !isSwiperReady && styles["main-posts__content--hidden"]
+                )}
             >
                 <PostsSwiper
                     posts={posts}

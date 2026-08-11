@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { BASE_SEO, resolveAbsoluteAssetUrl } from "./seo";
 import type { Locale } from "@/shared/i18n/types";
 import { routing } from "@/shared/i18n/routing";
+import { assertDefined } from "@/shared/lib/assert";
 
 interface PageSEOParams {
     title: string;
@@ -50,7 +51,10 @@ export async function createPageMetadata({
         return acc;
     }, {});
 
-    localizedAlternates["x-default"] = localizedAlternates[routing.defaultLocale];
+    localizedAlternates["x-default"] = assertDefined(
+        localizedAlternates[routing.defaultLocale],
+        "Default locale alternate is required"
+    );
 
     return {
         title: {

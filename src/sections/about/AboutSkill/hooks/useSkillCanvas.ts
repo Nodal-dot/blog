@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import * as THREE from "three";
+import { assertDefined } from "@/shared/lib/assert";
 import {
     generateGoldenSphereCube,
     createSkillPoints,
@@ -20,13 +21,16 @@ const ARC_STEPS = 28;
 
 const readColor = (name: string, fallback: string) => {
     const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
-    if (v.startsWith("rgb")) {
+        if (v.startsWith("rgb")) {
         const m = v.match(/[\d.]+/g);
         if (m) {
-            const [r, g, b] = m.map((n) => Math.round(parseFloat(n)));
+            const channels = m.map((n) => Math.round(parseFloat(n)));
+            const r = assertDefined(channels[0], `Missing red color channel for ${name}`);
+            const g = assertDefined(channels[1], `Missing green color channel for ${name}`);
+            const b = assertDefined(channels[2], `Missing blue color channel for ${name}`);
             return (r << 16) | (g << 8) | b;
         }
-    }
+        }
     return parseInt(v.replace(/^#/, "0x"), 16);
 };
 
@@ -123,8 +127,10 @@ export function useSkillCanvas({ canvasRef, tooltipRef }: UseSkillCanvasProps) {
         neighborIndices.forEach((neighbors, i) => {
             neighbors.forEach((j) => {
                 if (i >= j) return;
+                const startPoint = assertDefined(skillPoints[i], "Start skill point is required");
+                const endPoint = assertDefined(skillPoints[j], "End skill point is required");
                 const line = new THREE.Line(
-                    makeCurvedGeometry(skillPoints[i].position, skillPoints[j].position),
+                    makeCurvedGeometry(startPoint.position, endPoint.position),
                     new THREE.LineBasicMaterial({
                         color: cssLineColor,
                         transparent: true,
@@ -216,11 +222,13 @@ export function useSkillCanvas({ canvasRef, tooltipRef }: UseSkillCanvasProps) {
             raycaster.setFromCamera(mouse, camera);
             const intersects = raycaster.intersectObjects(particles);
             const hovered = intersects[0]?.object as THREE.Sprite | undefined;
-            activeIndex = hovered ? hovered.userData.index : -1;
+            activeIndex = hovered ? (hovered.userData["index"] as number) : -1;
 
             if (tooltipRef.current) {
                 if (hovered) {
-                    tooltipRef.current.textContent = hovered.userData.skillPoint.name;
+                    tooltipRef.current.textContent = (
+                        hovered.userData["skillPoint"] as SkillPoint
+                    ).name;
                     tooltipRef.current.style.cssText = `display:block;left:${e.clientX + 12}px;top:${e.clientY + 12}px;`;
                 } else {
                     tooltipRef.current.style.display = "none";
@@ -235,7 +243,8 @@ export function useSkillCanvas({ canvasRef, tooltipRef }: UseSkillCanvasProps) {
             raycaster.setFromCamera(new THREE.Vector2(x, y), camera);
             const intersects = raycaster.intersectObjects(particles);
             if (!intersects.length) return;
-            const sp = (intersects[0].object as THREE.Sprite).userData.skillPoint as SkillPoint;
+            const hovered = assertDefined(intersects[0], "Intersected sprite is required");
+            const sp = (hovered.object as THREE.Sprite).userData["skillPoint"] as SkillPoint;
             const posNorm = sp.position.clone().normalize();
             clickAnim.active = true;
             clickAnim.start = group.quaternion.clone();
@@ -300,7 +309,7 @@ export function useSkillCanvas({ canvasRef, tooltipRef }: UseSkillCanvasProps) {
             particles.forEach((sprite) => {
                 const wp = sprite.position.clone().applyQuaternion(q);
                 const isFront = wp.z > 0;
-                const idx = sprite.userData.index as number;
+                const idx = sprite.userData["index"] as number;
                 if (isFront) frontSet.add(idx);
 
                 const depth = (wp.z + CONFIG.RADIUS) / (2 * CONFIG.RADIUS);
@@ -308,7 +317,7 @@ export function useSkillCanvas({ canvasRef, tooltipRef }: UseSkillCanvasProps) {
                 sprite.scale.set(s, s, 1);
 
                 const material = sprite.material as THREE.SpriteMaterial;
-                const baseOpacity = material.userData?.baseOpacity ?? 0.8;
+                const baseOpacity = (material.userData?.["baseOpacity"] as number | undefined) ?? 0.8;
                 const isCurrent = activeIndex === idx;
                 material.opacity =
                     activeIndex >= 0
@@ -324,7 +333,8 @@ export function useSkillCanvas({ canvasRef, tooltipRef }: UseSkillCanvasProps) {
             });
 
             lines.forEach((line) => {
-                const { startIdx, endIdx } = line.userData;
+                const startIdx = line.userData["startIdx"] as number;
+                const endIdx = line.userData["endIdx"] as number;
                 const material = line.material as THREE.LineBasicMaterial;
                 const isHovered =
                     activeIndex >= 0 && (startIdx === activeIndex || endIdx === activeIndex);

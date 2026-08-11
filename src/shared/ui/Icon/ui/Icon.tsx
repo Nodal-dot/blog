@@ -10,10 +10,10 @@ export type { IconName } from "./paths";
 export interface IconProps {
     name: IconName;
     size?: number;
-    color?: string;
-    className?: string;
-    ariaLabel?: string;
-    style?: CSSProperties;
+    color?: string | undefined;
+    className?: string | undefined;
+    ariaLabel?: string | undefined;
+    style?: CSSProperties | undefined;
 }
 
 const IconComponent: FC<IconProps> = ({ name, size = 24, color, className, ariaLabel, style }) => {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { type FC } from "react";
+import type { FC } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 
@@ -13,8 +13,8 @@ import type { Post } from "@/entities/post";
 
 interface PostsSwiperProps {
     posts: Post[];
-    onReady?: () => void;
-    paginationClassName: string;
+    onReady?: (() => void) | undefined;
+    paginationClassName: string | undefined;
 }
 const PostsSwiper: FC<PostsSwiperProps> = (props) => {
     const { posts, onReady, paginationClassName } = props;

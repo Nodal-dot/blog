@@ -90,9 +90,7 @@ export const PageTransitionProvider = ({ children }: { children: ReactNode }) =>
     const loaderPortal = mounted
         ? createPortal(
               <div
-                  className={classNames(styles["loader"], {
-                      [styles["loader--active"]]: isAnimating,
-                  })}
+                  className={classNames(styles["loader"], isAnimating && styles["loader--active"])}
               />,
               document.body
           )

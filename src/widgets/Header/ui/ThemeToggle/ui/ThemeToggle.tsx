@@ -5,6 +5,7 @@ import { Icon } from "@/shared/ui/Icon";
 import { useTranslations } from "next-intl";
 import styles from "./ThemeToggle.module.scss";
 import { useTheme } from "@/app/providers/theme";
+import { classNames } from "@/shared/lib/classNames";
 
 const subscribe = () => () => undefined;
 const getClientSnapshot = () => true;
@@ -28,7 +29,7 @@ const ThemeToggle: React.FC = () => {
             onClick={toggleTheme}
             aria-label={actionLabel}
             title={actionLabel}
-            className={`${styles["theme-toggle"]} ${theme === "dark" ? styles["theme-toggle--dark"] : ""}`}
+            className={classNames(styles["theme-toggle"], theme === "dark" && styles["theme-toggle--dark"])}
             data-theme={theme}
             data-preference={preference}
         >

@@ -13,6 +13,7 @@ import { createPageMetadata } from "../../metadata";
 import remarkGfm from "remark-gfm";
 import { getTranslations } from "next-intl/server";
 import { BASE_SEO, resolveAbsoluteAssetUrl } from "../../seo";
+import { assertDefined } from "@/shared/lib/assert";
 
 export async function generateMetadata({
     params,
@@ -27,15 +28,18 @@ export async function generateMetadata({
     const source = fs.readFileSync(file, "utf8");
     const { data } = matter(source);
 
-    const tags: string[] = Array.isArray(data.tags) ? data.tags : [];
+    const tags: string[] = Array.isArray(data["tags"]) ? data["tags"] : [];
+    const title = String(data["title"] ?? "");
+    const subtitle = String(data["subtitle"] ?? title);
+    const imageSrc = data["imageSrc"];
 
     return createPageMetadata({
-        title: data.title,
-        description: data.subtitle || data.title,
+        title,
+        description: subtitle,
         keywords: tags.join(","),
-        openGraphTitle: data.title,
-        openGraphDescription: data.subtitle || data.title,
-        openGraphImage: data.imageSrc,
+        openGraphTitle: title,
+        openGraphDescription: subtitle,
+        ...(typeof imageSrc === "string" ? { openGraphImage: imageSrc } : {}),
         openGraphType: "article",
         path: `/${locale}/posts/${slug}`,
         locale,
@@ -84,8 +88,9 @@ export default async function PostPage({ params }: PostPageProps) {
         },
     };
 
-    const postUrl = `${BASE_SEO[locale].url}/${locale}/posts/${slug}`;
-    const imageUrl = resolveAbsoluteAssetUrl(BASE_SEO[locale].url, post.image.src);
+    const baseSeo = assertDefined(BASE_SEO[locale], `SEO config for locale ${locale} is required`);
+    const postUrl = `${baseSeo.url}/${locale}/posts/${slug}`;
+    const imageUrl = resolveAbsoluteAssetUrl(baseSeo.url, post.image.src);
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
@@ -100,12 +105,12 @@ export default async function PostPage({ params }: PostPageProps) {
         author: {
             "@type": "Person",
             name: "Vladimir",
-            url: `${BASE_SEO[locale].url}/${locale}`,
+            url: `${baseSeo.url}/${locale}`,
         },
         publisher: {
             "@type": "Person",
             name: "Vladimir",
-            url: `${BASE_SEO[locale].url}/${locale}`,
+            url: `${baseSeo.url}/${locale}`,
         },
     };
 

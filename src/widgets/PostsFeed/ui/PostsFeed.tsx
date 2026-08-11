@@ -1,6 +1,6 @@
 "use client";
 
-import React, { memo, useCallback, useMemo, useState, type FC } from "react";
+import { memo, useCallback, useMemo, useState, type FC } from "react";
 
 import type { ViewMode } from "@/shared/ui/PostCard";
 import type { Post } from "@/entities/post";

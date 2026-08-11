@@ -1,6 +1,6 @@
 "use client";
 
-import React, { type FC } from "react";
+import type { FC } from "react";
 import styles from "./MobileMenu.module.scss";
 import Link from "@/shared/ui/Link";
 import { usePathname } from "@/shared/i18n/navigation";
@@ -26,9 +26,7 @@ export const MobileMenu: FC<MobileMenuProps> = (props) => {
                 onClick={toggleModal}
                 aria-expanded={open}
                 aria-label={open ? t("closeMenu") : t("openMenu")}
-                className={classNames(`${styles["mobile-menu__trigger"]}`, {
-                    [styles["mobile-menu__trigger--active"]]: open,
-                })}
+                className={classNames(styles["mobile-menu__trigger"], open && styles["mobile-menu__trigger--active"])}
             >
                 <span className={styles["mobile-menu__line"]} />
                 <span className={styles["mobile-menu__line"]} />

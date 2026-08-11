@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, type FC } from "react";
+import { useState, type FC } from "react";
 import dynamic from "next/dynamic";
 import styles from "./AboutSkill.module.scss";
 import { classNames } from "@/shared/lib/classNames";
@@ -23,9 +23,10 @@ export const AboutSkill: FC = () => {
             {!isCanvasReady && <Skeleton />}
 
             <div
-                className={classNames(styles["about-skill__canvas-wrapper"], "", {
-                    [styles["about-skill__canvas-wrapper--hidden"]]: !isCanvasReady,
-                })}
+                className={classNames(
+                    styles["about-skill__canvas-wrapper"],
+                    !isCanvasReady && styles["about-skill__canvas-wrapper--hidden"]
+                )}
             >
                 <SkillCanvasWrapper onReady={() => setIsCanvasReady(true)} />
             </div>

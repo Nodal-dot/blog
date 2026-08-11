@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useRef, useState, type FC } from "react";
+import { useRef, useState, type FC } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import Prism from "prismjs";
 
+import { assertDefined } from "@/shared/lib/assert";
 import { classNames } from "@/shared/lib/classNames";
 import { initGsap } from "@/shared/lib/gsap/init";
 import styles from "./Workspace.module.scss";
@@ -68,7 +69,7 @@ export const Workspace: FC = () => {
 
             codeRef.current.innerHTML = Prism.highlight(
                 currentText,
-                Prism.languages.javascript,
+                assertDefined(Prism.languages["javascript"], "Prism javascript grammar is required"),
                 "javascript"
             );
 
@@ -89,7 +90,7 @@ export const Workspace: FC = () => {
 
         codeRef.current.innerHTML = Prism.highlight(
             FULL_SOURCE_CODE,
-            Prism.languages.javascript,
+            assertDefined(Prism.languages["javascript"], "Prism javascript grammar is required"),
             "javascript"
         );
 
@@ -99,7 +100,9 @@ export const Workspace: FC = () => {
             const height = codeContainerRef.current.scrollHeight;
             codeContainerRef.current.style.height = `${height}px`;
 
-            codeRef.current!.innerHTML = "";
+            if (codeRef.current) {
+                codeRef.current.innerHTML = "";
+            }
             layoutRafRef.current = null;
         });
     };
@@ -190,9 +193,7 @@ export const Workspace: FC = () => {
     return (
         <div
             ref={wrapperRef}
-            className={classNames(styles["workspace"], {
-                [styles["workspace--light-on"]]: lightOn,
-            })}
+            className={classNames(styles["workspace"], lightOn && styles["workspace--light-on"])}
             aria-hidden
         >
             <div className={styles["workspace__monitor-group"]}>

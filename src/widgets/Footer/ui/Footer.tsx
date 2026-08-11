@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./Footer.module.scss";
 import ScrollButton from "@/shared/ui/ScrollButton";
 import Link from "@/shared/ui/Link";

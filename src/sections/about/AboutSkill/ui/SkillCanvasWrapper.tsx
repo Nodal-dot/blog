@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useRef, useEffect, type FC } from "react";
+import { useRef, useEffect, type FC } from "react";
 import styles from "./AboutSkill.module.scss";
 import { useSkillCanvas } from "../hooks/useSkillCanvas";
 
 interface SkillCanvasWrapperProps {
-    onReady?: () => void;
+    onReady?: (() => void) | undefined;
 }
 
 const SkillCanvasWrapper: FC<SkillCanvasWrapperProps> = ({ onReady }) => {

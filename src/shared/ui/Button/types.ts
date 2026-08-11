@@ -4,10 +4,10 @@ interface BaseButtonProps {
     children?: ReactNode;
     leftIcon?: ReactNode;
     rightIcon?: ReactNode;
-    className?: string;
+    className?: string | undefined;
     hovered?: boolean;
-    ariaLabel?: string;
-    href?: string;
+    ariaLabel?: string | undefined;
+    href?: string | undefined;
     disabled?: boolean;
 }
 

@@ -45,7 +45,7 @@ const Button = (props: ButtonComponentProps) => {
                 aria-label={ariaLabel}
                 className={classNames(
                     style["button"],
-                    { [style["button--hovered"]]: hovered },
+                    hovered && style["button--hovered"],
                     className
                 )}
                 {...anchorProps}
@@ -65,10 +65,8 @@ const Button = (props: ButtonComponentProps) => {
             aria-label={ariaLabel}
             className={classNames(
                 style["button"],
-                {
-                    [style["button--disabled"]]: disabled,
-                    [style["button--hovered"]]: hovered,
-                },
+                disabled && style["button--disabled"],
+                hovered && style["button--hovered"],
                 className
             )}
             {...buttonProps}

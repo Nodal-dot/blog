@@ -1,12 +1,13 @@
 "use client";
 
-import React, { type FC, useRef } from "react";
+import { type FC, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { useTranslations } from "next-intl";
 import { Icon } from "@/shared/ui/Icon";
 import Tags from "@/shared/ui/Tags";
+import { assertDefined } from "@/shared/lib/assert";
 import { classNames } from "@/shared/lib/classNames";
 import { debounce } from "@/shared/lib/debounce";
 import { initGsap } from "@/shared/lib/gsap/init";
@@ -56,8 +57,10 @@ export const AboutPath: FC = () => {
             const getItemCenter = (item: HTMLElement) => item.offsetTop + item.offsetHeight / 2;
 
             const calculatePositions = () => {
-                startY = getItemCenter(items[0]);
-                endY = getItemCenter(items[items.length - 1]);
+                startY = getItemCenter(assertDefined(items[0], "First path item is required"));
+                endY = getItemCenter(
+                    assertDefined(items[items.length - 1], "Last path item is required")
+                );
                 distance = endY - startY;
 
                 gsap.set(progress, { y: startY, height: distance, scaleY: 0 });
@@ -75,9 +78,12 @@ export const AboutPath: FC = () => {
             let lastActiveIndex = -1;
 
             const trigger = ScrollTrigger.create({
-                trigger: items[0],
+                trigger: assertDefined(items[0], "First path item is required"),
                 start: "top center",
-                endTrigger: items[items.length - 1],
+                endTrigger: assertDefined(
+                    items[items.length - 1],
+                    "Last path item is required"
+                ),
                 end: "center center",
                 scrub: 0.5,
 
@@ -87,8 +93,12 @@ export const AboutPath: FC = () => {
                     const isVisible = p > 0 && p < 1;
 
                     if (isVisible !== lastVisible) {
-                        ball.classList.toggle(styles["is-visible"], isVisible);
-                        progress.classList.toggle(styles["is-visible"], isVisible);
+                        const visibleClass = assertDefined(
+                            styles["is-visible"],
+                            "Visible class is required"
+                        );
+                        ball.classList.toggle(visibleClass, isVisible);
+                        progress.classList.toggle(visibleClass, isVisible);
                         lastVisible = isVisible;
                     }
 
@@ -99,11 +109,17 @@ export const AboutPath: FC = () => {
                     const activeIndex = Math.round(p * (items.length - 1));
 
                     if (activeIndex !== lastActiveIndex) {
-                        if (lastActiveIndex >= 0 && items[lastActiveIndex]) {
-                            items[lastActiveIndex].classList.remove(styles["is-active"]);
+                        const activeClass = assertDefined(
+                            styles["is-active"],
+                            "Active class is required"
+                        );
+                        const previousItem = items[lastActiveIndex];
+                        if (lastActiveIndex >= 0 && previousItem) {
+                            previousItem.classList.remove(activeClass);
                         }
-                        if (items[activeIndex]) {
-                            items[activeIndex].classList.add(styles["is-active"]);
+                        const activeItem = items[activeIndex];
+                        if (activeItem) {
+                            activeItem.classList.add(activeClass);
                         }
                         lastActiveIndex = activeIndex;
                     }

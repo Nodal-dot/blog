@@ -10,9 +10,9 @@ interface ModalProps {
     open: boolean;
     onClose: () => void;
     children: React.ReactNode;
-    title?: string;
-    description?: string;
-    contentClassName?: string;
+    title?: string | undefined;
+    description?: string | undefined;
+    contentClassName?: string | undefined;
 }
 
 const Modal: FC<ModalProps> = (props) => {
@@ -60,9 +60,7 @@ const Modal: FC<ModalProps> = (props) => {
 
     return createPortal(
         <div
-            className={classNames(styles["modal__backdrop"], {
-                [styles["modal__backdrop--visible"]]: open,
-            })}
+            className={classNames(styles["modal__backdrop"], open && styles["modal__backdrop--visible"])}
             onClick={onClose}
             aria-hidden={!open}
         >
@@ -70,9 +68,7 @@ const Modal: FC<ModalProps> = (props) => {
                 ref={modalRef}
                 className={classNames(
                     styles["modal__content"],
-                    {
-                        [styles["modal__content--open"]]: open,
-                    },
+                    open && styles["modal__content--open"],
                     contentClassName
                 )}
                 role="dialog"
