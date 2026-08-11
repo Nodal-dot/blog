@@ -42,7 +42,11 @@
 
             position: absolute;
             inset: 0;
-            transform: translate3d(calc((clamp(0, var(--post-scroll-progress), 1) - 1) * 100%), 0, 0);
+            transform: translate3d(
+                calc((clamp(0, var(--post-scroll-progress), 1) - 1) * 100%),
+                0,
+                0
+            );
 
             background: var(--text-color);
         }
