@@ -79,7 +79,10 @@ export const NotFound = () => {
             <p className={styles["not-found__message"]}>{t("message")}</p>
             <Button
                 ref={buttonRef}
-                className={classNames(styles["not-found__button"], animate && styles["not-found__button--ghost"])}
+                className={classNames(
+                    styles["not-found__button"],
+                    animate && styles["not-found__button--ghost"]
+                )}
                 onClick={startHomeNavigation}
             >
                 {t("button")}
@@ -89,7 +92,10 @@ export const NotFound = () => {
                 {tiles.map((_, i) => (
                     <div
                         key={`tile-${Math.floor(i / cols)}-${i % cols}`}
-                        className={classNames(styles["not-found__tile"], animate && styles["active"])}
+                        className={classNames(
+                            styles["not-found__tile"],
+                            animate && styles["active"]
+                        )}
                         style={{ transitionDelay: `${delays[i] || 0}s` }}
                     />
                 ))}

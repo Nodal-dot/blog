@@ -80,10 +80,7 @@ export const AboutPath: FC = () => {
             const trigger = ScrollTrigger.create({
                 trigger: assertDefined(items[0], "First path item is required"),
                 start: "top center",
-                endTrigger: assertDefined(
-                    items[items.length - 1],
-                    "Last path item is required"
-                ),
+                endTrigger: assertDefined(items[items.length - 1], "Last path item is required"),
                 end: "center center",
                 scrub: 0.5,
 

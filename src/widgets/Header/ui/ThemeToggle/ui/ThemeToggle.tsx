@@ -29,7 +29,10 @@ const ThemeToggle: React.FC = () => {
             onClick={toggleTheme}
             aria-label={actionLabel}
             title={actionLabel}
-            className={classNames(styles["theme-toggle"], theme === "dark" && styles["theme-toggle--dark"])}
+            className={classNames(
+                styles["theme-toggle"],
+                theme === "dark" && styles["theme-toggle--dark"]
+            )}
             data-theme={theme}
             data-preference={preference}
         >

@@ -21,7 +21,7 @@ const ARC_STEPS = 28;
 
 const readColor = (name: string, fallback: string) => {
     const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
-        if (v.startsWith("rgb")) {
+    if (v.startsWith("rgb")) {
         const m = v.match(/[\d.]+/g);
         if (m) {
             const channels = m.map((n) => Math.round(parseFloat(n)));
@@ -30,7 +30,7 @@ const readColor = (name: string, fallback: string) => {
             const b = assertDefined(channels[2], `Missing blue color channel for ${name}`);
             return (r << 16) | (g << 8) | b;
         }
-        }
+    }
     return parseInt(v.replace(/^#/, "0x"), 16);
 };
 
@@ -317,7 +317,8 @@ export function useSkillCanvas({ canvasRef, tooltipRef }: UseSkillCanvasProps) {
                 sprite.scale.set(s, s, 1);
 
                 const material = sprite.material as THREE.SpriteMaterial;
-                const baseOpacity = (material.userData?.["baseOpacity"] as number | undefined) ?? 0.8;
+                const baseOpacity =
+                    (material.userData?.["baseOpacity"] as number | undefined) ?? 0.8;
                 const isCurrent = activeIndex === idx;
                 material.opacity =
                     activeIndex >= 0

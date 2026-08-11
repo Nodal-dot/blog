@@ -23,7 +23,11 @@ export const Tags: FC<TagsProps> = ({ tags, className = "", as: Wrapper = "ul", 
     return (
         <Wrapper className={classNames(style["tags"], className)}>
             {tags.map((tag, index) => {
-                return <Tag {...(tagAs ? { tagAs } : {})} key={index}>{tag}</Tag>;
+                return (
+                    <Tag {...(tagAs ? { tagAs } : {})} key={index}>
+                        {tag}
+                    </Tag>
+                );
             })}
         </Wrapper>
     );

@@ -60,7 +60,10 @@ const Modal: FC<ModalProps> = (props) => {
 
     return createPortal(
         <div
-            className={classNames(styles["modal__backdrop"], open && styles["modal__backdrop--visible"])}
+            className={classNames(
+                styles["modal__backdrop"],
+                open && styles["modal__backdrop--visible"]
+            )}
             onClick={onClose}
             aria-hidden={!open}
         >

@@ -69,7 +69,10 @@ export const Workspace: FC = () => {
 
             codeRef.current.innerHTML = Prism.highlight(
                 currentText,
-                assertDefined(Prism.languages["javascript"], "Prism javascript grammar is required"),
+                assertDefined(
+                    Prism.languages["javascript"],
+                    "Prism javascript grammar is required"
+                ),
                 "javascript"
             );
 

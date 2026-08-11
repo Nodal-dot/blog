@@ -26,7 +26,10 @@ export const MobileMenu: FC<MobileMenuProps> = (props) => {
                 onClick={toggleModal}
                 aria-expanded={open}
                 aria-label={open ? t("closeMenu") : t("openMenu")}
-                className={classNames(styles["mobile-menu__trigger"], open && styles["mobile-menu__trigger--active"])}
+                className={classNames(
+                    styles["mobile-menu__trigger"],
+                    open && styles["mobile-menu__trigger--active"]
+                )}
             >
                 <span className={styles["mobile-menu__line"]} />
                 <span className={styles["mobile-menu__line"]} />
