@@ -5,6 +5,7 @@ import Header from "@/widgets/Header";
 import Footer from "@/widgets/Footer";
 import type { ReactNode } from "react";
 import type { Viewport } from "next";
+import LocaleHtmlLang from "./LocaleHtmlLang";
 import { ThemeProvider } from "../providers/theme";
 import { PageTransitionProvider } from "../providers/transition";
 import { ResponsiveProvider } from "../providers/responsive";
@@ -26,6 +27,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
 
     return (
         <NextIntlClientProvider locale={locale}>
+            <LocaleHtmlLang locale={locale} />
             <ThemeProvider>
                 <PageTransitionProvider>
                     <ResponsiveProvider>

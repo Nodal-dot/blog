@@ -1,42 +1,17 @@
-import js from "@eslint/js";
-import globals from "globals";
-import tseslint from "typescript-eslint";
-import pluginReact from "eslint-plugin-react";
-import pluginReactHooks from "eslint-plugin-react-hooks";
-import { FlatCompat } from "@eslint/eslintrc";
-import { defineConfig } from "eslint/config";
-import path from "path";
-
-const compat = new FlatCompat({
-    baseDirectory: path.resolve("."),
-});
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
+import prettier from "eslint-config-prettier/flat";
 
 export default defineConfig([
+    ...nextVitals,
+    ...nextTs,
     {
-        files: ["**/*.{js,jsx,ts,tsx}"],
-        plugins: {
-            js,
-            react: pluginReact,
-            "react-hooks": pluginReactHooks,
-        },
-        languageOptions: { globals: globals.browser },
-        rules: {
-            "react/react-in-jsx-scope": "off",
-            "react-hooks/rules-of-hooks": "error",
-            "react-hooks/exhaustive-deps": "warn",
-        },
-        settings: {
-            react: { version: "detect" },
-        },
-    },
-
-    tseslint.configs.recommended,
-
-    ...compat.config({
-        extends: ["next/core-web-vitals"],
         rules: {
             "@next/next/no-img-element": "warn",
             "@next/next/no-html-link-for-pages": "error",
         },
-    }),
+    },
+    prettier,
+    globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts"]),
 ]);
