@@ -6,6 +6,7 @@ import type { Locale } from "@/shared/i18n/types";
 import { notFound } from "next/navigation";
 import { compileMDX } from "next-mdx-remote/rsc";
 import PostDetail from "@/sections/post/PostDetail";
+import { buildPostToc, createPostHeadingComponent } from "@/sections/post/PostDetail";
 import type { Post } from "@/entities/post";
 import { createPageMetadata } from "../../metadata";
 import remarkGfm from "remark-gfm";
@@ -57,8 +58,15 @@ export default async function PostPage({ params }: PostPageProps) {
     if (!fs.existsSync(file)) return notFound();
 
     const source = fs.readFileSync(file, "utf8");
+    const { content: markdownContent } = matter(source);
+    const toc = buildPostToc(markdownContent);
+    const headingSlugCounts = new Map<string, number>();
     const { content, frontmatter } = await compileMDX<PostFrontmatter>({
         source,
+        components: {
+            h2: createPostHeadingComponent("h2", headingSlugCounts),
+            h3: createPostHeadingComponent("h3", headingSlugCounts),
+        },
         options: {
             parseFrontmatter: true,
             mdxOptions: {
@@ -106,7 +114,13 @@ export default async function PostPage({ params }: PostPageProps) {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
-            <PostDetail post={post} content={content} backLabel={t("backToPosts")} />
+            <PostDetail
+                post={post}
+                content={content}
+                backLabel={t("backToPosts")}
+                tocLabel={t("tocTitle")}
+                toc={toc}
+            />
         </>
     );
 }

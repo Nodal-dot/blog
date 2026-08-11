@@ -1,18 +1,28 @@
 import type { Post } from "@/entities/post";
+import type { TocItem } from "../model/types";
 import Tags from "@/shared/ui/Tags";
 import styles from "./PostDetail.module.scss";
 import { classNames } from "@/shared/lib/classNames";
 import { PostScrollProgress } from "./PostScrollProgress";
 import { PostBackLink } from "./PostBackLink";
 import { PostDetailMedia } from "./PostDetailMedia";
+import { PostToc } from "./PostToc";
 
 interface PostDetailProps {
     post: Post;
     content: React.ReactElement;
     backLabel: string;
+    tocLabel: string;
+    toc?: TocItem[];
 }
 
-export const PostDetail: React.FC<PostDetailProps> = ({ post, content, backLabel }) => {
+export const PostDetail: React.FC<PostDetailProps> = ({
+    post,
+    content,
+    backLabel,
+    tocLabel,
+    toc = [],
+}) => {
     return (
         <div className={classNames(styles["post-detail"], "section")}>
             <PostScrollProgress />
@@ -22,6 +32,7 @@ export const PostDetail: React.FC<PostDetailProps> = ({ post, content, backLabel
                     imageSrc={post.image.src}
                     imageAlt={post.image.alt}
                     videoUrl={post.videoUrl}
+                    date={post.date}
                 />
 
                 <div className={styles["post-detail__hero-content"]}>
@@ -39,7 +50,11 @@ export const PostDetail: React.FC<PostDetailProps> = ({ post, content, backLabel
                 </div>
             </header>
 
-            <article className={styles["post-detail__content"]}>{content}</article>
+            <div className={styles["post-detail__content-layout"]}>
+                <article className={styles["post-detail__content"]}>{content}</article>
+
+                {toc.length > 0 && <PostToc toc={toc} label={tocLabel} />}
+            </div>
         </div>
     );
 };

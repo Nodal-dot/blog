@@ -8,6 +8,11 @@ $fonts: (
         lh: 1.05,
         weight: 700,
     ),
+    h1-tight: (
+        size: 4.8rem,
+        lh: 0.95,
+        weight: 700,
+    ),
     h2: (
         size: 3.6rem,
         lh: 1.1,
@@ -43,8 +48,23 @@ $fonts: (
         lh: 1.6,
         weight: 500,
     ),
+    body-semibold: (
+        size: 1.8rem,
+        lh: 1.6,
+        weight: 600,
+    ),
+    body-code: (
+        size: 1.7rem,
+        lh: 1.6,
+        weight: 400,
+    ),
     button: (
         size: 2rem,
+        lh: 1,
+        weight: 600,
+    ),
+    meta: (
+        size: 1.1rem,
         lh: 1,
         weight: 600,
     ),
@@ -60,6 +80,11 @@ $fonts-tablet: (
         lh: 1.1,
         weight: 700,
     ),
+    h1-tight: (
+        size: 3.2rem,
+        lh: 0.95,
+        weight: 700,
+    ),
     h2: (
         size: 2.6rem,
         lh: 1.15,
@@ -90,6 +115,16 @@ $fonts-tablet: (
         lh: 1.6,
         weight: 500,
     ),
+    body-semibold: (
+        size: 1.6rem,
+        lh: 1.6,
+        weight: 600,
+    ),
+    body-code: (
+        size: 1.5rem,
+        lh: 1.6,
+        weight: 400,
+    ),
     body: (
         size: 1.6rem,
         lh: 1.6,
@@ -97,6 +132,11 @@ $fonts-tablet: (
     ),
     button: (
         size: 1.6rem,
+        lh: 1,
+        weight: 600,
+    ),
+    meta: (
+        size: 1.1rem,
         lh: 1,
         weight: 600,
     ),
@@ -112,6 +152,11 @@ $fonts-mobile: (
         lh: 1.1,
         weight: 700,
     ),
+    h1-tight: (
+        size: 3.2rem,
+        lh: 0.95,
+        weight: 700,
+    ),
     h2: (
         size: 2.6rem,
         lh: 1.15,
@@ -147,8 +192,23 @@ $fonts-mobile: (
         lh: 1.65,
         weight: 500,
     ),
+    body-semibold: (
+        size: 1.6rem,
+        lh: 1.65,
+        weight: 600,
+    ),
+    body-code: (
+        size: 1.5rem,
+        lh: 1.65,
+        weight: 400,
+    ),
     button: (
         size: 1.2rem,
+        lh: 1,
+        weight: 600,
+    ),
+    meta: (
+        size: 1.1rem,
         lh: 1,
         weight: 600,
     ),

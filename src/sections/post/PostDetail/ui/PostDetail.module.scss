@@ -1,13 +1,24 @@
 @use "@/shared/styles/utils/index" as *;
 
+@keyframes post-heading-target-highlight {
+    0% {
+        background-color: color-mix(in srgb, var(--text-color) 16%, transparent);
+        box-shadow: 0 0 0 0.8rem color-mix(in srgb, var(--text-color) 12%, transparent);
+    }
+
+    100% {
+        background-color: transparent;
+        box-shadow: 0 0 0 0 transparent;
+    }
+}
+
 .post-detail {
     display: flex;
     flex-direction: column;
-    gap: 6.4rem;
-    margin-top: var(--header-height);
+    gap: 3.2rem;
 
     @include mobile {
-        gap: 3.2rem;
+        gap: 2.4rem;
     }
 
     &__progress {
@@ -38,36 +49,109 @@
     }
 
     &__hero {
-        display: grid;
-        grid-template-columns: 1.2fr 0.8fr;
+        display: flex;
+        flex-direction: column-reverse;
         gap: 3.2rem;
         align-items: center;
 
+        padding: 2.4rem 4rem;
+
         @include tablet {
             display: flex;
-            flex-direction: column;
+            flex-direction: column-reverse;
             gap: 2.4rem;
+            padding: 1.2rem 4rem;
         }
 
         @include mobile {
             gap: 1.6rem;
+            padding: 1.6rem 0;
         }
     }
 
     &__hero-media-wrapper {
         position: relative;
+
         overflow: hidden;
+        display: grid;
+        grid-template-columns: minmax(3.2rem, 4.8rem) minmax(0, 1fr) minmax(3.2rem, 4.8rem);
+        gap: 1.6rem;
+        align-items: stretch;
+
+        width: 100%;
+        padding: 2rem;
+        border: 1px solid var(--background-contrast-color);
         border-radius: 3.2rem;
+
         background: var(--background-contrast-color);
 
         @include tablet {
+            grid-template-columns: 3.6rem minmax(0, 1fr) 3.6rem;
+            gap: 1.2rem;
+
             width: min(100%, 72rem);
             margin: 0 auto;
+            padding: 1.6rem;
         }
 
         @include mobile {
+            grid-template-columns: minmax(0, 1fr);
+            padding: 1.2rem;
             border-radius: 2rem;
         }
+    }
+
+    &__hero-media-frame {
+        position: relative;
+        overflow: hidden;
+        border-radius: 2.4rem;
+        background: var(--background-color);
+
+        @include mobile {
+            order: -1;
+            border-radius: 1.6rem;
+        }
+    }
+
+    &__hero-media-meta {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: space-between;
+
+        min-height: 100%;
+        padding-block: 0.4rem;
+
+        @include font-size(meta);
+
+        color: var(--text-2-color);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+
+        &[data-side="end"] {
+            align-items: flex-end;
+            text-align: right;
+        }
+
+        @include mobile {
+            display: none;
+        }
+    }
+
+    &__hero-media-meta-value,
+    &__hero-media-meta-label {
+        display: block;
+        white-space: nowrap;
+    }
+
+    &__hero-media-meta-line {
+        flex: 1;
+
+        width: 1px;
+        margin-block: 1.2rem;
+
+        opacity: 0.5;
+        background: currentcolor;
     }
 
     &__hero-media {
@@ -77,9 +161,14 @@
         width: 100%;
         height: auto;
 
-        object-fit: cover;
+        object-fit: contain;
+        background: var(--background-color);
 
         transition-property: transform, opacity, filter;
+
+        :global([data-theme="dark"]) & {
+            background: var(--background-contrast-color);
+        }
     }
 
     &__play-button {
@@ -222,7 +311,7 @@
     }
 
     &__title {
-        line-height: 0.95;
+        @include font-size(h1-tight);
     }
 
     &__subtitle {
@@ -238,17 +327,32 @@
         transition-property: height;
     }
 
+    &__content-layout {
+        position: relative;
+
+        display: flex;
+        gap: 2rem;
+
+        width: 100%;
+        min-width: 0;
+        padding: 0 4rem;
+
+        @include tablet {
+            flex-direction: column-reverse;
+            gap: 2.4rem;
+        }
+
+        @include mobile {
+            gap: 1.6rem;
+            padding: 0;
+        }
+    }
+
     &__content {
         display: flex;
         flex-direction: column;
-        gap: 1.6rem;
-
-        width: min(100%, 72rem);
+        width: 100%;
         min-width: 0;
-        max-width: 72rem;
-        margin: 0 auto;
-
-        overflow-wrap: anywhere;
 
         > * {
             min-width: 0;
@@ -259,10 +363,25 @@
             margin-top: 1.6rem;
         }
 
+        > :first-child {
+            margin-top: 0;
+        }
+
         h2,
         h3 {
+            scroll-margin-top: calc(var(--header-height) + 2.4rem);
+
             margin-top: 3.2rem;
+            border-radius: 0.8rem;
+
             letter-spacing: -0.03em;
+
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        h2:target,
+        h3:target {
+            animation: post-heading-target-highlight 1.6s ease-out;
         }
 
         h2 + *,
@@ -315,7 +434,7 @@
         }
 
         ol li::marker {
-            font-weight: 600;
+            @include font-size(body-semibold);
         }
 
         blockquote {
@@ -348,7 +467,8 @@
             padding: 0.2rem 0.6rem;
             border-radius: 0.8rem;
 
-            font-size: 0.95em;
+            @include font-size(body-code);
+
             color: var(--text-contrast-color);
             overflow-wrap: anywhere;
 
@@ -402,8 +522,6 @@
         }
 
         @include mobile {
-            line-height: 1.65;
-
             blockquote,
             pre {
                 padding: 1.6rem;
@@ -412,6 +530,20 @@
             table th,
             table td {
                 padding: 1rem 1.2rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            h2,
+            h3 {
+                transition: none;
+            }
+
+            h2:target,
+            h3:target {
+                background-color: color-mix(in srgb, var(--text-color) 12%, transparent);
+                box-shadow: none;
+                animation: none;
             }
         }
     }

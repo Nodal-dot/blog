@@ -1,0 +1,63 @@
+@use "@/shared/styles/utils/index" as *;
+
+.post-toc {
+    position: sticky;
+    top: calc(var(--header-height) + 2rem);
+
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    align-self: start;
+
+    max-height: calc(100dvh - var(--header-height) - 4rem);
+    padding: 0;
+    border: none;
+
+    background: none;
+
+    @include tablet {
+        position: static;
+        overflow: visible;
+        max-height: none;
+    }
+
+    &__title {
+        @include font-size(h5);
+
+        text-transform: uppercase;
+    }
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+
+        margin: 0;
+        padding: 0;
+
+        list-style: none;
+    }
+
+    &__item {
+        margin: 0;
+        padding: 0;
+    }
+
+    &__item > &__list {
+        margin-top: 0.8rem;
+        padding-left: 1.2rem;
+    }
+
+    &__link {
+        @include default-tr;
+
+        color: var(--text-2-color);
+        text-decoration: none;
+        transition-property: color;
+    }
+
+    &__link:hover {
+        color: var(--text-color);
+    }
+}

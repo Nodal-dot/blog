@@ -78,6 +78,7 @@
     },
     "PostDetail": {
         "backToPosts": "Ко всем постам",
+        "tocTitle": "На этой странице",
         "playVideo": "Воспроизвести видео"
     },
     "NotFound": {

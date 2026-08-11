@@ -78,6 +78,7 @@
     },
     "PostDetail": {
         "backToPosts": "Back to posts",
+        "tocTitle": "On this page",
         "playVideo": "Play video"
     },
     "NotFound": {
