@@ -22,9 +22,9 @@ interface WebManifest {
 
 const manifests: Record<Locale, WebManifest> = {
     ru: {
-        name: "Nodal-dot — Портфолио фронтенд разработчика",
-        short_name: "Nodal-dot",
-        description: "Портфолио фронтенд разработчика. React, Next.js, TypeScript.",
+        name: "NodalDOT блог",
+        short_name: "NodalDOT",
+        description: "NodalDOT блог. React, Next.js, TypeScript.",
         icons: [
             {
                 src: "/favicon-72x72.png",
@@ -82,9 +82,9 @@ const manifests: Record<Locale, WebManifest> = {
         background_color: "#ffffff",
     },
     en: {
-        name: "Nodal-dot — Frontend Developer Portfolio",
-        short_name: "Nodal-dot",
-        description: "Frontend developer portfolio. React, Next.js, TypeScript.",
+        name: "NodalDOT blog",
+        short_name: "NodalDOT",
+        description: "NodalDOT blog. React, Next.js, TypeScript.",
         icons: [
             {
                 src: "/favicon-72x72.png",

@@ -1,12 +1,12 @@
 export const BASE_SEO = {
     en: {
-        siteName: "Nodal-dot — Frontend developer",
+        siteName: "NodalDOT blog",
         locale: "en_US",
         url: "https://nodaldot.space",
         defaultImage: "/posts/images/1.jpg",
     },
     ru: {
-        siteName: "Nodal-dot — Разработчик интерфейсов",
+        siteName: "NodalDOT блог",
         locale: "ru_RU",
         url: "https://nodaldot.space",
         defaultImage: "/posts/images/1.jpg",

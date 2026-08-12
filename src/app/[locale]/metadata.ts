@@ -59,7 +59,7 @@ export async function createPageMetadata({
     return {
         title: {
             default: title,
-            template: `%s | Nodal-dot`,
+            template: `%s | NodalDOT`,
         },
         manifest: `/api/manifest?locale=${locale}`,
         description,

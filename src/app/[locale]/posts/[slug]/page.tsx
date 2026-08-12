@@ -104,12 +104,12 @@ export default async function PostPage({ params }: PostPageProps) {
         dateModified: new Date(post.date).toISOString(),
         author: {
             "@type": "Person",
-            name: "Vladimir",
+            name: "NodalDOT",
             url: `${baseSeo.url}/${locale}`,
         },
         publisher: {
             "@type": "Person",
-            name: "Vladimir",
+            name: "NodalDOT",
             url: `${baseSeo.url}/${locale}`,
         },
     };

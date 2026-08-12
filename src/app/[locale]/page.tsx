@@ -27,10 +27,10 @@ const MainPage: FC<MainPageProps> = async ({ params }) => {
         "@graph": [
             {
                 "@type": "Person",
-                name: "Vladimir",
+                name: "NodalDOT",
                 url: profileUrl,
                 image: resolveAbsoluteAssetUrl(BASE_SEO[locale].url, BASE_SEO[locale].defaultImage),
-                sameAs: ["https://github.com/Nodal-dot"],
+                sameAs: ["https://github.com/NodalDOT"],
                 jobTitle: "Frontend Developer",
             },
             {

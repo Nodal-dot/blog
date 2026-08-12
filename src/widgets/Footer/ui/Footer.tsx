@@ -14,7 +14,7 @@ export async function Footer() {
             <span className={styles["footer__meta"]}>© {new Date().getFullYear()}</span>
             <span className={styles["footer__meta"]}>{t("author")}</span>
             <span className={styles["footer__meta"]}>
-                <Link href={GITHUB_URL} label={"@Nodal-dot"} />
+                <Link href={GITHUB_URL} label={"@NodalDOT"} />
             </span>
 
             <div className={styles["footer__scroll"]}>
